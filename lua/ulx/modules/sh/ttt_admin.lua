@@ -30,7 +30,19 @@ function updateRoles()
 	table.Empty(ulx.target_role)
 	    
     for _, v in pairs(ulx.rolesTbl) do
-        table.insert(ulx.target_role, v)
+        if ROLES then
+            local rd = GetRoleByName(v)
+            
+            if rd == ROLES.INNOCENT then
+                rd = GetRoleByAbbr(v)
+            end
+        
+            if not rd.notSelectable then
+                table.insert(ulx.target_role, v)
+            end
+        else
+            table.insert(ulx.target_role, v)
+        end
     end
 end
 hook.Add(ULib.HOOK_UCLCHANGED, "ULXRoleNamesUpdate", updateRoles)
@@ -313,6 +325,10 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
         else
             for _, v in pairs(ROLES) do
                 if target_role == v.name or target_role == v.abbr then
+                    if v.notSelectable then 
+                        role = "invalid_role_not_selectable"
+                    end
+                    
                     local gr = "a"
                     local i = 1
                     local sh = string.sub(v.printName, i, i)
@@ -342,6 +358,8 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 	    		ULib.tsayError(calling_ply, "The round has not begun!", true)
 			elseif role == nil then
 	    		ULib.tsayError(calling_ply, "Invalid role :\"" .. target_role .. "\" specified", true)
+            elseif role == "invalid_role_not_selectable" then
+	    		ULib.tsayError(calling_ply, "The selected role can't be selected!", true)
 			elseif not v:Alive() then
 				ULib.tsayError(calling_ply, v:Nick() .. " is dead!", true)
 			elseif current_role == role then
@@ -352,7 +370,12 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 				RemoveLoadoutWeapons(v)
 				RemoveBoughtWeapons(v)
 
-	            v:SetRole(role)
+                if not ROLES then
+                    v:SetRole(role)
+                else
+                    v:UpdateRole(role)
+                end
+                
 	            v:SetCredits(role_credits)
                 
 	            SendFullStateUpdate()
@@ -768,7 +791,7 @@ if not ROLES then
     PlysMarkedForRole[ROLE_DETECTIVE] = {}
 else
     for _, v in pairs(ROLES) do
-        if v ~= ROLES.INNOCENT then
+        if v ~= ROLES.INNOCENT and not v.notSelectable then
             PlysMarkedForRole[v.index] = {}
         end
     end
@@ -890,11 +913,11 @@ if not ROLES then
 else
     local function RoleMarkedPlayers()
         for _, v in pairs(ROLES) do
-            if v ~= ROLES.INNOCENT then
+            if v ~= ROLES.INNOCENT and not v.notSelectable then
                 for k, v in pairs(PlysMarkedForRole[v.index]) do
                     if v then
                         ply = player.GetByUniqueID(k)
-                        ply:SetRole(v.index)
+                        ply:UpdateRole(v.index)
                         ply:AddCredits(GetStartingCredits(v.abbr))
                         hook.Run("TTT2_RoleTypeSet", ply)
                         ply:ChatPrint("You have been made a " .. v.printName .. " by an admin this round.")
@@ -1064,15 +1087,17 @@ hook.Add("TTT2_FinishedSync", "TTT2UlxSync", function(first)
     table.Empty(ulx.rolesTbl)
     
     for _, v in pairs(ROLES) do
-        table.insert(ulx.rolesTbl, v.name)
-        
-        if not PlysMarkedForRole then
-            PlysMarkedForRole = {}
-        end
-        
-        if v ~= ROLES.INNOCENT then
-            if not PlysMarkedForRole[v.index] then
-                PlysMarkedForRole[v.index] = {}
+        if not v.notSelectable then
+            table.insert(ulx.rolesTbl, v.name)
+            
+            if not PlysMarkedForRole then
+                PlysMarkedForRole = {}
+            end
+            
+            if v ~= ROLES.INNOCENT then
+                if not PlysMarkedForRole[v.index] then
+                    PlysMarkedForRole[v.index] = {}
+                end
             end
         end
     end
