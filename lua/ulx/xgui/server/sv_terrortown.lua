@@ -1,10 +1,10 @@
 --painful file to create will all ttt cvars
 
-local function updateCVarsForTTT2ULX()
+local function updateCVarsForTTT2ULXRoles()
     for _, v in pairs(ROLES) do
         if v ~= ROLES.INNOCENT and not v.notSelectable then
-            ULib.replicatedWritableCvar("ttt_" .. v.name .. "_pct", "rep_ttt_" .. v.name .. "_pct", GetConVar("ttt_" .. v.name .. "_pct"):GetInt(), true, false, "xgui_gmsettings")
-            ULib.replicatedWritableCvar("ttt_" .. v.name .. "_max", "rep_ttt_" .. v.name .. "_max", GetConVar("ttt_" .. v.name .. "_max"):GetInt(), true, false, "xgui_gmsettings")
+                ULib.replicatedWritableCvar("ttt_" .. v.name .. "_pct", "rep_ttt_" .. v.name .. "_pct", GetConVar("ttt_" .. v.name .. "_pct"):GetInt(), true, false, "xgui_gmsettings")
+                ULib.replicatedWritableCvar("ttt_" .. v.name .. "_max", "rep_ttt_" .. v.name .. "_max", GetConVar("ttt_" .. v.name .. "_max"):GetInt(), true, false, "xgui_gmsettings")
             
             if v ~= ROLES.TRAITOR then
                 ULib.replicatedWritableCvar("ttt_" .. v.name .. "_min_players", "rep_ttt_" .. v.name .. "_min_players", GetConVar("ttt_" .. v.name .. "_min_players"):GetInt(), true, false, "xgui_gmsettings")
@@ -44,8 +44,18 @@ local function updateCVarsForTTT2ULX()
     end
 end
 
+local function updateCVarsForTTT2ULXClasses()
+    ULib.replicatedWritableCvar("ttt_customclasses_enabled", "rep_ttt_customclasses_enabled", GetConVar("ttt_customclasses_enabled"):GetInt(), true, false, "xgui_gmsettings")
+
+    for _, v in pairs(CLASSES) do
+        if v ~= CLASSES.UNSET then
+            ULib.replicatedWritableCvar("ttt2_classes_" .. v.name .. "_enabled", "rep_ttt2_classes_" .. v.name .. "_enabled", GetConVar("ttt2_classes_" .. v.name .. "_enabled"):GetInt(), true, false, "xgui_gmsettings")
+        end
+    end
+end
+
 local function init()
-	if GetConVarString("gamemode") == "terrortown" then --Only execute the following code if it's a terrortown gamemode
+	if GetConVar("gamemode"):GetString() == "terrortown" then --Only execute the following code if it's a terrortown gamemode
         --Preparation and post-round
         ULib.replicatedWritableCvar("ttt_preptime_seconds", "rep_ttt_preptime_seconds", GetConVar("ttt_preptime_seconds"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_firstpreptime", "rep_ttt_firstpreptime", GetConVar("ttt_firstpreptime"):GetInt(), true, false, "xgui_gmsettings")
@@ -84,9 +94,7 @@ local function init()
             --detective credits
             ULib.replicatedWritableCvar("ttt_det_credits_starting", "rep_ttt_det_credits_starting", GetConVar("ttt_det_credits_starting"):GetInt(), true, false, "xgui_gmsettings")
             ULib.replicatedWritableCvar("ttt_det_credits_traitorkill", "rep_ttt_det_credits_traitorkill", GetConVar("ttt_det_credits_traitorkill"):GetInt(), true, false, "xgui_gmsettings")
-            ULib.replicatedWritableCvar("ttt_det_credits_traitordead", "rep_ttt_det_credits_traitordead", GetConVar("ttt_det_credits_traitordead"):GetInt(), true, false, "xgui_gmsettings")  
-        else
-            updateCVarsForTTT2ULX()
+            ULib.replicatedWritableCvar("ttt_det_credits_traitordead", "rep_ttt_det_credits_traitordead", GetConVar("ttt_det_credits_traitordead"):GetInt(), true, false, "xgui_gmsettings")
         end
         
         --dna
@@ -155,19 +163,27 @@ local function init()
         ULib.replicatedWritableCvar("ttt_locational_voice", "rep_ttt_locational_voice", GetConVar("ttt_locational_voice"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_allow_discomb_jump", "rep_ttt_allow_discomb_jump", GetConVar("ttt_allow_discomb_jump"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_spawn_wave_interval", "rep_ttt_spawn_wave_interval", GetConVar("ttt_spawn_wave_interval"):GetInt(), true, false, "xgui_gmsettings")
+    
+        if ROLES then
+            updateCVarsForTTT2ULXRoles()
+        end
+        
+        if CLASSES then
+            updateCVarsForTTT2ULXClasses()
+        end
     end
 end
 
+xgui.addSVModule("terrortown", init)
+
 hook.Add("Initialize", "TTT2XGuiInit", function()
-    if not ROLES then
-        xgui.addSVModule("terrortown", init)
-    else
+    if ROLES and not CLASSES then
         hook.Add("TTT2_PostRoleInit", "TTT2UlxInitCVars", function()
-            if first then
-                xgui.addSVModule("terrortown", init)
-            else
-                updateCVarsForTTT2ULX() -- todo needed? how does xgui.addSVModule work?
-            end
+            init()
+        end)
+    elseif CLASSES then
+        hook.Add("TTT2_PostClassesInit", "TTT2UlxInitClassesCVars", function()
+            init()
         end)
     end
 end)

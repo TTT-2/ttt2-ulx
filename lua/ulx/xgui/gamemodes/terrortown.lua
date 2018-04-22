@@ -12,7 +12,7 @@ xlib.makelabel{x = 5, y = 325, w = 160, wordwrap = true, label = "Not all settin
 
 terrortown_settings.panel = xlib.makepanel{x = 160, y = 25, w = 420, h = 318, parent = terrortown_settings}
 terrortown_settings.catList = xlib.makelistview{x = 5, y = 25, w = 150, h = 157, parent = terrortown_settings}
-terrortown_settings.catList:AddColumn("Terrorist Town Settings")
+terrortown_settings.catList:AddColumn("Terrorist Town 2 Settings")
 terrortown_settings.catList.Columns[1].DoClick = function() 
 
 end
@@ -326,6 +326,42 @@ gpogslst:AddItem(gprdpi)
 
 xgui.hookEvent("onProcessModules", nil, gppnl.processModules)
 xgui.addSubModule("Gameplay", gppnl, nil, "terrortown_settings")
+
+--------------------Classes Module--------------------
+if CLASSES then
+    local clspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
+    
+    local size = 25
+    
+    for _, v in pairs(CLASSES) do
+        if v ~= CLASSES.UNSET then
+            size = size + 25
+        end
+    end
+
+    local clsclp = vgui.Create("DCollapsibleCategory", clspnl) 
+    clsclp:SetSize(390, size)
+    clsclp:SetExpanded(1)
+    clsclp:SetLabel("Miscellaneous")
+
+    local clslst = vgui.Create("DPanelList", clsclp)
+    clslst:SetPos(5, 25)
+    clslst:SetSize(390, size)
+    clslst:SetSpacing(5)
+    
+    local clsccl = xlib.makecheckbox{label = "ttt_customclasses_enabled (def. 1)", repconvar = "rep_ttt_customclasses_enabled", parent = clslst}
+    clslst:AddItem(clsccl)
+
+    for _, v in pairs(CLASSES) do
+        if v ~= CLASSES.UNSET then
+            local clscl = xlib.makecheckbox{label = "(" .. v.name .. ") ttt2_classes_" .. v.name .. "_enabled (def. 1)", repconvar = "rep_ttt2_classes_" .. v.name .. "_enabled", parent = clslst}
+            clslst:AddItem(clscl)
+        end
+    end
+
+    xgui.hookEvent("onProcessModules", nil, clspnl.processModules)
+    xgui.addSubModule("Classes", clspnl, nil, "terrortown_settings")
+end
 
 --------------------Karma Module--------------------
 local krmpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
