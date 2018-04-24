@@ -1,6 +1,8 @@
 --painful file to create will all ttt cvars
 
 local function updateCVarsForTTT2ULXRoles()
+    ULib.replicatedWritableCvar("ttt_newroles_enabled", "rep_ttt_newroles_enabled", GetConVar("ttt_newroles_enabled"):GetInt(), true, true, "xgui_gmsettings")
+        
     for _, v in pairs(ROLES) do
         if v ~= ROLES.INNOCENT and not v.notSelectable then
                 ULib.replicatedWritableCvar("ttt_" .. v.name .. "_pct", "rep_ttt_" .. v.name .. "_pct", GetConVar("ttt_" .. v.name .. "_pct"):GetInt(), true, false, "xgui_gmsettings")
@@ -31,7 +33,7 @@ local function updateCVarsForTTT2ULXRoles()
                     ULib.replicatedWritableCvar("ttt_" .. v.name .. "_random", "rep_ttt_" .. v.name .. "_random", GetConVar("ttt_" .. v.name .. "_random"):GetInt(), true, false, "xgui_gmsettings")
                 end
                 
-                ULib.replicatedWritableCvar("ttt_" .. v.name .. "_enabled", "rep_ttt_" .. v.name .. "_enabled", GetConVar("ttt_" .. v.name .. "_enabled"):GetInt(), true, false, "xgui_gmsettings")
+                ULib.replicatedWritableCvar("ttt_" .. v.name .. "_enabled", "rep_ttt_" .. v.name .. "_enabled", GetConVar("ttt_" .. v.name .. "_enabled"):GetInt(), true, true, "xgui_gmsettings")
             else
                 --traitor credits
                 ULib.replicatedWritableCvar("ttt_credits_starting", "rep_ttt_credits_starting", GetConVar("ttt_credits_starting"):GetInt(), true, false, "xgui_gmsettings")
@@ -45,11 +47,11 @@ local function updateCVarsForTTT2ULXRoles()
 end
 
 local function updateCVarsForTTT2ULXClasses()
-    ULib.replicatedWritableCvar("ttt_customclasses_enabled", "rep_ttt_customclasses_enabled", GetConVar("ttt_customclasses_enabled"):GetInt(), true, false, "xgui_gmsettings")
+    ULib.replicatedWritableCvar("ttt_customclasses_enabled", "rep_ttt_customclasses_enabled", GetConVar("ttt_customclasses_enabled"):GetInt(), true, true, "xgui_gmsettings")
 
     for _, v in pairs(CLASSES) do
         if v ~= CLASSES.UNSET then
-            ULib.replicatedWritableCvar("ttt2_classes_" .. v.name .. "_enabled", "rep_ttt2_classes_" .. v.name .. "_enabled", GetConVar("ttt2_classes_" .. v.name .. "_enabled"):GetInt(), true, false, "xgui_gmsettings")
+            ULib.replicatedWritableCvar("ttt2_classes_" .. v.name .. "_enabled", "rep_ttt2_classes_" .. v.name .. "_enabled", GetConVar("ttt2_classes_" .. v.name .. "_enabled"):GetInt(), true, true, "xgui_gmsettings")
         end
     end
 end
@@ -108,7 +110,6 @@ local function init()
         ULib.replicatedWritableCvar("ttt_voice_drain_recharge", "rep_ttt_voice_drain_recharge", GetConVar("ttt_voice_drain_recharge"):GetInt(), true, false, "xgui_gmsettings")
         
         --other gameplay settings
-        ULib.replicatedWritableCvar("ttt_newroles_enabled", "rep_ttt_newroles_enabled", GetConVar("ttt_newroles_enabled"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_minimum_players", "rep_ttt_minimum_players", GetConVar("ttt_minimum_players"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_postround_dm", "rep_ttt_postround_dm", GetConVar("ttt_postround_dm"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_dyingshot", "rep_ttt_dyingshot", GetConVar("ttt_dyingshot"):GetInt(), true, false, "xgui_gmsettings")
@@ -176,14 +177,10 @@ end
 
 xgui.addSVModule("terrortown", init)
 
-hook.Add("Initialize", "TTT2XGuiInit", function()
-    if ROLES and not CLASSES then
-        hook.Add("TTT2_PostRoleInit", "TTT2UlxInitCVars", function()
-            init()
-        end)
-    elseif CLASSES then
-        hook.Add("TTT2_PostClassesInit", "TTT2UlxInitClassesCVars", function()
-            init()
-        end)
-    end
+hook.Add("TTT2_PostRoleInit", "TTT2UlxInitCVars", function()
+    updateCVarsForTTT2ULXRoles()
+end)
+
+hook.Add("TTT2_PostClassesInit", "TTT2UlxInitClassesCVars", function()
+    updateCVarsForTTT2ULXClasses()
 end)
