@@ -406,7 +406,7 @@ force:help("Force <target(s)> to become a specified role.")
 @return {[table]}    [A table of loadout weapons for the given role.]
 --]]
 function GetLoadoutWeapons(r)
-	local tbl 
+	local tbl = {}
     if not ROLES then
         tbl = {
             [ROLE_INNOCENT] = {},
