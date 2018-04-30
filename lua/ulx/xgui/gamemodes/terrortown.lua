@@ -234,7 +234,7 @@ else
                 local dkm = xlib.makeslider{label = "ttt_" .. v.name .. "_karma_min", min = 1, max = 1000, repconvar = "rep_ttt_" .. v.name .. "_karma_min", parent = gptdlst}
                 gptdlst:AddItem(dkm)
                 
-                local gpds = xlib.makecheckbox{label = "ttt_" .. v.name .. "_enabled (def. 1)", repconvar = "rep_ttt_" .. v.name .. "_enabled", parent = gptdlst}
+                local gpds = xlib.makecheckbox{label = v.printName .. "? (ttt_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_ttt_" .. v.name .. "_enabled", parent = gptdlst}
                 gptdlst:AddItem(gpds)
             end
         end
@@ -331,11 +331,11 @@ xgui.addSubModule("Gameplay", gppnl, nil, "terrortown_settings")
 if CLASSES then
     local clspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
     
-    local size = 25
+    local size = 40
     
     for _, v in pairs(CLASSES) do
         if v ~= CLASSES.UNSET then
-            size = size + 25
+            size = size + 20
         end
     end
 
@@ -349,12 +349,15 @@ if CLASSES then
     clslst:SetSize(390, size)
     clslst:SetSpacing(5)
     
-    local clsccl = xlib.makecheckbox{label = "ttt_customclasses_enabled (def. 1)", repconvar = "rep_ttt_customclasses_enabled", parent = clslst}
+    local clsccl = xlib.makecheckbox{label = "Custom Classes? (ttt_customclasses_enabled) (def. 1)", repconvar = "rep_ttt_customclasses_enabled", parent = clslst}
     clslst:AddItem(clsccl)
+    
+    local clslim = xlib.makecheckbox{label = "Limited Classes? (ttt_customclasses_limited) (def. 1)", repconvar = "rep_ttt_customclasses_limited", parent = clslst}
+    clslst:AddItem(clslim)
 
     for _, v in pairs(CLASSES) do
         if v ~= CLASSES.UNSET then
-            local clscl = xlib.makecheckbox{label = "(" .. v.name .. ") ttt2_classes_" .. v.name .. "_enabled (def. 1)", repconvar = "rep_ttt2_classes_" .. v.name .. "_enabled", parent = clslst}
+            local clscl = xlib.makecheckbox{label = v.name .. "? (ttt2_classes_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_ttt2_classes_" .. v.name .. "_enabled", parent = clslst}
             clslst:AddItem(clscl)
         end
     end
