@@ -845,6 +845,14 @@ function ulx.nextround(calling_ply, target_plys, next_round)
             else
                 local marked = false
                 
+                if not PlysMarkedForRole or #PlysMarkedForRole == 0 then
+                    for _, v in pairs(ROLES) do
+                        if v ~= ROLES.INNOCENT and not v.notSelectable then
+                            PlysMarkedForRole[v.index] = {}
+                        end
+                    end
+                end
+                
                 for _, v in pairs(ROLES) do
                     if v ~= ROLES.INNOCENT then
                         if PlysMarkedForRole[v.index][ID] then
