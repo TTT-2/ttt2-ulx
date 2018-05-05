@@ -15,11 +15,14 @@ local CATEGORY_NAME  = "TTT Admin"
 local gamemode_error = "The current gamemode is not trouble in terrorist town!"
 
 -----------------------------------------------------------------------------------------------
-ROLE_INNOCENT = ROLE_INNOCENT or 0
-ROLE_TRAITOR = ROLE_TRAITOR or 1
-ROLE_DETECTIVE = ROLE_DETECTIVE or 2
+ROLE_NONE = ROLE_NONE or 0
+ROLE_INNOCENT = ROLE_INNOCENT or 1
+ROLE_TRAITOR = ROLE_TRAITOR or 2
+ROLE_DETECTIVE = ROLE_DETECTIVE or 3
 
 --[Ulx Completes]------------------------------------------------------------------------------
+PlysMarkedForRole = {}
+
 ulx.rolesTbl = {}
 table.insert(ulx.rolesTbl, "traitor")
 table.insert(ulx.rolesTbl, "detective")
@@ -230,7 +233,11 @@ hook.Add("TTTBeginRound", "SlayPlayersNextRound", function()
             
             timer.Create("traitorcheck" .. v:SteamID(), 1, 0, function() --have to wait for gamemode before doing this
                 if v:GetRole() == ROLE_TRAITOR or ROLES and v.GetRoleData and v:GetRoleData().team == TEAM_TRAITOR then
-                    SendConfirmedTraitors(GetInnocentFilter(false)) -- Update innocent's list of traitors.
+                    for _, role in pairs(ROLES) do
+                        if role.team ~= TEAM_TRAITOR and not role.specialRoleFilter then
+                            SendConfirmedTraitors(GetRoleFilter(role.index))
+                        end
+                    end
                     
                     SCORE:HandleBodyFound(v, v)
                 end
@@ -810,8 +817,8 @@ function ulx.nextround(calling_ply, target_plys, next_round)
         
             if not ROLES then
                 if next_round == "traitor" then
-                    if PlysMarkedForRole[ROLE_TRAITOR][ID] == true or PlysMarkedForRole[ROLE_DETECTIVE][ID] == true then
-                        ULib.tsayError(calling_ply, "that player is already marked for the next round", true)
+                    if PlysMarkedForRole[ROLE_TRAITOR][ID] or PlysMarkedForRole[ROLE_DETECTIVE][ID] then
+                        ULib.tsayError(calling_ply, "That player is already marked for the next round", true)
                     else
                         PlysMarkedForRole[ROLE_TRAITOR][ID] = true
                         
@@ -820,8 +827,8 @@ function ulx.nextround(calling_ply, target_plys, next_round)
                 end
                 
                 if next_round == "detective" then
-                    if PlysMarkedForRole[ROLE_TRAITOR][ID] == true or PlysMarkedForRole[ROLE_DETECTIVE][ID] == true then
-                        ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
+                    if PlysMarkedForRole[ROLE_TRAITOR][ID] or PlysMarkedForRole[ROLE_DETECTIVE][ID] then
+                        ULib.tsayError(calling_ply, "That player is already marked for the next round!", true)
                     else
                         PlysMarkedForRole[ROLE_DETECTIVE][ID] = true
                         
@@ -830,13 +837,13 @@ function ulx.nextround(calling_ply, target_plys, next_round)
                 end
                 
                 if next_round == "unmark" then
-                    if PlysMarkedForRole[ROLE_TRAITOR][ID] == true then
+                    if PlysMarkedForRole[ROLE_TRAITOR][ID] then
                         PlysMarkedForRole[ROLE_TRAITOR][ID] = false
                         
                         table.insert(affected_plys, v)
                     end
                     
-                    if PlysMarkedForRole[ROLE_DETECTIVE][ID] == true then
+                    if PlysMarkedForRole[ROLE_DETECTIVE][ID] then
                         PlysMarkedForRole[ROLE_DETECTIVE][ID] = false
                         
                         table.insert(affected_plys, v)
@@ -845,17 +852,11 @@ function ulx.nextround(calling_ply, target_plys, next_round)
             else
                 local marked = false
                 
-                if not PlysMarkedForRole or #PlysMarkedForRole == 0 then
-                    for _, v in pairs(ROLES) do
-                        if v ~= ROLES.INNOCENT and not v.notSelectable then
-                            PlysMarkedForRole[v.index] = {}
-                        end
-                    end
-                end
-                
-                for _, v in pairs(ROLES) do
-                    if v ~= ROLES.INNOCENT then
-                        if PlysMarkedForRole[v.index][ID] then
+                for _, role in pairs(ROLES) do
+                    if role ~= ROLES.INNOCENT and not role.notSelectable then
+                        PlysMarkedForRole[role.index] = PlysMarkedForRole[role.index] or {}
+                    
+                        if PlysMarkedForRole[role.index][ID] then
                             marked = true
                             
                             break
@@ -863,12 +864,22 @@ function ulx.nextround(calling_ply, target_plys, next_round)
                     end
                 end
                 
-                for _, v in pairs(ROLES) do
-                    if v ~= ROLES.INNOCENT and next_round == v.name then
-                        if marked then
-                            ULib.tsayError(calling_ply, "that player is already marked for the next round", true)
-                        else
-                            PlysMarkedForRole[v.index][ID] = true
+                if next_round ~= "unmark" then
+                    for _, role in pairs(ROLES) do
+                        if next_round == role.name and role ~= ROLES.INNOCENT and not role.notSelectable then
+                            if marked then
+                                ULib.tsayError(calling_ply, "That player is already marked for the next round.", true)
+                            else
+                                PlysMarkedForRole[role.index][ID] = true
+                                
+                                table.insert(affected_plys, v) 
+                            end
+                        end
+                    end
+                else
+                    for _, role in pairs(ROLES) do
+                        if PlysMarkedForRole[role.index][ID] then
+                            PlysMarkedForRole[role.index][ID] = false
                             
                             table.insert(affected_plys, v) 
                         end
@@ -885,7 +896,7 @@ function ulx.nextround(calling_ply, target_plys, next_round)
     end
 end
 
-local nxtr= ulx.command(CATEGORY_NAME, "ulx forcenr", ulx.nextround, "!nr")
+local nxtr = ulx.command(CATEGORY_NAME, "ulx forcenr", ulx.nextround, "!nr")
 nxtr:addParam{type = ULib.cmds.PlayersArg}
 nxtr:addParam{type = ULib.cmds.StringArg, completes = ulx.next_round, hint = "Next Round", error = "invalid role \"%s\" specified", ULib.cmds.restrictToCompletes}
 nxtr:defaultAccess(ULib.ACCESS_SUPERADMIN)
@@ -920,16 +931,20 @@ if not ROLES then
     hook.Add("TTTBeginRound", "Admin_Round_Detective", DetectiveMarkedPlayers)
 else
     local function RoleMarkedPlayers()
-        for _, v in pairs(ROLES) do
-            if v ~= ROLES.INNOCENT and not v.notSelectable then
-                for k, v in pairs(PlysMarkedForRole[v.index]) do
+        for _, role in pairs(ROLES) do
+            if role ~= ROLES.INNOCENT and not role.notSelectable then
+                for k, v in pairs(PlysMarkedForRole[role.index]) do
                     if v then
                         ply = player.GetByUniqueID(k)
-                        ply:UpdateRole(v.index)
-                        ply:AddCredits(GetStartingCredits(v.abbr))
+                        
+                        ply:UpdateRole(role.index)
+                        ply:AddCredits(GetStartingCredits(role.abbr))
+                        
                         hook.Run("TTT2_RoleTypeSet", ply)
-                        ply:ChatPrint("You have been made a " .. v.printName .. " by an admin this round.")
-                        PlysMarkedForRole[v.index][k] = false
+                        
+                        ply:ChatPrint("You have been made a " .. role.printName .. " by an admin this round.")
+                        
+                        PlysMarkedForRole[role.index][k] = false
                     end
                 end
             end
@@ -1097,16 +1112,6 @@ hook.Add("TTT2_FinishedSync", "TTT2UlxSync", function(first)
     for _, v in pairs(ROLES) do
         if not v.notSelectable then
             table.insert(ulx.rolesTbl, v.name)
-            
-            if not PlysMarkedForRole then
-                PlysMarkedForRole = {}
-            end
-            
-            if v ~= ROLES.INNOCENT then
-                if not PlysMarkedForRole[v.index] then
-                    PlysMarkedForRole[v.index] = {}
-                end
-            end
         end
     end
     
