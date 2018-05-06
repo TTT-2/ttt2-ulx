@@ -357,7 +357,7 @@ if CLASSES then
 
     for _, v in pairs(CLASSES) do
         if v ~= CLASSES.UNSET then
-            local clscl = xlib.makecheckbox{label = v.name .. "? (ttt2_classes_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_ttt2_classes_" .. v.name .. "_enabled", parent = clslst}
+            local clscl = xlib.makecheckbox{label = v.name .. "? (tttc_class_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_tttc_class_" .. v.name .. "_enabled", parent = clslst}
             clslst:AddItem(clscl)
         end
     end

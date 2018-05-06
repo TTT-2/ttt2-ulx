@@ -46,13 +46,13 @@ local function updateCVarsForTTT2ULXRoles()
     end
 end
 
-local function updateCVarsForTTT2ULXClasses()
+local function updateCVarsForTTTCULXClasses()
     ULib.replicatedWritableCvar("ttt_customclasses_enabled", "rep_ttt_customclasses_enabled", GetConVar("ttt_customclasses_enabled"):GetInt(), true, true, "xgui_gmsettings")
     ULib.replicatedWritableCvar("ttt_customclasses_limited", "rep_ttt_customclasses_limited", GetConVar("ttt_customclasses_limited"):GetInt(), true, true, "xgui_gmsettings")
     
     for _, v in pairs(CLASSES) do
         if v ~= CLASSES.UNSET then
-            ULib.replicatedWritableCvar("ttt2_classes_" .. v.name .. "_enabled", "rep_ttt2_classes_" .. v.name .. "_enabled", GetConVar("ttt2_classes_" .. v.name .. "_enabled"):GetInt(), true, true, "xgui_gmsettings")
+            ULib.replicatedWritableCvar("tttc_class_" .. v.name .. "_enabled", "rep_tttc_class_" .. v.name .. "_enabled", GetConVar("tttc_class_" .. v.name .. "_enabled"):GetInt(), true, true, "xgui_gmsettings")
         end
     end
 end
@@ -171,7 +171,7 @@ local function init()
         end
         
         if CLASSES then
-            updateCVarsForTTT2ULXClasses()
+            updateCVarsForTTTCULXClasses()
         end
     end
 end
@@ -182,6 +182,6 @@ hook.Add("TTT2_PostRoleInit", "TTT2UlxInitCVars", function()
     updateCVarsForTTT2ULXRoles()
 end)
 
-hook.Add("TTT2_PostClassesInit", "TTT2UlxInitClassesCVars", function()
-    updateCVarsForTTT2ULXClasses()
+hook.Add("TTTCPostClassesInit", "TTT2UlxInitClassesCVars", function()
+    updateCVarsForTTTCULXClasses()
 end)
