@@ -28,12 +28,12 @@ local function updateCVarsForTTT2ULXRoles()
                     ULib.replicatedWritableCvar("ttt_" .. v.abbr .. "_credits_traitordead", "rep_ttt_" .. v.abbr .. "_credits_traitordead", GetConVar("ttt_" .. v.abbr .. "_credits_traitordead"):GetInt(), true, false, "xgui_gmsettings")
                 end
                 
+                ULib.replicatedWritableCvar("ttt_" .. v.name .. "_enabled", "rep_ttt_" .. v.name .. "_enabled", GetConVar("ttt_" .. v.name .. "_enabled"):GetInt(), true, true, "xgui_gmsettings")
+                
                 -- randomness
                 if ConVarExists("ttt_" .. v.name .. "_random") then
                     ULib.replicatedWritableCvar("ttt_" .. v.name .. "_random", "rep_ttt_" .. v.name .. "_random", GetConVar("ttt_" .. v.name .. "_random"):GetInt(), true, false, "xgui_gmsettings")
                 end
-                
-                ULib.replicatedWritableCvar("ttt_" .. v.name .. "_enabled", "rep_ttt_" .. v.name .. "_enabled", GetConVar("ttt_" .. v.name .. "_enabled"):GetInt(), true, true, "xgui_gmsettings")
             else
                 --traitor credits
                 ULib.replicatedWritableCvar("ttt_credits_starting", "rep_ttt_credits_starting", GetConVar("ttt_credits_starting"):GetInt(), true, false, "xgui_gmsettings")
@@ -53,6 +53,7 @@ local function updateCVarsForTTTCULXClasses()
     for _, v in pairs(CLASSES) do
         if v ~= CLASSES.UNSET then
             ULib.replicatedWritableCvar("tttc_class_" .. v.name .. "_enabled", "rep_tttc_class_" .. v.name .. "_enabled", GetConVar("tttc_class_" .. v.name .. "_enabled"):GetInt(), true, true, "xgui_gmsettings")
+            ULib.replicatedWritableCvar("tttc_class_" .. v.name .. "_random", "rep_tttc_class_" .. v.name .. "_random", GetConVar("tttc_class_" .. v.name .. "_random"):GetInt(), true, false, "xgui_gmsettings")
         end
     end
 end

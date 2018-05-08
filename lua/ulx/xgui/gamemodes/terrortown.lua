@@ -165,7 +165,7 @@ if not ROLES then
     local gptdcclp = vgui.Create("DCollapsibleCategory", gppnl) 
     gptdcclp:SetSize(390, 150)
     gptdcclp:SetExpanded(1)
-    gptdcclp:SetLabel("Traitor and Detective counts")
+    gptdcclp:SetLabel("Traitors and Detectives")
 
     local gptdlst = vgui.Create("DPanelList", gptdcclp)
     gptdlst:SetPos(5, 25)
@@ -207,7 +207,7 @@ else
             local gptdcclp = vgui.Create("DCollapsibleCategory", gppnl) 
             gptdcclp:SetSize(390, size)
             gptdcclp:SetExpanded(b and 1 or 0)
-            gptdcclp:SetLabel(v.printName .. " counts")
+            gptdcclp:SetLabel("" .. v.printName)
             
             b = false
     
@@ -331,22 +331,14 @@ xgui.addSubModule("Gameplay", gppnl, nil, "terrortown_settings")
 if CLASSES then
     local clspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
     
-    local size = 40
-    
-    for _, v in pairs(CLASSES) do
-        if v ~= CLASSES.UNSET then
-            size = size + 20
-        end
-    end
-
     local clsclp = vgui.Create("DCollapsibleCategory", clspnl) 
-    clsclp:SetSize(390, size)
+    clsclp:SetSize(390, 40)
     clsclp:SetExpanded(1)
-    clsclp:SetLabel("Miscellaneous")
+    clsclp:SetLabel("General settings")
 
     local clslst = vgui.Create("DPanelList", clsclp)
     clslst:SetPos(5, 25)
-    clslst:SetSize(390, size)
+    clslst:SetSize(390, 40)
     clslst:SetSpacing(5)
     
     local clsccl = xlib.makecheckbox{label = "Custom Classes? (ttt_customclasses_enabled) (def. 1)", repconvar = "rep_ttt_customclasses_enabled", parent = clslst}
@@ -357,8 +349,21 @@ if CLASSES then
 
     for _, v in pairs(CLASSES) do
         if v ~= CLASSES.UNSET then
-            local clscl = xlib.makecheckbox{label = v.name .. "? (tttc_class_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_tttc_class_" .. v.name .. "_enabled", parent = clslst}
-            clslst:AddItem(clscl)
+            local clsclp2 = vgui.Create("DCollapsibleCategory", clspnl) 
+            clsclp2:SetSize(390, 40)
+            clsclp2:SetExpanded(0)
+            clsclp2:SetLabel("" .. v.name)
+
+            local clslst2 = vgui.Create("DPanelList", clsclp2)
+            clslst2:SetPos(5, 25)
+            clslst2:SetSize(390, 40)
+            clslst2:SetSpacing(5)
+    
+            local clscl = xlib.makecheckbox{label = v.name .. "? (tttc_class_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_tttc_class_" .. v.name .. "_enabled", parent = clslst2}
+            clslst2:AddItem(clscl)
+    
+            local clsrcl = xlib.makeslider{label = "tttc_class_" .. v.name .. "_random", min = 1, max = 100, repconvar = "rep_tttc_class_" .. v.name .. "_random", parent = clslst2}
+            clslst2:AddItem(clsrcl)
         end
     end
 

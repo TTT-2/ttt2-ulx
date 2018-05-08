@@ -187,7 +187,7 @@ slaynr:setOpposite("ulx rslaynr", {_, _, _, true}, "!rslaynr")
 hook.Add("TTTBeginRound", "SlayPlayersNextRound", function()
 	local affected_plys = {}
 
-	for _,v in pairs(player.GetAll()) do
+	for _, v in pairs(player.GetAll()) do
 		local slays_left = tonumber(v:GetPData("slaynr_slays")) or 0
         
 		if v:Alive() and slays_left > 0 then
@@ -251,9 +251,9 @@ hook.Add("TTTBeginRound", "SlayPlayersNextRound", function()
 		local string_inbetween
 
 		if i > 1 and #affected_plys == i then
-			string_inbetween=" and "
+			string_inbetween = " and "
 		elseif i > 1 then
-			string_inbetween=", "
+			string_inbetween = ", "
 		end
 
 		string_inbetween = string_inbetween or ""
@@ -334,6 +334,8 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
                 if target_role == v.name or target_role == v.abbr then
                     if v.notSelectable then 
                         role = "invalid_role_not_selectable"
+                        
+                        break
                     end
                     
                     local gr = "a"
@@ -363,7 +365,7 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 				ULib.tsayError(calling_ply, ulx.getExclusive(v, calling_ply), true)
 			elseif GetRoundState() == 1 or GetRoundState() == 2 then
 	    		ULib.tsayError(calling_ply, "The round has not begun!", true)
-			elseif role == nil then
+			elseif not role then
 	    		ULib.tsayError(calling_ply, "Invalid role :\"" .. target_role .. "\" specified", true)
             elseif role == "invalid_role_not_selectable" then
 	    		ULib.tsayError(calling_ply, "The selected role can't be selected!", true)
@@ -372,11 +374,6 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 			elseif current_role == role then
 	    		ULib.tsayError(calling_ply, v:Nick() .. " is already " .. role_string, true)
 			else
-				v:ResetEquipment()
-                
-				RemoveLoadoutWeapons(v)
-				RemoveBoughtWeapons(v)
-
                 if not ROLES then
                     v:SetRole(role)
                 else
@@ -387,14 +384,11 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
                 
 	            SendFullStateUpdate()
 
-	            GiveLoadoutItems(v)
-	            GiveLoadoutWeapons(v)
-
 	            table.insert(affected_plys, v)
 	        end
 	    end
         
-	    ulx.fancyLogAdmin(calling_ply, should_silent, "#A forced #T to become the role of " .. role_grammar .."#s.", affected_plys, role_string)
+	    ulx.fancyLogAdmin(calling_ply, should_silent, "#A forced #T to become the role of " .. role_grammar .." #s.", affected_plys, role_string)
 	    send_messages(affected_plys, "Your role has been set to " .. role_string .. ".")
 	end
 end
