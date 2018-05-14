@@ -388,8 +388,10 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 	        end
 	    end
         
-	    ulx.fancyLogAdmin(calling_ply, should_silent, "#A forced #T to become the role of " .. role_grammar .." #s.", affected_plys, role_string)
-	    send_messages(affected_plys, "Your role has been set to " .. role_string .. ".")
+        if role_grammar then -- if not set, no message!
+            ulx.fancyLogAdmin(calling_ply, should_silent, "#A forced #T to become the role of " .. role_grammar .." #s.", affected_plys, role_string)
+            send_messages(affected_plys, "Your role has been set to " .. role_string .. ".")
+        end
 	end
 end
 
@@ -787,16 +789,70 @@ updateNextround() -- Init
 
 PlysMarkedForRole = {}
 
-if not ROLES then
-    PlysMarkedForRole[ROLE_TRAITOR] = {}
-    PlysMarkedForRole[ROLE_DETECTIVE] = {}
-else
-    for _, v in pairs(ROLES) do
-        if v ~= ROLES.INNOCENT and not v.notSelectable then
-            PlysMarkedForRole[v.index] = {}
+hook.Add("Initialize", "InitializeSetupForTTTMod", function()
+    if not ROLES then
+        PlysMarkedForRole[ROLE_TRAITOR] = {}
+        PlysMarkedForRole[ROLE_DETECTIVE] = {}
+        
+        hook.Add("TTTBeginRound", "Admin_Round_Traitor", function()
+            if not PlysMarkedForRole[ROLE_TRAITOR] then return end
+        
+            for k, v in pairs(PlysMarkedForRole[ROLE_TRAITOR]) do
+                if v then
+                    ply = player.GetByUniqueID(k)
+                    ply:SetRole(ROLE_TRAITOR)
+                    ply:AddCredits(GetConVar("ttt_credits_starting"):GetInt())
+                    ply:ChatPrint("You have been made a traitor by an admin this round.")
+                    
+                    PlysMarkedForRole[ROLE_TRAITOR][k] = false
+                end
+            end
+        end)
+        
+        hook.Add("TTTBeginRound", "Admin_Round_Detective", function()
+            if not PlysMarkedForRole[ROLE_DETECTIVE] then return end
+        
+            for k, v in pairs(PlysMarkedForRole[ROLE_DETECTIVE]) do
+                if v then
+                    ply = player.GetByUniqueID(k)
+                    ply:SetRole(ROLE_DETECTIVE)
+                    ply:AddCredits(GetConVar("ttt_credits_starting"):GetInt())
+                    ply:Give("weapon_ttt_wtester")
+                    ply:ChatPrint("You have been made a detective by an admin this round.")
+                    
+                    PlysMarkedForRole[ROLE_DETECTIVE][k] = false
+                end
+            end
+        end)
+    else
+        for _, v in pairs(ROLES) do
+            if v ~= ROLES.INNOCENT and not v.notSelectable then
+                PlysMarkedForRole[v.index] = {}
+            end
         end
+        
+        hook.Add("TTTBeginRound", "Admin_Round_Role", function()
+            for _, role in pairs(ROLES) do
+                if role ~= ROLES.INNOCENT and not role.notSelectable and PlysMarkedForRole[role.index] then
+                    for k, v in pairs(PlysMarkedForRole[role.index]) do
+                        if v then
+                            ply = player.GetByUniqueID(k)
+                            
+                            ply:UpdateRole(role.index)
+                            ply:AddCredits(GetStartingCredits(role.abbr))
+                            
+                            hook.Run("TTT2_RoleTypeSet", ply)
+                            
+                            ply:ChatPrint("You have been made a " .. role.printName .. " by an admin this round.")
+                            
+                            PlysMarkedForRole[role.index][k] = false
+                        end
+                    end
+                end
+            end
+        end)
     end
-end
+end)
 
 function ulx.nextround(calling_ply, target_plys, next_round)
     if not GetConVar("gamemode"):GetString() == "terrortown" then 
@@ -810,6 +866,9 @@ function ulx.nextround(calling_ply, target_plys, next_round)
             local ID = v:UniqueID()
         
             if not ROLES then
+                PlysMarkedForRole[ROLE_TRAITOR] = PlysMarkedForRole[ROLE_TRAITOR] or {}
+                PlysMarkedForRole[ROLE_DETECTIVE] = PlysMarkedForRole[ROLE_DETECTIVE] or {}
+            
                 if next_round == "traitor" then
                     if PlysMarkedForRole[ROLE_TRAITOR][ID] or PlysMarkedForRole[ROLE_DETECTIVE][ID] then
                         ULib.tsayError(calling_ply, "That player is already marked for the next round", true)
@@ -895,57 +954,6 @@ nxtr:addParam{type = ULib.cmds.PlayersArg}
 nxtr:addParam{type = ULib.cmds.StringArg, completes = ulx.next_round, hint = "Next Round", error = "invalid role \"%s\" specified", ULib.cmds.restrictToCompletes}
 nxtr:defaultAccess(ULib.ACCESS_SUPERADMIN)
 nxtr:help("Forces the target to be a special role in the following round.")
-
-if not ROLES then
-    local function TraitorMarkedPlayers()
-        for k, v in pairs(PlysMarkedForRole[ROLE_TRAITOR]) do
-            if v then
-                ply = player.GetByUniqueID(k)
-                ply:SetRole(ROLE_TRAITOR)
-                ply:AddCredits(GetConVar("ttt_credits_starting"):GetInt())
-                ply:ChatPrint("You have been made a traitor by an admin this round.")
-                PlysMarkedForRole[ROLE_TRAITOR][k] = false
-            end
-        end
-    end
-    hook.Add("TTTBeginRound", "Admin_Round_Traitor", TraitorMarkedPlayers)
-
-    local function DetectiveMarkedPlayers()
-        for k, v in pairs(PlysMarkedForRole[ROLE_DETECTIVE]) do
-            if v then
-                ply = player.GetByUniqueID(k)
-                ply:SetRole(ROLE_DETECTIVE)
-                ply:AddCredits(GetConVar("ttt_credits_starting"):GetInt())
-                ply:Give("weapon_ttt_wtester")
-                ply:ChatPrint("You have been made a detective by an admin this round.")
-                PlysMarkedForRole[ROLE_DETECTIVE][k] = false
-            end
-        end
-    end
-    hook.Add("TTTBeginRound", "Admin_Round_Detective", DetectiveMarkedPlayers)
-else
-    local function RoleMarkedPlayers()
-        for _, role in pairs(ROLES) do
-            if role ~= ROLES.INNOCENT and not role.notSelectable then
-                for k, v in pairs(PlysMarkedForRole[role.index]) do
-                    if v then
-                        ply = player.GetByUniqueID(k)
-                        
-                        ply:UpdateRole(role.index)
-                        ply:AddCredits(GetStartingCredits(role.abbr))
-                        
-                        hook.Run("TTT2_RoleTypeSet", ply)
-                        
-                        ply:ChatPrint("You have been made a " .. role.printName .. " by an admin this round.")
-                        
-                        PlysMarkedForRole[role.index][k] = false
-                    end
-                end
-            end
-        end
-    end
-    hook.Add("TTTBeginRound", "Admin_Round_Role", RoleMarkedPlayers)
-end
 
 ---[Identify Corpse Thanks Neku]----------------------------------------------------------------------------
 function ulx.identify(calling_ply, target_ply, unidentify)
