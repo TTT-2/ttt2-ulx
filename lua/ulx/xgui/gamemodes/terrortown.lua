@@ -347,7 +347,7 @@ if CLASSES then
     local clslim = xlib.makecheckbox{label = "Limited Classes? (ttt_customclasses_limited) (def. 1)", repconvar = "rep_ttt_customclasses_limited", parent = clslst}
     clslst:AddItem(clslim)
 
-    for _, v in pairs(CLASSES) do
+    for _, v in pairs(GetSortedClasses()) do
         if v ~= CLASSES.UNSET then
             local clsclp2 = vgui.Create("DCollapsibleCategory", clspnl) 
             clsclp2:SetSize(390, 40)
