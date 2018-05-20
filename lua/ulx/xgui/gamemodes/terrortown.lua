@@ -1,18 +1,23 @@
 -- Terrortown settings module for ULX GUI
+ULX_DYNAMIC_RCVARS = {}
+    
+hook.Run("TTTUlxDynamicRCVars", ULX_DYNAMIC_RCVARS)
+
 -- Defines ttt cvar limits and ttt specific settings for the ttt gamemode.
 
 local terrortown_settings = xlib.makepanel{parent = xgui.null}
 
 xlib.makelabel{x = 5, y = 5, w = 600, wordwrap = true, label = "Trouble in Terrorist Town ULX Commands XGUI module Created by: Bender180 (modified by Alf21)", parent = terrortown_settings}
 xlib.makelabel{x = 2, y = 345, w = 600, wordwrap = true, label = "The settings above WILL SAVE. So pay attention while editing them!", parent = terrortown_settings}
-
 xlib.makelabel{x = 5, y = 190, w = 160, wordwrap = true, label = "Note to server owners: to restrict this panel allow or deny permission to xgui_gmsettings.", parent = terrortown_settings}
 xlib.makelabel{x = 5, y = 250, w = 160, wordwrap = true, label = "All settings listed are explained here: http://ttt.badking.net/config- and-commands/convars", parent = terrortown_settings}
 xlib.makelabel{x = 5, y = 325, w = 160, wordwrap = true, label = "Not all settings echo to chat.", parent = terrortown_settings}
 
 terrortown_settings.panel = xlib.makepanel{x = 160, y = 25, w = 420, h = 318, parent = terrortown_settings}
+
 terrortown_settings.catList = xlib.makelistview{x = 5, y = 25, w = 150, h = 157, parent = terrortown_settings}
 terrortown_settings.catList:AddColumn("Terrorist Town 2 Settings")
+
 terrortown_settings.catList.Columns[1].DoClick = function() 
 
 end
@@ -171,7 +176,7 @@ if not ROLES then
     gptdlst:SetPos(5, 25)
     gptdlst:SetSize(390, 150)
     gptdlst:SetSpacing(5)
-       
+    
     local tpercet = xlib.makeslider{label = "ttt_traitor_pct (def. 0.25)", min = 0.01, max = 2, decimal = 2, repconvar = "rep_ttt_traitor_pct", parent = gptdlst}
     gptdlst:AddItem(tpercet)
 
@@ -193,49 +198,71 @@ else
     local b = true
     
     for _, v in pairs(GetSortedRoles()) do
-        if v ~= ROLES.INNOCENT and not v.notSelectable then
-            local size = 50
+        if v ~= ROLES.INNOCENT then
+            local tmp = ULX_DYNAMIC_RCVARS[v.index] and #ULX_DYNAMIC_RCVARS[v.index] or 0
             
-            if v ~= ROLES.TRAITOR then
-                size = size + 75
+            if not v.notSelectable or tmp > 0 then
+                local size = not v.notSelectable and 50 or 0
                 
-                if ConVarExists("ttt_" .. v.name .. "_random") then
-                    size = size + 25
+                if not v.notSelectable then
+                    if v ~= ROLES.TRAITOR then
+                        size = size + 75
+                        
+                        if ConVarExists("ttt_" .. v.name .. "_random") then
+                            size = size + 25
+                        end
+                    end
                 end
-            end
+                
+                size = size + tmp * 25
+            
+                local gptdcclp = vgui.Create("DCollapsibleCategory", gppnl) 
+                gptdcclp:SetSize(390, size)
+                gptdcclp:SetExpanded(b and 1 or 0)
+                gptdcclp:SetLabel("" .. v.printName)
+                
+                b = false
         
-            local gptdcclp = vgui.Create("DCollapsibleCategory", gppnl) 
-            gptdcclp:SetSize(390, size)
-            gptdcclp:SetExpanded(b and 1 or 0)
-            gptdcclp:SetLabel("" .. v.printName)
-            
-            b = false
-    
-            local gptdlst = vgui.Create("DPanelList", gptdcclp)
-            gptdlst:SetPos(5, 25)
-            gptdlst:SetSize(390, size)
-            gptdlst:SetSpacing(5)
-               
-            local tpercet = xlib.makeslider{label = "ttt_" .. v.name .. "_pct", min = 0.01, max = 2, decimal = 2, repconvar = "rep_ttt_" .. v.name .. "_pct", parent = gptdlst}
-            gptdlst:AddItem(tpercet)
+                local gptdlst = vgui.Create("DPanelList", gptdcclp)
+                gptdlst:SetPos(5, 25)
+                gptdlst:SetSize(390, size)
+                gptdlst:SetSpacing(5)
+                
+                if not v.notSelectable then
+                    local tpercet = xlib.makeslider{label = "ttt_" .. v.name .. "_pct", min = 0.01, max = 2, decimal = 2, repconvar = "rep_ttt_" .. v.name .. "_pct", parent = gptdlst}
+                    gptdlst:AddItem(tpercet)
 
-            local tmax = xlib.makeslider{label = "ttt_" .. v.name .. "_max", min = 1, max = 80, repconvar = "rep_ttt_" .. v.name .. "_max", parent = gptdlst}
-            gptdlst:AddItem(tmax)
-            
-            if v ~= ROLES.TRAITOR then
-                if ConVarExists("ttt_" .. v.name .. "_random") then
-                    local drs = xlib.makeslider{label = "ttt_" .. v.name .. "_random", min = 1, max = 100, repconvar = "rep_ttt_" .. v.name .. "_random", parent = gptdlst}
-                    gptdlst:AddItem(drs)
+                    local tmax = xlib.makeslider{label = "ttt_" .. v.name .. "_max", min = 1, max = 80, repconvar = "rep_ttt_" .. v.name .. "_max", parent = gptdlst}
+                    gptdlst:AddItem(tmax)
+                
+                    if v ~= ROLES.TRAITOR then
+                        if ConVarExists("ttt_" .. v.name .. "_random") then
+                            local drs = xlib.makeslider{label = "ttt_" .. v.name .. "_random", min = 1, max = 100, repconvar = "rep_ttt_" .. v.name .. "_random", parent = gptdlst}
+                            gptdlst:AddItem(drs)
+                        end
+                        
+                        local dmp = xlib.makeslider{label = "ttt_" .. v.name .. "_min_players", min = 1, max = 50, repconvar = "rep_ttt_" .. v.name .. "_min_players", parent = gptdlst}
+                        gptdlst:AddItem(dmp)
+
+                        local dkm = xlib.makeslider{label = "ttt_" .. v.name .. "_karma_min", min = 1, max = 1000, repconvar = "rep_ttt_" .. v.name .. "_karma_min", parent = gptdlst}
+                        gptdlst:AddItem(dkm)
+                        
+                        local gpds = xlib.makecheckbox{label = v.printName .. "? (ttt_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_ttt_" .. v.name .. "_enabled", parent = gptdlst}
+                        gptdlst:AddItem(gpds)
+                    end
                 end
             
-                local dmp = xlib.makeslider{label = "ttt_" .. v.name .. "_min_players", min = 1, max = 50, repconvar = "rep_ttt_" .. v.name .. "_min_players", parent = gptdlst}
-                gptdlst:AddItem(dmp)
-
-                local dkm = xlib.makeslider{label = "ttt_" .. v.name .. "_karma_min", min = 1, max = 1000, repconvar = "rep_ttt_" .. v.name .. "_karma_min", parent = gptdlst}
-                gptdlst:AddItem(dkm)
-                
-                local gpds = xlib.makecheckbox{label = v.printName .. "? (ttt_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_ttt_" .. v.name .. "_enabled", parent = gptdlst}
-                gptdlst:AddItem(gpds)
+                if tmp > 0 then
+                    for _, cvar in pairs(ULX_DYNAMIC_RCVARS[v.index]) do
+                        if cvar.checkbox then
+                            local cvarcb = xlib.makecheckbox{label = v.printName .. ": " .. cvar.desc, repconvar = "rep_" .. cvar.cvar, parent = gptdlst}
+                            gptdlst:AddItem(cvarcb)
+                        elseif cvar.slider then
+                            local cvarsl = xlib.makeslider{label = v.printName .. ": " .. (cvar.desc or cvar.cvar), min = 1, max = 1000, repconvar = "rep_" .. cvar.cvar, parent = gptdlst}
+                            gptdlst:AddItem(cvarsl)
+                        end
+                    end
+                end
             end
         end
     end
@@ -499,7 +526,7 @@ else
     local b = true
     
     for _, v in pairs(GetSortedRoles()) do
-        if v ~= ROLES.INNOCENT and not v.notSelectable then
+        if v ~= ROLES.INNOCENT and (not v.notSelectable or v.shop) then
             -- ROLES credits
             if v == ROLES.TRAITOR then
                 local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl) 

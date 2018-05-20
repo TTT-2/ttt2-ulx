@@ -1,12 +1,14 @@
---painful file to create will all ttt cvars
+-- painful file to create will all ttt cvars
+
+ULX_DYNAMIC_RCVARS = {}
 
 local function updateCVarsForTTT2ULXRoles()
     ULib.replicatedWritableCvar("ttt_newroles_enabled", "rep_ttt_newroles_enabled", GetConVar("ttt_newroles_enabled"):GetInt(), true, true, "xgui_gmsettings")
-        
+    
     for _, v in pairs(ROLES) do
         if v ~= ROLES.INNOCENT and not v.notSelectable then
-                ULib.replicatedWritableCvar("ttt_" .. v.name .. "_pct", "rep_ttt_" .. v.name .. "_pct", GetConVar("ttt_" .. v.name .. "_pct"):GetInt(), true, false, "xgui_gmsettings")
-                ULib.replicatedWritableCvar("ttt_" .. v.name .. "_max", "rep_ttt_" .. v.name .. "_max", GetConVar("ttt_" .. v.name .. "_max"):GetInt(), true, false, "xgui_gmsettings")
+            ULib.replicatedWritableCvar("ttt_" .. v.name .. "_pct", "rep_ttt_" .. v.name .. "_pct", GetConVar("ttt_" .. v.name .. "_pct"):GetInt(), true, false, "xgui_gmsettings")
+            ULib.replicatedWritableCvar("ttt_" .. v.name .. "_max", "rep_ttt_" .. v.name .. "_max", GetConVar("ttt_" .. v.name .. "_max"):GetInt(), true, false, "xgui_gmsettings")
             
             if v ~= ROLES.TRAITOR then
                 ULib.replicatedWritableCvar("ttt_" .. v.name .. "_min_players", "rep_ttt_" .. v.name .. "_min_players", GetConVar("ttt_" .. v.name .. "_min_players"):GetInt(), true, false, "xgui_gmsettings")
@@ -15,7 +17,7 @@ local function updateCVarsForTTT2ULXRoles()
                     ULib.replicatedWritableCvar("ttt_" .. v.name .. "_karma_min", "rep_ttt_" .. v.name .. "_karma_min", GetConVar("ttt_" .. v.name .. "_karma_min"):GetInt(), true, false, "xgui_gmsettings")
                 end
             
-                --roles credits
+                -- roles credits
                 if ConVarExists("ttt_" .. v.abbr .. "_credits_starting") then
                     ULib.replicatedWritableCvar("ttt_" .. v.abbr .. "_credits_starting", "rep_ttt_" .. v.abbr .. "_credits_starting", GetConVar("ttt_" .. v.abbr .. "_credits_starting"):GetInt(), true, false, "xgui_gmsettings")
                 end
@@ -35,7 +37,7 @@ local function updateCVarsForTTT2ULXRoles()
                     ULib.replicatedWritableCvar("ttt_" .. v.name .. "_random", "rep_ttt_" .. v.name .. "_random", GetConVar("ttt_" .. v.name .. "_random"):GetInt(), true, false, "xgui_gmsettings")
                 end
             else
-                --traitor credits
+                -- traitor credits
                 ULib.replicatedWritableCvar("ttt_credits_starting", "rep_ttt_credits_starting", GetConVar("ttt_credits_starting"):GetInt(), true, false, "xgui_gmsettings")
                 ULib.replicatedWritableCvar("ttt_credits_award_pct", "rep_ttt_credits_award_pct", GetConVar("ttt_credits_award_pct"):GetInt(), true, false, "xgui_gmsettings")
                 ULib.replicatedWritableCvar("ttt_credits_award_size", "rep_ttt_credits_award_size", GetConVar("ttt_credits_award_size"):GetInt(), true, false, "xgui_gmsettings")
@@ -58,20 +60,36 @@ local function updateCVarsForTTTCULXClasses()
     end
 end
 
+local function updateDynamicCVarsForTTT2ULXRoles()
+    ULX_DYNAMIC_RCVARS = {}
+    
+    hook.Run("TTTUlxDynamicRCVars", ULX_DYNAMIC_RCVARS)
+    
+    for _, v in pairs(ROLES) do
+        if v ~= ROLES.INNOCENT then
+            if ULX_DYNAMIC_RCVARS[v.index] and #ULX_DYNAMIC_RCVARS[v.index] > 0 then
+                for _, cvar in pairs(ULX_DYNAMIC_RCVARS[v.index]) do
+                    ULib.replicatedWritableCvar(cvar.cvar, "rep_" .. cvar.cvar, GetConVar(cvar.cvar):GetInt(), true, false, "xgui_gmsettings")
+                end
+            end
+        end
+    end
+end
+
 local function init()
-	if GetConVar("gamemode"):GetString() == "terrortown" then --Only execute the following code if it's a terrortown gamemode
-        --Preparation and post-round
+	if GetConVar("gamemode"):GetString() == "terrortown" then -- Only execute the following code if it's a terrortown gamemode
+        -- Preparation and post-round
         ULib.replicatedWritableCvar("ttt_preptime_seconds", "rep_ttt_preptime_seconds", GetConVar("ttt_preptime_seconds"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_firstpreptime", "rep_ttt_firstpreptime", GetConVar("ttt_firstpreptime"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_posttime_seconds", "rep_ttt_posttime_seconds", GetConVar("ttt_posttime_seconds"):GetInt(), true, false, "xgui_gmsettings")           
     
-        --Round length
+        -- Round length
         ULib.replicatedWritableCvar("ttt_haste", "rep_ttt_haste", GetConVar("ttt_haste"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_haste_starting_minutes", "rep_ttt_haste_starting_minutes", GetConVar("ttt_haste_starting_minutes"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_haste_minutes_per_death", "rep_ttt_haste_minutes_per_death", GetConVar("ttt_haste_minutes_per_death"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_roundtime_minutes", "rep_ttt_roundtime_minutes", GetConVar("ttt_roundtime_minutes"):GetInt(), true, false, "xgui_gmsettings")
         
-        --map switching and voting
+        -- map switching and voting
         ULib.replicatedWritableCvar("ttt_round_limit", "rep_ttt_round_limit", GetConVar("ttt_round_limit"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_time_limit_minutes", "rep_ttt_time_limit_minutes", GetConVar("ttt_time_limit_minutes"):GetInt(), true, false, "xgui_gmsettings")
         
@@ -80,7 +98,7 @@ local function init()
         end
         
         if not ROLES then
-            --traitor and detective counts
+            -- traitor and detective counts
             ULib.replicatedWritableCvar("ttt_traitor_pct", "rep_ttt_traitor_pct", GetConVar("ttt_traitor_pct"):GetInt(), true, false, "xgui_gmsettings")
             ULib.replicatedWritableCvar("ttt_traitor_max", "rep_ttt_traitor_max", GetConVar("ttt_traitor_max"):GetInt(), true, false, "xgui_gmsettings")
             ULib.replicatedWritableCvar("ttt_detective_pct", "rep_ttt_detective_pct", GetConVar("ttt_detective_pct"):GetInt(), true, false, "xgui_gmsettings")
@@ -88,30 +106,30 @@ local function init()
             ULib.replicatedWritableCvar("ttt_detective_min_players", "rep_ttt_detective_min_players", GetConVar("ttt_detective_min_players"):GetInt(), true, false, "xgui_gmsettings")
             ULib.replicatedWritableCvar("ttt_detective_karma_min", "rep_ttt_detective_karma_min", GetConVar("ttt_detective_karma_min"):GetInt(), true, false, "xgui_gmsettings")
         
-            --traitor credits
+            -- traitor credits
             ULib.replicatedWritableCvar("ttt_credits_starting", "rep_ttt_credits_starting", GetConVar("ttt_credits_starting"):GetInt(), true, false, "xgui_gmsettings")
             ULib.replicatedWritableCvar("ttt_credits_award_pct", "rep_ttt_credits_award_pct", GetConVar("ttt_credits_award_pct"):GetInt(), true, false, "xgui_gmsettings")
             ULib.replicatedWritableCvar("ttt_credits_award_size", "rep_ttt_credits_award_size", GetConVar("ttt_credits_award_size"):GetInt(), true, false, "xgui_gmsettings")
             ULib.replicatedWritableCvar("ttt_credits_award_repeat", "rep_ttt_credits_award_repeat", GetConVar("ttt_credits_award_repeat"):GetInt(), true, false, "xgui_gmsettings")
             ULib.replicatedWritableCvar("ttt_credits_detectivekill", "rep_ttt_credits_detectivekill", GetConVar("ttt_credits_detectivekill"):GetInt(), true, false, "xgui_gmsettings")
             
-            --detective credits
+            -- detective credits
             ULib.replicatedWritableCvar("ttt_det_credits_starting", "rep_ttt_det_credits_starting", GetConVar("ttt_det_credits_starting"):GetInt(), true, false, "xgui_gmsettings")
             ULib.replicatedWritableCvar("ttt_det_credits_traitorkill", "rep_ttt_det_credits_traitorkill", GetConVar("ttt_det_credits_traitorkill"):GetInt(), true, false, "xgui_gmsettings")
             ULib.replicatedWritableCvar("ttt_det_credits_traitordead", "rep_ttt_det_credits_traitordead", GetConVar("ttt_det_credits_traitordead"):GetInt(), true, false, "xgui_gmsettings")
         end
         
-        --dna
+        -- dna
         ULib.replicatedWritableCvar("ttt_killer_dna_range", "rep_ttt_killer_dna_range", GetConVar("ttt_killer_dna_range"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_killer_dna_basetime", "rep_ttt_killer_dna_basetime", GetConVar("ttt_killer_dna_basetime"):GetInt(), true, false, "xgui_gmsettings")
         
-        --voicechat battery
+        -- voicechat battery
         ULib.replicatedWritableCvar("ttt_voice_drain", "rep_ttt_voice_drain", GetConVar("ttt_voice_drain"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_voice_drain_normal", "rep_ttt_voice_drain_normal", GetConVar("ttt_voice_drain_normal"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_voice_drain_admin", "rep_ttt_voice_drain_admin", GetConVar("ttt_voice_drain_admin"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_voice_drain_recharge", "rep_ttt_voice_drain_recharge", GetConVar("ttt_voice_drain_recharge"):GetInt(), true, false, "xgui_gmsettings")
         
-        --other gameplay settings
+        -- other gameplay settings
         ULib.replicatedWritableCvar("ttt_minimum_players", "rep_ttt_minimum_players", GetConVar("ttt_minimum_players"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_postround_dm", "rep_ttt_postround_dm", GetConVar("ttt_postround_dm"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_dyingshot", "rep_ttt_dyingshot", GetConVar("ttt_dyingshot"):GetInt(), true, false, "xgui_gmsettings")
@@ -122,7 +140,7 @@ local function init()
         ULib.replicatedWritableCvar("ttt_ragdoll_pinning", "rep_ttt_ragdoll_pinning", GetConVar("ttt_ragdoll_pinning"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_ragdoll_pinning_innocents", "rep_ttt_ragdoll_pinning_innocents", GetConVar("ttt_ragdoll_pinning_innocents"):GetInt(), true, false, "xgui_gmsettings")
         
-        --karma
+        -- karma
         ULib.replicatedWritableCvar("ttt_karma", "rep_ttt_karma", GetConVar("ttt_karma"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_karma_strict", "rep_ttt_karma_strict", GetConVar("ttt_karma_strict"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_karma_starting", "rep_ttt_karma_starting", GetConVar("ttt_karma_starting"):GetInt(), true, false, "xgui_gmsettings")
@@ -141,10 +159,10 @@ local function init()
         ULib.replicatedWritableCvar("ttt_karma_debugspam", "rep_ttt_karma_debugspam", GetConVar("ttt_karma_debugspam"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_karma_clean_half", "rep_ttt_karma_clean_half", GetConVar("ttt_karma_clean_half"):GetInt(), true, false, "xgui_gmsettings")
         
-        --map related
+        -- map related
         ULib.replicatedWritableCvar("ttt_use_weapon_spawn_scripts", "rep_ttt_use_weapon_spawn_scripts", GetConVar("ttt_use_weapon_spawn_scripts"):GetInt(), true, false, "xgui_gmsettings")
         
-        --prop possession
+        -- prop possession
         ULib.replicatedWritableCvar("ttt_spec_prop_control", "rep_ttt_spec_prop_control", GetConVar("ttt_spec_prop_control"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_spec_prop_base", "rep_ttt_spec_prop_base", GetConVar("ttt_spec_prop_base"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_spec_prop_maxpenalty", "rep_ttt_spec_prop_maxpenalty", GetConVar("ttt_spec_prop_maxpenalty"):GetInt(), true, false, "xgui_gmsettings")
@@ -152,12 +170,12 @@ local function init()
         ULib.replicatedWritableCvar("ttt_spec_prop_force", "rep_ttt_spec_prop_force", GetConVar("ttt_spec_prop_force"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_spec_prop_rechargetime", "rep_ttt_spec_prop_rechargetime", GetConVar("ttt_spec_prop_rechargetime"):GetInt(), true, false, "xgui_gmsettings")
         
-        --admin related
+        -- admin related
         ULib.replicatedWritableCvar("ttt_idle_limit", "rep_ttt_idle_limit", GetConVar("ttt_idle_limit"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_namechange_kick", "rep_ttt_namechange_kick", GetConVar("ttt_namechange_kick"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_namechange_bantime", "rep_ttt_namechange_bantime", GetConVar("ttt_namechange_bantime"):GetInt(), true, false, "xgui_gmsettings")
         
-        --misc
+        -- misc
         ULib.replicatedWritableCvar("ttt_detective_hats", "rep_ttt_detective_hats", GetConVar("ttt_detective_hats"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_playercolor_mode", "rep_ttt_playercolor_mode", GetConVar("ttt_playercolor_mode"):GetInt(), true, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_ragdoll_collide", "rep_ttt_ragdoll_collide", GetConVar("ttt_ragdoll_collide"):GetInt(), true, false, "xgui_gmsettings")
@@ -169,6 +187,8 @@ local function init()
     
         if ROLES then
             updateCVarsForTTT2ULXRoles()
+            
+            updateDynamicCVarsForTTT2ULXRoles()
         end
         
         if CLASSES then
@@ -181,6 +201,10 @@ xgui.addSVModule("terrortown", init)
 
 hook.Add("TTT2_PostRoleInit", "TTT2UlxInitCVars", function()
     updateCVarsForTTT2ULXRoles()
+end)
+
+hook.Add("TTT2_PostFinishedSync", "TTT2UlxFinishedSync", function(ply, first)
+    updateDynamicCVarsForTTT2ULXRoles()
 end)
 
 hook.Add("TTTCPostClassesInit", "TTT2UlxInitClassesCVars", function()
