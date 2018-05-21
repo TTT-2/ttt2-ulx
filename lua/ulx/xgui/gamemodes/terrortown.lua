@@ -3,8 +3,6 @@ ULX_DYNAMIC_RCVARS = {}
     
 hook.Run("TTTUlxDynamicRCVars", ULX_DYNAMIC_RCVARS)
 
-local GetLang
-
 -- Defines ttt cvar limits and ttt specific settings for the ttt gamemode.
 
 local terrortown_settings = xlib.makepanel{parent = xgui.null}
@@ -378,14 +376,12 @@ if CLASSES then
 
     for _, v in pairs(GetSortedClasses()) do
         if v ~= CLASSES.UNSET then
-            GetLang = GetLang or LANG.GetRawTranslation
-        
-            local pName = GetLang(v.name) or v.printName or v.name
+            local pName = GetClassTranslation(v)
         
             local clsclp2 = vgui.Create("DCollapsibleCategory", clspnl) 
             clsclp2:SetSize(390, 40)
             clsclp2:SetExpanded(0)
-            clsclp2:SetLabel("" .. pName)
+            clsclp2:SetLabel(pName)
 
             local clslst2 = vgui.Create("DPanelList", clsclp2)
             clslst2:SetPos(5, 25)
