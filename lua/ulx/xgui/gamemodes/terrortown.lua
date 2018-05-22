@@ -258,7 +258,7 @@ else
                             local cvarcb = xlib.makecheckbox{label = v.printName .. ": " .. cvar.desc, repconvar = "rep_" .. cvar.cvar, parent = gptdlst}
                             gptdlst:AddItem(cvarcb)
                         elseif cvar.slider then
-                            local cvarsl = xlib.makeslider{label = v.printName .. ": " .. (cvar.desc or cvar.cvar), min = 1, max = 1000, repconvar = "rep_" .. cvar.cvar, parent = gptdlst}
+                            local cvarsl = xlib.makeslider{label = v.printName .. ": " .. (cvar.desc or cvar.cvar), min = cvar.min or 1, max = cvar.max or 1000, repconvar = "rep_" .. cvar.cvar, parent = gptdlst}
                             gptdlst:AddItem(cvarsl)
                         end
                     end
@@ -359,13 +359,13 @@ if CLASSES then
     local clspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
     
     local clsclp = vgui.Create("DCollapsibleCategory", clspnl) 
-    clsclp:SetSize(390, 40)
+    clsclp:SetSize(390, 50)
     clsclp:SetExpanded(1)
     clsclp:SetLabel("CLASSES settings")
 
     local clslst = vgui.Create("DPanelList", clsclp)
     clslst:SetPos(5, 25)
-    clslst:SetSize(390, 40)
+    clslst:SetSize(390, 50)
     clslst:SetSpacing(5)
     
     local clsccl = xlib.makecheckbox{label = "Custom Classes? (ttt_customclasses_enabled) (def. 1)", repconvar = "rep_ttt_customclasses_enabled", parent = clslst}
@@ -379,13 +379,13 @@ if CLASSES then
             local pName = GetClassTranslation(v)
         
             local clsclp2 = vgui.Create("DCollapsibleCategory", clspnl) 
-            clsclp2:SetSize(390, 40)
+            clsclp2:SetSize(390, 50)
             clsclp2:SetExpanded(0)
             clsclp2:SetLabel(pName)
 
             local clslst2 = vgui.Create("DPanelList", clsclp2)
             clslst2:SetPos(5, 25)
-            clslst2:SetSize(390, 40)
+            clslst2:SetSize(390, 50)
             clslst2:SetSpacing(5)
     
             local clscl = xlib.makecheckbox{label = pName .. "? (tttc_class_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_tttc_class_" .. v.name .. "_enabled", parent = clslst2}
@@ -398,6 +398,38 @@ if CLASSES then
 
     xgui.hookEvent("onProcessModules", nil, clspnl.processModules)
     xgui.addSubModule("Classes", clspnl, nil, "terrortown_settings")
+end
+
+--------------------WEAPONS Module--------------------
+if TTTWEAPON_CVARS then
+    local wcvarspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
+
+    for wepCls, cvarTbl in pairs(TTTWEAPON_CVARS) do
+        local size = 25 * #cvarTbl
+    
+        local wcvarsclp = vgui.Create("DCollapsibleCategory", wcvarspnl) 
+        wcvarsclp:SetSize(390, size)
+        wcvarsclp:SetExpanded(0)
+        wcvarsclp:SetLabel(wepCls)
+
+        local wcvarslst = vgui.Create("DPanelList", wcvarsclp)
+        wcvarslst:SetPos(5, 25)
+        wcvarslst:SetSize(390, size)
+        wcvarslst:SetSpacing(5)
+        
+        for _, cvar in pairs(cvarTbl) do
+            if cvar.checkbox then
+                local wcvarscl = xlib.makecheckbox{label = (cvar.desc or cvar.cvar), repconvar = "rep_" .. cvar.cvar, parent = wcvarslst}
+                wcvarslst:AddItem(wcvarscl)
+            elseif cvar.slider then
+                local wcvarsrcl = xlib.makeslider{label = (cvar.desc or cvar.cvar), min = cvar.min or 0, max = cvar.max or 1000, repconvar = "rep_" .. cvar.cvar, parent = wcvarslst}
+                wcvarslst:AddItem(wcvarsrcl)
+            end
+        end
+    end
+
+    xgui.hookEvent("onProcessModules", nil, wcvarspnl.processModules)
+    xgui.addSubModule("Weapons", wcvarspnl, nil, "terrortown_settings")
 end
 
 --------------------Karma Module--------------------
