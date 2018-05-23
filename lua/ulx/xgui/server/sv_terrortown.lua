@@ -67,7 +67,7 @@ local function updateDynamicCVarsForTTT2ULXRoles()
     
     for _, v in pairs(ROLES) do
         if v ~= ROLES.INNOCENT then
-            if ULX_DYNAMIC_RCVARS[v.index] and #ULX_DYNAMIC_RCVARS[v.index] > 0 then
+            if ULX_DYNAMIC_RCVARS[v.index] then
                 for _, cvar in pairs(ULX_DYNAMIC_RCVARS[v.index]) do
                     ULib.replicatedWritableCvar(cvar.cvar, "rep_" .. cvar.cvar, GetConVar(cvar.cvar):GetInt(), true, false, "xgui_gmsettings")
                 end
@@ -216,7 +216,7 @@ hook.Add("TTT2_PostRoleInit", "TTT2UlxInitCVars", function()
     updateCVarsForTTT2ULXRoles()
 end)
 
-hook.Add("TTT2_PostFinishedSync", "TTT2UlxFinishedSync", function(_, _)
+hook.Add("TTT2_PostFinishedSync", "TTT2UlxFinishedSync", function()
     updateDynamicCVarsForTTT2ULXRoles()
 end)
 

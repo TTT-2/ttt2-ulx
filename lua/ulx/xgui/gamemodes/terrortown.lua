@@ -199,7 +199,13 @@ else
     
     for _, v in pairs(GetSortedRoles()) do
         if v ~= ROLES.INNOCENT then
-            local tmp = ULX_DYNAMIC_RCVARS[v.index] and #ULX_DYNAMIC_RCVARS[v.index] or 0
+            local tmp = 0
+			
+			if ULX_DYNAMIC_RCVARS[v.index] then
+				for k in pairs(ULX_DYNAMIC_RCVARS[v.index]) do
+					tmp = tmp + 25
+				end
+			end
             
             if not v.notSelectable or tmp > 0 then
                 local size = not v.notSelectable and 50 or 0
@@ -405,7 +411,11 @@ if TTTWEAPON_CVARS then
     local wcvarspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
     for wepCls, cvarTbl in pairs(TTTWEAPON_CVARS) do
-        local size = 25 * #cvarTbl
+		local size = 0
+		
+		for k in pairs(cvarTbl) do
+			size = size + 25
+		end
     
         local wcvarsclp = vgui.Create("DCollapsibleCategory", wcvarspnl) 
         wcvarsclp:SetSize(390, size)
