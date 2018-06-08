@@ -165,7 +165,7 @@ xgui.addSubModule("Round structure", rspnl, nil, "terrortown_settings")
 --------------------Gameplay Module--------------------
 local gppnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
---Traitor and Detective counts
+-- Traitor and Detective counts
 if not ROLES then
     local gptdcclp = vgui.Create("DCollapsibleCategory", gppnl) 
     gptdcclp:SetSize(390, 150)
@@ -220,7 +220,7 @@ else
                     end
                 end
                 
-                size = size + tmp * 25
+                size = size + tmp
             
                 local gptdcclp = vgui.Create("DCollapsibleCategory", gppnl) 
                 gptdcclp:SetSize(390, size)
