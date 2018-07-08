@@ -225,7 +225,7 @@ else
                 local gptdcclp = vgui.Create("DCollapsibleCategory", gppnl) 
                 gptdcclp:SetSize(390, size)
                 gptdcclp:SetExpanded(b and 1 or 0)
-                gptdcclp:SetLabel("" .. v.printName)
+                gptdcclp:SetLabel("" .. v.name)
                 
                 b = false
         
@@ -253,7 +253,7 @@ else
                         local dkm = xlib.makeslider{label = "ttt_" .. v.name .. "_karma_min", min = 1, max = 1000, repconvar = "rep_ttt_" .. v.name .. "_karma_min", parent = gptdlst}
                         gptdlst:AddItem(dkm)
                         
-                        local gpds = xlib.makecheckbox{label = v.printName .. "? (ttt_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_ttt_" .. v.name .. "_enabled", parent = gptdlst}
+                        local gpds = xlib.makecheckbox{label = v.name .. "? (ttt_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_ttt_" .. v.name .. "_enabled", parent = gptdlst}
                         gptdlst:AddItem(gpds)
                     end
                 end
@@ -261,10 +261,10 @@ else
                 if tmp > 0 then
                     for _, cvar in pairs(ULX_DYNAMIC_RCVARS[v.index]) do
                         if cvar.checkbox then
-                            local cvarcb = xlib.makecheckbox{label = v.printName .. ": " .. cvar.desc, repconvar = "rep_" .. cvar.cvar, parent = gptdlst}
+                            local cvarcb = xlib.makecheckbox{label = v.name .. ": " .. cvar.desc, repconvar = "rep_" .. cvar.cvar, parent = gptdlst}
                             gptdlst:AddItem(cvarcb)
                         elseif cvar.slider then
-                            local cvarsl = xlib.makeslider{label = v.printName .. ": " .. (cvar.desc or cvar.cvar), min = cvar.min or 1, max = cvar.max or 1000, repconvar = "rep_" .. cvar.cvar, parent = gptdlst}
+                            local cvarsl = xlib.makeslider{label = v.name .. ": " .. (cvar.desc or cvar.cvar), min = cvar.min or 1, max = cvar.max or 1000, repconvar = "rep_" .. cvar.cvar, parent = gptdlst}
                             gptdlst:AddItem(cvarsl)
                         end
                     end
@@ -576,7 +576,7 @@ else
                 local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl) 
                 ectcclp:SetSize(390, 125)
                 ectcclp:SetExpanded(b and 1 or 0)
-                ectcclp:SetLabel(v.printName .. " credits")
+                ectcclp:SetLabel(v.name .. " credits")
                 
                 b = false
 
@@ -616,7 +616,7 @@ else
                 local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl) 
                 ectcclp:SetSize(390, 25 * i)
                 ectcclp:SetExpanded(b and 1 or 0)
-                ectcclp:SetLabel(v.printName .. " credits")
+                ectcclp:SetLabel(v.name .. " credits")
                 
                 b = false
 

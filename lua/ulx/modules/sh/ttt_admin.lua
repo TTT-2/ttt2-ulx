@@ -340,17 +340,17 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
                     
                     local gr = "a"
                     local i = 1
-                    local sh = string.sub(v.printName, i, i)
+                    local sh = string.sub(v.name, i, i)
                     while sh == "h" do
                         i = i + 1
-                        sh = string.sub(v.printName, i, i)
+                        sh = string.sub(v.name, i, i)
                     end
                     
                     if sh == "a" or sh == "e" or sh == "i" or sh == "o" or sh == "u" then
                         gr = gr .. "n"
                     end
                     
-                    role, role_grammar, role_string, role_credits = v.index, gr, v.printName, GetStartingCredits(v.abbr)
+                    role, role_grammar, role_string, role_credits = v.index, gr, v.name, GetStartingCredits(v.abbr)
                     
                     break
                 end
@@ -843,7 +843,7 @@ hook.Add("Initialize", "InitializeSetupForTTTMod", function()
                             
                             hook.Run("TTT2_RoleTypeSet", ply)
                             
-                            ply:ChatPrint("You have been made a " .. role.printName .. " by an admin this round.")
+                            ply:ChatPrint("You have been made a " .. role.name .. " by an admin this round.")
                             
                             PlysMarkedForRole[role.index][k] = false
                         end
