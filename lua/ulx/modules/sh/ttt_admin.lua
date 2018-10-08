@@ -1107,7 +1107,7 @@ restartround:help("Restarts the round.")
 ---[End]----------------------------------------------------------------------------------------
 
 -- update roles table
-hook.Add("TTT2_FinishedSync", "TTT2UlxSync", function(first)
+hook.Add("Initialize", "TTT2UlxSync", function(first)
 	table.Empty(ulx.rolesTbl)
 
 	for _, v in pairs(GetRoles()) do

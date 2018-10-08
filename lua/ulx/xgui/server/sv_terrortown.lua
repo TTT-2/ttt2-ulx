@@ -210,15 +210,11 @@ end
 
 xgui.addSVModule("terrortown", init)
 
-hook.Add("TTT2_PostRoleInit", "TTT2UlxInitCVars", function()
+hook.Add("Initialize", "TTT2UlxInitCVars", function()
 	updateCVarsForTTT2ULXRoles()
-end)
 
-hook.Add("TTT2_PostFinishedSync", "TTT2UlxFinishedSync", function()
 	updateDynamicCVarsForTTT2ULXRoles()
-end)
 
-hook.Add("PostInitialize", "TTT2UlxWeaponCVarsSync", function()
 	updateWeaponCVarsForTTT2ULX()
 end)
 
