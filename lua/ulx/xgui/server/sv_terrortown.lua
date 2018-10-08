@@ -5,12 +5,12 @@ ULX_DYNAMIC_RCVARS = {}
 local function updateCVarsForTTT2ULXRoles()
 	ULib.replicatedWritableCvar("ttt_newroles_enabled", "rep_ttt_newroles_enabled", GetConVar("ttt_newroles_enabled"):GetInt(), true, true, "xgui_gmsettings")
 
-	for _, v in pairs(ROLES) do
-		if v ~= ROLES.INNOCENT and not v.notSelectable then
+	for _, v in pairs(GetRoles()) do
+		if v ~= INNOCENT and not v.notSelectable then
 			ULib.replicatedWritableCvar("ttt_" .. v.name .. "_pct", "rep_ttt_" .. v.name .. "_pct", GetConVar("ttt_" .. v.name .. "_pct"):GetInt(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt_" .. v.name .. "_max", "rep_ttt_" .. v.name .. "_max", GetConVar("ttt_" .. v.name .. "_max"):GetInt(), true, false, "xgui_gmsettings")
 
-			if v ~= ROLES.TRAITOR then
+			if v ~= TRAITOR then
 				ULib.replicatedWritableCvar("ttt_" .. v.name .. "_min_players", "rep_ttt_" .. v.name .. "_min_players", GetConVar("ttt_" .. v.name .. "_min_players"):GetInt(), true, false, "xgui_gmsettings")
 
 				if ConVarExists("ttt_" .. v.name .. "_karma_min") then
@@ -65,8 +65,8 @@ local function updateDynamicCVarsForTTT2ULXRoles()
 
 	hook.Run("TTTUlxDynamicRCVars", ULX_DYNAMIC_RCVARS)
 
-	for _, v in pairs(ROLES) do
-		if v ~= ROLES.INNOCENT and ULX_DYNAMIC_RCVARS[v.index] then
+	for _, v in pairs(GetRoles()) do
+		if v ~= INNOCENT and ULX_DYNAMIC_RCVARS[v.index] then
 			for _, cvar in pairs(ULX_DYNAMIC_RCVARS[v.index]) do
 				ULib.replicatedWritableCvar(cvar.cvar, "rep_" .. cvar.cvar, GetConVar(cvar.cvar):GetInt(), true, false, "xgui_gmsettings")
 			end
@@ -106,7 +106,7 @@ local function init()
 			ULib.replicatedWritableCvar("ttt_always_use_mapcycle", "rep_ttt_always_use_mapcycle", GetConVar("ttt_always_use_mapcycle"):GetInt(), true, false, "xgui_gmsettings")
 		end
 
-		if not ROLES then
+		if not TTT2 then
 			-- traitor and detective counts
 			ULib.replicatedWritableCvar("ttt_traitor_pct", "rep_ttt_traitor_pct", GetConVar("ttt_traitor_pct"):GetInt(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt_traitor_max", "rep_ttt_traitor_max", GetConVar("ttt_traitor_max"):GetInt(), true, false, "xgui_gmsettings")
@@ -194,7 +194,7 @@ local function init()
 		ULib.replicatedWritableCvar("ttt_allow_discomb_jump", "rep_ttt_allow_discomb_jump", GetConVar("ttt_allow_discomb_jump"):GetInt(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_spawn_wave_interval", "rep_ttt_spawn_wave_interval", GetConVar("ttt_spawn_wave_interval"):GetInt(), true, false, "xgui_gmsettings")
 
-		if ROLES then
+		if TTT2 then
 			updateCVarsForTTT2ULXRoles()
 
 			updateDynamicCVarsForTTT2ULXRoles()

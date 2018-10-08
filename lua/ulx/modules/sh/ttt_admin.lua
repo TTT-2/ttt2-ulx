@@ -33,10 +33,10 @@ function updateRoles()
 	table.Empty(ulx.target_role)
 
 	for _, v in pairs(ulx.rolesTbl) do
-		if ROLES then
+		if TTT2 then
 			local rd = GetRoleByName(v)
 
-			if rd == ROLES.INNOCENT then
+			if rd == INNOCENT then
 				rd = GetRoleByAbbr(v)
 			end
 
@@ -233,13 +233,9 @@ hook.Add("TTTBeginRound", "SlayPlayersNextRound", function()
 				end
 			end)
 
-			timer.Create("traitorcheck" .. v:SteamID(), 1, 0, function() --have to wait for gamemode before doing this
-				if v:GetRole() == ROLE_TRAITOR or ROLES and v.GetRoleData and v:GetRoleData().team == TEAM_TRAITOR then
-					for _, role in pairs(ROLES) do
-						if role.team ~= TEAM_TRAITOR and not role.specialRoleFilter then
-							SendConfirmedTraitors(GetRoleFilter(role.index))
-						end
-					end
+			timer.Create("traitorcheck" .. v:SteamID(), 1, 0, function() -- have to wait for gamemode before doing this
+				if not TTT2 and v:IsRole(ROLE_TRAITOR) or TTT2 and v:HasTeam(TEAM_TRAITOR) then
+					SendConfirmedTeam(TEAM_TRAITOR)
 
 					SCORE:HandleBodyFound(v, v)
 				end
@@ -320,7 +316,7 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 		local role_string
 		local role_credits
 
-		if not ROLES then
+		if not TTT2 then
 			if target_role == "traitor" or target_role == "t" then
 				role, role_grammar, role_string, role_credits = ROLE_TRAITOR, "a ", "traitor", GetConVar("ttt_credits_starting"):GetInt()
 			end
@@ -333,7 +329,7 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 				role, role_grammar, role_string, role_credits = ROLE_INNOCENT, "an ", "innocent", 0
 			end
 		else
-			for _, v in pairs(ROLES) do
+			for _, v in pairs(GetRoles()) do
 				if target_role == v.name or target_role == v.abbr then
 					if v.notSelectable then
 						role = "invalid_role_not_selectable"
@@ -362,7 +358,7 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 
 		for i = 1, #target_plys do
 			local v = target_plys[i]
-			local current_role = v:GetRole()
+			local current_role = TTT2 and v:GetSubRole() or v:GetRole()
 
 			if ulx.getExclusive(v, calling_ply) then
 				ULib.tsayError(calling_ply, ulx.getExclusive(v, calling_ply), true)
@@ -377,7 +373,7 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 			elseif current_role == role then
 				ULib.tsayError(calling_ply, v:Nick() .. " is already " .. role_string, true)
 			else
-				if not ROLES then
+				if not TTT2 then
 					v:SetRole(role)
 				else
 					v:UpdateRole(role)
@@ -414,14 +410,14 @@ force:help("Force <target(s)> to become a specified role.")
 --]]
 function GetLoadoutWeapons(r)
 	local tbl = {}
-	if not ROLES then
+	if not TTT2 then
 		tbl = {
 			[ROLE_INNOCENT] = {},
 			[ROLE_TRAITOR] = {},
 			[ROLE_DETECTIVE] = {}
 		}
 	else
-		for _, v in pairs(ROLES) do
+		for _, v in pairs(GetRoles()) do
 			tbl[v.index] = {}
 		end
 	end
@@ -534,10 +530,10 @@ function ulx.respawn(calling_ply, target_plys, should_silent)
 
 					v:SpawnForRound(true)
 
-					if not ROLES then
+					if not TTT2 then
 						v:SetCredits(((v:GetRole() == ROLE_INNOCENT) and 0) or GetConVar("ttt_credits_starting"):GetInt())
 					else
-						v:SetCredits(GetStartingCredits(v:GetRoleData().abbr))
+						v:SetCredits(GetStartingCredits(v:GetSubRoleData().abbr))
 					end
 
 					table.insert(affected_plys, v)
@@ -565,10 +561,10 @@ function ulx.respawn(calling_ply, target_plys, should_silent)
 
 				v:SpawnForRound(true)
 
-				if not ROLES then
+				if not TTT2 then
 					v:SetCredits(((v:GetRole() == ROLE_INNOCENT) and 0) or GetConVar("ttt_credits_starting"):GetInt())
 				else
-					v:SetCredits(GetStartingCredits(v:GetRoleData().abbr))
+					v:SetCredits(GetStartingCredits(v:GetSubRoleData().abbr))
 				end
 
 				table.insert(affected_plys, v)
@@ -635,10 +631,10 @@ function ulx.respawntp(calling_ply, target_ply, should_silent)
 
 				target_ply:SpawnForRound(true)
 
-				if not ROLES then
+				if not TTT2 then
 					target_ply:SetCredits(((target_ply:GetRole() == ROLE_INNOCENT) and 0) or GetConVar("ttt_credits_starting"):GetInt())
 				else
-					target_ply:SetCredits(GetStartingCredits(target_ply:GetRoleData().abbr))
+					target_ply:SetCredits(GetStartingCredits(target_ply:GetSubRoleData().abbr))
 				end
 
 				target_ply:SetPos(pos)
@@ -678,10 +674,10 @@ function ulx.respawntp(calling_ply, target_ply, should_silent)
 
 			target_ply:SpawnForRound(true)
 
-			if not ROLES then
+			if not TTT2 then
 				target_ply:SetCredits(((target_ply:GetRole() == ROLE_INNOCENT) and 0) or GetConVar("ttt_credits_starting"):GetInt())
 			else
-				target_ply:SetCredits(GetStartingCredits(target_ply:GetRoleData().abbr))
+				target_ply:SetCredits(GetStartingCredits(target_ply:GetSubRoleData().abbr))
 			end
 
 			target_ply:SetPos(pos)
@@ -793,7 +789,7 @@ updateNextround() -- Init
 PlysMarkedForRole = {}
 
 hook.Add("Initialize", "InitializeSetupForTTTMod", function()
-	if not ROLES then
+	if not TTT2 then
 		PlysMarkedForRole[ROLE_TRAITOR] = {}
 		PlysMarkedForRole[ROLE_DETECTIVE] = {}
 
@@ -828,15 +824,15 @@ hook.Add("Initialize", "InitializeSetupForTTTMod", function()
 			end
 		end)
 	else
-		for _, v in pairs(ROLES) do
-			if v ~= ROLES.INNOCENT and not v.notSelectable then
+		for _, v in pairs(GetRoles()) do
+			if v ~= INNOCENT and not v.notSelectable then
 				PlysMarkedForRole[v.index] = {}
 			end
 		end
 
 		hook.Add("TTTBeginRound", "Admin_Round_Role", function()
-			for _, role in pairs(ROLES) do
-				if role ~= ROLES.INNOCENT and not role.notSelectable and PlysMarkedForRole[role.index] then
+			for _, role in pairs(GetRoles()) do
+				if role ~= INNOCENT and not role.notSelectable and PlysMarkedForRole[role.index] then
 					for k, v in pairs(PlysMarkedForRole[role.index]) do
 						if v then
 							local ply = player.GetByUniqueID(k)
@@ -867,7 +863,7 @@ function ulx.nextround(calling_ply, target_plys, next_round)
 			local v = target_plys[i]
 			local ID = v:UniqueID()
 
-			if not ROLES then
+			if not TTT2 then
 				PlysMarkedForRole[ROLE_TRAITOR] = PlysMarkedForRole[ROLE_TRAITOR] or {}
 				PlysMarkedForRole[ROLE_DETECTIVE] = PlysMarkedForRole[ROLE_DETECTIVE] or {}
 
@@ -907,8 +903,8 @@ function ulx.nextround(calling_ply, target_plys, next_round)
 			else
 				local marked = false
 
-				for _, role in pairs(ROLES) do
-					if role ~= ROLES.INNOCENT and not role.notSelectable then
+				for _, role in pairs(GetRoles()) do
+					if role ~= INNOCENT and not role.notSelectable then
 						PlysMarkedForRole[role.index] = PlysMarkedForRole[role.index] or {}
 
 						if PlysMarkedForRole[role.index][ID] then
@@ -920,8 +916,8 @@ function ulx.nextround(calling_ply, target_plys, next_round)
 				end
 
 				if next_round ~= "unmark" then
-					for _, role in pairs(ROLES) do
-						if next_round == role.name and role ~= ROLES.INNOCENT and not role.notSelectable then
+					for _, role in pairs(GetRoles()) do
+						if next_round == role.name and role ~= INNOCENT and not role.notSelectable then
 							if marked then
 								ULib.tsayError(calling_ply, "That player is already marked for the next round.", true)
 							else
@@ -932,7 +928,7 @@ function ulx.nextround(calling_ply, target_plys, next_round)
 						end
 					end
 				else
-					for _, role in pairs(ROLES) do
+					for _, role in pairs(GetRoles()) do
 						if PlysMarkedForRole[role.index][ID] then
 							PlysMarkedForRole[role.index][ID] = false
 
@@ -976,7 +972,7 @@ function ulx.identify(calling_ply, target_ply, unidentify)
 
 			target_ply:SetNWBool("body_found", true)
 
-			if target_ply:GetRole() == ROLE_TRAITOR or ROLES and target_ply.GetRoleData and target_ply:GetRoleData().team == TEAM_TRAITOR then
+			if not TTT2 and target_ply:GetRole() == ROLE_TRAITOR or TTT2 and target_ply:HasTeam(TEAM_TRAITOR) then
 				-- update innocent's list of traitors
 				SendConfirmedTraitors(GetInnocentFilter(false))
 
@@ -1114,7 +1110,7 @@ restartround:help("Restarts the round.")
 hook.Add("TTT2_FinishedSync", "TTT2UlxSync", function(first)
 	table.Empty(ulx.rolesTbl)
 
-	for _, v in pairs(ROLES) do
+	for _, v in pairs(GetRoles()) do
 		if not v.notSelectable then
 			table.insert(ulx.rolesTbl, v.name)
 		end

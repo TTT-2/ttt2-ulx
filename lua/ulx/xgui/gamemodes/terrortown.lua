@@ -166,7 +166,7 @@ xgui.addSubModule("Round structure", rspnl, nil, "terrortown_settings")
 local gppnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
 -- Traitor and Detective counts
-if not ROLES then
+if not TTT2 then
 	local gptdcclp = vgui.Create("DCollapsibleCategory", gppnl)
 	gptdcclp:SetSize(390, 150)
 	gptdcclp:SetExpanded(1)
@@ -198,7 +198,7 @@ else
 	local b = true
 
 	for _, v in pairs(GetSortedRoles()) do
-		if v ~= ROLES.INNOCENT then
+		if v ~= INNOCENT then
 			local tmp = 0
 
 			if ULX_DYNAMIC_RCVARS[v.index] then
@@ -210,7 +210,7 @@ else
 			if not v.notSelectable or tmp > 0 then
 				local size = not v.notSelectable and 50 or 0
 
-				if not v.notSelectable and v ~= ROLES.TRAITOR then
+				if not v.notSelectable and v ~= TRAITOR then
 					size = size + 75
 
 					if ConVarExists("ttt_" .. v.name .. "_random") then
@@ -314,16 +314,16 @@ gpvcblst:AddItem(gpvdr)
 
 --Other gameplay settings
 local gpogsclp = vgui.Create("DCollapsibleCategory", gppnl)
-gpogsclp:SetSize(390, ROLES and 225 or 200)
+gpogsclp:SetSize(390, TTT2 and 225 or 200)
 gpogsclp:SetExpanded(0)
 gpogsclp:SetLabel("Other gameplay settings")
 
 local gpogslst = vgui.Create("DPanelList", gpogsclp)
 gpogslst:SetPos(5, 25)
-gpogslst:SetSize(390, ROLES and 225 or 200)
+gpogslst:SetSize(390, TTT2 and 225 or 200)
 gpogslst:SetSpacing(5)
 
-if ROLES then
+if TTT2 then
 	local gpnren = xlib.makecheckbox{label = "ttt_newroles_enabled (def. 1)", repconvar = "rep_ttt_newroles_enabled", parent = gpogslst}
 	gpogslst:AddItem(gpnren)
 end
@@ -518,7 +518,7 @@ xgui.addSubModule("Map-related", mprpnl, nil, "terrortown_settings")
 --------------------Equipment credits Module--------------------
 local ecpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
-if not ROLES then
+if not TTT2 then
 	--Traitor credits
 	local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
 	ectcclp:SetSize(390, 125)
@@ -568,9 +568,9 @@ else
 	local b = true
 
 	for _, v in pairs(GetSortedRoles()) do
-		if v ~= ROLES.INNOCENT and (not v.notSelectable or v.shop) then
+		if v ~= INNOCENT and (not v.notSelectable or IsShoppingRole(v.index)) then
 			-- ROLES credits
-			if v == ROLES.TRAITOR then
+			if v == TRAITOR then
 				local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
 				ectcclp:SetSize(390, 125)
 				ectcclp:SetExpanded(b and 1 or 0)
