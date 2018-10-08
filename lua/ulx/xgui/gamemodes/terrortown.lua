@@ -1,6 +1,6 @@
 -- Terrortown settings module for ULX GUI
 ULX_DYNAMIC_RCVARS = {}
-    
+
 hook.Run("TTTUlxDynamicRCVars", ULX_DYNAMIC_RCVARS)
 
 -- Defines ttt cvar limits and ttt specific settings for the ttt gamemode.
@@ -18,72 +18,72 @@ terrortown_settings.panel = xlib.makepanel{x = 160, y = 25, w = 420, h = 318, pa
 terrortown_settings.catList = xlib.makelistview{x = 5, y = 25, w = 150, h = 157, parent = terrortown_settings}
 terrortown_settings.catList:AddColumn("Terrorist Town 2 Settings")
 
-terrortown_settings.catList.Columns[1].DoClick = function() 
+terrortown_settings.catList.Columns[1].DoClick = function()
 
 end
 
 terrortown_settings.catList.OnRowSelected = function(self, LineID, Line)
-    local nPanel = xgui.modules.submodule[Line:GetValue(2)].panel
-    
-    if nPanel ~= terrortown_settings.curPanel then
-        nPanel:SetZPos(0)
-        
-        xlib.addToAnimQueue("pnlSlide", {panel = nPanel, startx = -435, starty = 0, endx = 0, endy = 0, setvisible = true})
-        
-        if terrortown_settings.curPanel then
-            terrortown_settings.curPanel:SetZPos(-1)
-            xlib.addToAnimQueue(terrortown_settings.curPanel.SetVisible, terrortown_settings.curPanel, false)
-        end
-        
-        xlib.animQueue_start()
-        
-        terrortown_settings.curPanel = nPanel
-    else
-        xlib.addToAnimQueue("pnlSlide", {panel = nPanel, startx = 0, starty = 0, endx = -435, endy = 0, setvisible = false})
-        self:ClearSelection()
-        
-        terrortown_settings.curPanel = nil
-        
-        xlib.animQueue_start()
-    end
-    
-    -- If the panel has it, call a function when it's opened
-    if nPanel.onOpen then 
-        nPanel.onOpen() 
-    end
+	local nPanel = xgui.modules.submodule[Line:GetValue(2)].panel
+
+	if nPanel ~= terrortown_settings.curPanel then
+		nPanel:SetZPos(0)
+
+		xlib.addToAnimQueue("pnlSlide", {panel = nPanel, startx = -435, starty = 0, endx = 0, endy = 0, setvisible = true})
+
+		if terrortown_settings.curPanel then
+			terrortown_settings.curPanel:SetZPos(-1)
+			xlib.addToAnimQueue(terrortown_settings.curPanel.SetVisible, terrortown_settings.curPanel, false)
+		end
+
+		xlib.animQueue_start()
+
+		terrortown_settings.curPanel = nPanel
+	else
+		xlib.addToAnimQueue("pnlSlide", {panel = nPanel, startx = 0, starty = 0, endx = -435, endy = 0, setvisible = false})
+		self:ClearSelection()
+
+		terrortown_settings.curPanel = nil
+
+		xlib.animQueue_start()
+	end
+
+	-- If the panel has it, call a function when it's opened
+	if nPanel.onOpen then
+		nPanel.onOpen()
+	end
 end
 
 -- Process modular settings
 function terrortown_settings.processModules()
-    terrortown_settings.catList:Clear()
-    
-    for i, module in ipairs(xgui.modules.submodule) do
-        if module.mtype == "terrortown_settings" and (not module.access or LocalPlayer():query(module.access)) then
-            local w, h = module.panel:GetSize()
-            
-            if w == h and h == 0 then 
-                module.panel:SetSize(275, 322) 
-            end
-            
-            if module.panel.scroll then --For DListLayouts
-                module.panel.scroll.panel = module.panel
-                module.panel = module.panel.scroll
-            end
-            
-            module.panel:SetParent(terrortown_settings.panel)
-            
-            local line = terrortown_settings.catList:AddLine(module.name, i)
-            
-            if module.panel == terrortown_settings.curPanel then
-                terrortown_settings.curPanel = nil
-                terrortown_settings.catList:SelectItem(line)
-            else
-                module.panel:SetVisible(false)
-            end
-        end
-    end
-    
-    terrortown_settings.catList:SortByColumn(1, false)
+	terrortown_settings.catList:Clear()
+
+	for i, module in ipairs(xgui.modules.submodule) do
+		if module.mtype == "terrortown_settings" and (not module.access or LocalPlayer():query(module.access)) then
+			local w, h = module.panel:GetSize()
+
+			if w == h and h == 0 then
+				module.panel:SetSize(275, 322)
+			end
+
+			if module.panel.scroll then --For DListLayouts
+				module.panel.scroll.panel = module.panel
+				module.panel = module.panel.scroll
+			end
+
+			module.panel:SetParent(terrortown_settings.panel)
+
+			local line = terrortown_settings.catList:AddLine(module.name, i)
+
+			if module.panel == terrortown_settings.curPanel then
+				terrortown_settings.curPanel = nil
+				terrortown_settings.catList:SelectItem(line)
+			else
+				module.panel:SetVisible(false)
+			end
+		end
+	end
+
+	terrortown_settings.catList:SortByColumn(1, false)
 end
 terrortown_settings.processModules()
 
@@ -94,7 +94,7 @@ xgui.addModule("TTT", terrortown_settings, "icon16/ttt.png", "xgui_gmsettings")
 local rspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
 -- Preparation and post-round
-local rspapclp = vgui.Create("DCollapsibleCategory", rspnl) 
+local rspapclp = vgui.Create("DCollapsibleCategory", rspnl)
 rspapclp:SetSize(390, 75)
 rspapclp:SetExpanded(1)
 rspapclp:SetLabel("Preparation and post-round")
@@ -103,7 +103,7 @@ local rspaplst = vgui.Create("DPanelList", rspapclp)
 rspaplst:SetPos(5, 25)
 rspaplst:SetSize(390, 75)
 rspaplst:SetSpacing(5)
-   
+
 local prept = xlib.makeslider{label = "ttt_preptime_seconds (def. 30)", min = 1, max = 120, repconvar = "rep_ttt_preptime_seconds", parent = rspaplst}
 rspaplst:AddItem(prept)
 
@@ -114,7 +114,7 @@ local pstt = xlib.makeslider{label = "ttt_posttime_seconds (def. 30)", min = 1, 
 rspaplst:AddItem(pstt)
 
 --Round length
-local rsrlclp = vgui.Create("DCollapsibleCategory", rspnl) 
+local rsrlclp = vgui.Create("DCollapsibleCategory", rspnl)
 rsrlclp:SetSize(390, 90)
 rsrlclp:SetExpanded(0)
 rsrlclp:SetLabel("Round length")
@@ -137,7 +137,7 @@ local rtm = xlib.makeslider{label = "ttt_roundtime_minutes (def. 10)", min = 1, 
 rsrllst:AddItem(rtm)
 
 --Map switching and voting
-local msavclp = vgui.Create("DCollapsibleCategory", rspnl) 
+local msavclp = vgui.Create("DCollapsibleCategory", rspnl)
 msavclp:SetSize(390, 95)
 msavclp:SetExpanded(0)
 msavclp:SetLabel("Map switching and voting")
@@ -167,115 +167,113 @@ local gppnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
 -- Traitor and Detective counts
 if not ROLES then
-    local gptdcclp = vgui.Create("DCollapsibleCategory", gppnl) 
-    gptdcclp:SetSize(390, 150)
-    gptdcclp:SetExpanded(1)
-    gptdcclp:SetLabel("Traitors and Detectives")
+	local gptdcclp = vgui.Create("DCollapsibleCategory", gppnl)
+	gptdcclp:SetSize(390, 150)
+	gptdcclp:SetExpanded(1)
+	gptdcclp:SetLabel("Traitors and Detectives")
 
-    local gptdlst = vgui.Create("DPanelList", gptdcclp)
-    gptdlst:SetPos(5, 25)
-    gptdlst:SetSize(390, 150)
-    gptdlst:SetSpacing(5)
-    
-    local tpercet = xlib.makeslider{label = "ttt_traitor_pct (def. 0.25)", min = 0.01, max = 2, decimal = 2, repconvar = "rep_ttt_traitor_pct", parent = gptdlst}
-    gptdlst:AddItem(tpercet)
+	local gptdlst = vgui.Create("DPanelList", gptdcclp)
+	gptdlst:SetPos(5, 25)
+	gptdlst:SetSize(390, 150)
+	gptdlst:SetSpacing(5)
 
-    local tmax = xlib.makeslider{label = "ttt_traitor_max (def. 32)", min = 1, max = 80, repconvar = "rep_ttt_traitor_max", parent = gptdlst}
-    gptdlst:AddItem(tmax)
+	local tpercet = xlib.makeslider{label = "ttt_traitor_pct (def. 0.25)", min = 0.01, max = 2, decimal = 2, repconvar = "rep_ttt_traitor_pct", parent = gptdlst}
+	gptdlst:AddItem(tpercet)
 
-    local dpercet = xlib.makeslider{label = "ttt_detective_pct (def. 0.13)", min = 0.01, max = 2, decimal = 2, repconvar = "rep_ttt_detective_pct", parent = gptdlst}
-    gptdlst:AddItem(dpercet)
+	local tmax = xlib.makeslider{label = "ttt_traitor_max (def. 32)", min = 1, max = 80, repconvar = "rep_ttt_traitor_max", parent = gptdlst}
+	gptdlst:AddItem(tmax)
 
-    local dmax = xlib.makeslider{label = "ttt_detective_max (def. 32)", min = 1, max = 80, repconvar = "rep_ttt_detective_max", parent = gptdlst}
-    gptdlst:AddItem(dmax)
+	local dpercet = xlib.makeslider{label = "ttt_detective_pct (def. 0.13)", min = 0.01, max = 2, decimal = 2, repconvar = "rep_ttt_detective_pct", parent = gptdlst}
+	gptdlst:AddItem(dpercet)
 
-    local dmp = xlib.makeslider{label = "ttt_detective_min_players (def. 10)", min = 1, max = 50, repconvar = "rep_ttt_detective_min_players", parent = gptdlst}
-    gptdlst:AddItem(dmp)
+	local dmax = xlib.makeslider{label = "ttt_detective_max (def. 32)", min = 1, max = 80, repconvar = "rep_ttt_detective_max", parent = gptdlst}
+	gptdlst:AddItem(dmax)
 
-    local dkm = xlib.makeslider{label = "ttt_detective_karma_min (def. 600)", min = 1, max = 1000, repconvar = "rep_ttt_detective_karma_min", parent = gptdlst}
-    gptdlst:AddItem(dkm)
+	local dmp = xlib.makeslider{label = "ttt_detective_min_players (def. 10)", min = 1, max = 50, repconvar = "rep_ttt_detective_min_players", parent = gptdlst}
+	gptdlst:AddItem(dmp)
+
+	local dkm = xlib.makeslider{label = "ttt_detective_karma_min (def. 600)", min = 1, max = 1000, repconvar = "rep_ttt_detective_karma_min", parent = gptdlst}
+	gptdlst:AddItem(dkm)
 else
-    local b = true
-    
-    for _, v in pairs(GetSortedRoles()) do
-        if v ~= ROLES.INNOCENT then
-            local tmp = 0
-			
+	local b = true
+
+	for _, v in pairs(GetSortedRoles()) do
+		if v ~= ROLES.INNOCENT then
+			local tmp = 0
+
 			if ULX_DYNAMIC_RCVARS[v.index] then
 				for k in pairs(ULX_DYNAMIC_RCVARS[v.index]) do
 					tmp = tmp + 25
 				end
 			end
-            
-            if not v.notSelectable or tmp > 0 then
-                local size = not v.notSelectable and 50 or 0
-                
-                if not v.notSelectable then
-                    if v ~= ROLES.TRAITOR then
-                        size = size + 75
-                        
-                        if ConVarExists("ttt_" .. v.name .. "_random") then
-                            size = size + 25
-                        end
-                    end
-                end
-                
-                size = size + tmp
-            
-                local gptdcclp = vgui.Create("DCollapsibleCategory", gppnl) 
-                gptdcclp:SetSize(390, size)
-                gptdcclp:SetExpanded(b and 1 or 0)
-                gptdcclp:SetLabel("" .. v.name)
-                
-                b = false
-        
-                local gptdlst = vgui.Create("DPanelList", gptdcclp)
-                gptdlst:SetPos(5, 25)
-                gptdlst:SetSize(390, size)
-                gptdlst:SetSpacing(5)
-                
-                if not v.notSelectable then
-                    local tpercet = xlib.makeslider{label = "ttt_" .. v.name .. "_pct", min = 0.01, max = 2, decimal = 2, repconvar = "rep_ttt_" .. v.name .. "_pct", parent = gptdlst}
-                    gptdlst:AddItem(tpercet)
 
-                    local tmax = xlib.makeslider{label = "ttt_" .. v.name .. "_max", min = 1, max = 80, repconvar = "rep_ttt_" .. v.name .. "_max", parent = gptdlst}
-                    gptdlst:AddItem(tmax)
-                
-                    if v ~= ROLES.TRAITOR then
-                        if ConVarExists("ttt_" .. v.name .. "_random") then
-                            local drs = xlib.makeslider{label = "ttt_" .. v.name .. "_random", min = 1, max = 100, repconvar = "rep_ttt_" .. v.name .. "_random", parent = gptdlst}
-                            gptdlst:AddItem(drs)
-                        end
-                        
-                        local dmp = xlib.makeslider{label = "ttt_" .. v.name .. "_min_players", min = 1, max = 50, repconvar = "rep_ttt_" .. v.name .. "_min_players", parent = gptdlst}
-                        gptdlst:AddItem(dmp)
+			if not v.notSelectable or tmp > 0 then
+				local size = not v.notSelectable and 50 or 0
 
-                        local dkm = xlib.makeslider{label = "ttt_" .. v.name .. "_karma_min", min = 1, max = 1000, repconvar = "rep_ttt_" .. v.name .. "_karma_min", parent = gptdlst}
-                        gptdlst:AddItem(dkm)
-                        
-                        local gpds = xlib.makecheckbox{label = v.name .. "? (ttt_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_ttt_" .. v.name .. "_enabled", parent = gptdlst}
-                        gptdlst:AddItem(gpds)
-                    end
-                end
-            
-                if tmp > 0 then
-                    for _, cvar in pairs(ULX_DYNAMIC_RCVARS[v.index]) do
-                        if cvar.checkbox then
-                            local cvarcb = xlib.makecheckbox{label = v.name .. ": " .. cvar.desc, repconvar = "rep_" .. cvar.cvar, parent = gptdlst}
-                            gptdlst:AddItem(cvarcb)
-                        elseif cvar.slider then
-                            local cvarsl = xlib.makeslider{label = v.name .. ": " .. (cvar.desc or cvar.cvar), min = cvar.min or 1, max = cvar.max or 1000, repconvar = "rep_" .. cvar.cvar, parent = gptdlst}
-                            gptdlst:AddItem(cvarsl)
-                        end
-                    end
-                end
-            end
-        end
-    end
+				if not v.notSelectable and v ~= ROLES.TRAITOR then
+					size = size + 75
+
+					if ConVarExists("ttt_" .. v.name .. "_random") then
+						size = size + 25
+					end
+				end
+
+				size = size + tmp
+
+				local gptdcclp = vgui.Create("DCollapsibleCategory", gppnl)
+				gptdcclp:SetSize(390, size)
+				gptdcclp:SetExpanded(b and 1 or 0)
+				gptdcclp:SetLabel("" .. v.name)
+
+				b = false
+
+				local gptdlst = vgui.Create("DPanelList", gptdcclp)
+				gptdlst:SetPos(5, 25)
+				gptdlst:SetSize(390, size)
+				gptdlst:SetSpacing(5)
+
+				if not v.notSelectable then
+					local tpercet = xlib.makeslider{label = "ttt_" .. v.name .. "_pct", min = 0.01, max = 2, decimal = 2, repconvar = "rep_ttt_" .. v.name .. "_pct", parent = gptdlst}
+					gptdlst:AddItem(tpercet)
+
+					local tmax = xlib.makeslider{label = "ttt_" .. v.name .. "_max", min = 1, max = 80, repconvar = "rep_ttt_" .. v.name .. "_max", parent = gptdlst}
+					gptdlst:AddItem(tmax)
+
+					if v ~= ROLES.TRAITOR then
+						if ConVarExists("ttt_" .. v.name .. "_random") then
+							local drs = xlib.makeslider{label = "ttt_" .. v.name .. "_random", min = 1, max = 100, repconvar = "rep_ttt_" .. v.name .. "_random", parent = gptdlst}
+							gptdlst:AddItem(drs)
+						end
+
+						local dmp = xlib.makeslider{label = "ttt_" .. v.name .. "_min_players", min = 1, max = 50, repconvar = "rep_ttt_" .. v.name .. "_min_players", parent = gptdlst}
+						gptdlst:AddItem(dmp)
+
+						local dkm = xlib.makeslider{label = "ttt_" .. v.name .. "_karma_min", min = 1, max = 1000, repconvar = "rep_ttt_" .. v.name .. "_karma_min", parent = gptdlst}
+						gptdlst:AddItem(dkm)
+
+						local gpds = xlib.makecheckbox{label = v.name .. "? (ttt_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_ttt_" .. v.name .. "_enabled", parent = gptdlst}
+						gptdlst:AddItem(gpds)
+					end
+				end
+
+				if tmp > 0 then
+					for _, cvar in pairs(ULX_DYNAMIC_RCVARS[v.index]) do
+						if cvar.checkbox then
+							local cvarcb = xlib.makecheckbox{label = v.name .. ": " .. cvar.desc, repconvar = "rep_" .. cvar.cvar, parent = gptdlst}
+							gptdlst:AddItem(cvarcb)
+						elseif cvar.slider then
+							local cvarsl = xlib.makeslider{label = v.name .. ": " .. (cvar.desc or cvar.cvar), min = cvar.min or 1, max = cvar.max or 1000, repconvar = "rep_" .. cvar.cvar, parent = gptdlst}
+							gptdlst:AddItem(cvarsl)
+						end
+					end
+				end
+			end
+		end
+	end
 end
 
 --DNA
-local gpdnaclp = vgui.Create("DCollapsibleCategory", gppnl) 
+local gpdnaclp = vgui.Create("DCollapsibleCategory", gppnl)
 gpdnaclp:SetSize(390, 45)
 gpdnaclp:SetExpanded(0)
 gpdnaclp:SetLabel("DNA")
@@ -292,7 +290,7 @@ local dnakbt = xlib.makeslider{label = "ttt_killer_dna_basetime (def. 100)", min
 gpdnalst:AddItem(dnakbt)
 
 --Voicechat battery
-local gpvcbclp = vgui.Create("DCollapsibleCategory", gppnl) 
+local gpvcbclp = vgui.Create("DCollapsibleCategory", gppnl)
 gpvcbclp:SetSize(390, 65)
 gpvcbclp:SetExpanded(0)
 gpvcbclp:SetLabel("Voicechat battery")
@@ -315,7 +313,7 @@ local gpvdr = xlib.makeslider{label = "ttt_voice_drain_recharge (def. 0.05)", mi
 gpvcblst:AddItem(gpvdr)
 
 --Other gameplay settings
-local gpogsclp = vgui.Create("DCollapsibleCategory", gppnl) 
+local gpogsclp = vgui.Create("DCollapsibleCategory", gppnl)
 gpogsclp:SetSize(390, ROLES and 225 or 200)
 gpogsclp:SetExpanded(0)
 gpogsclp:SetLabel("Other gameplay settings")
@@ -326,8 +324,8 @@ gpogslst:SetSize(390, ROLES and 225 or 200)
 gpogslst:SetSpacing(5)
 
 if ROLES then
-    local gpnren = xlib.makecheckbox{label = "ttt_newroles_enabled (def. 1)", repconvar = "rep_ttt_newroles_enabled", parent = gpogslst}
-    gpogslst:AddItem(gpnren)
+	local gpnren = xlib.makecheckbox{label = "ttt_newroles_enabled (def. 1)", repconvar = "rep_ttt_newroles_enabled", parent = gpogslst}
+	gpogslst:AddItem(gpnren)
 end
 
 local gpminply = xlib.makeslider{label = "ttt_minimum_players (def. 2)", min = 1, max = 10, repconvar = "rep_ttt_minimum_players", parent = gpogslst}
@@ -362,90 +360,90 @@ xgui.addSubModule("Gameplay", gppnl, nil, "terrortown_settings")
 
 --------------------Classes Module--------------------
 if CLASSES then
-    local clspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
-    
-    local clsclp = vgui.Create("DCollapsibleCategory", clspnl) 
-    clsclp:SetSize(390, 50)
-    clsclp:SetExpanded(1)
-    clsclp:SetLabel("CLASSES settings")
+	local clspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
-    local clslst = vgui.Create("DPanelList", clsclp)
-    clslst:SetPos(5, 25)
-    clslst:SetSize(390, 50)
-    clslst:SetSpacing(5)
-    
-    local clsccl = xlib.makecheckbox{label = "Custom Classes? (ttt_customclasses_enabled) (def. 1)", repconvar = "rep_ttt_customclasses_enabled", parent = clslst}
-    clslst:AddItem(clsccl)
-    
-    local clslim = xlib.makecheckbox{label = "Limited Classes? (ttt_customclasses_limited) (def. 1)", repconvar = "rep_ttt_customclasses_limited", parent = clslst}
-    clslst:AddItem(clslim)
+	local clsclp = vgui.Create("DCollapsibleCategory", clspnl)
+	clsclp:SetSize(390, 50)
+	clsclp:SetExpanded(1)
+	clsclp:SetLabel("CLASSES settings")
 
-    for _, v in pairs(GetSortedClasses()) do
-        if v ~= CLASSES.UNSET then
-            local pName = GetClassTranslation(v)
-        
-            local clsclp2 = vgui.Create("DCollapsibleCategory", clspnl) 
-            clsclp2:SetSize(390, 50)
-            clsclp2:SetExpanded(0)
-            clsclp2:SetLabel(pName)
+	local clslst = vgui.Create("DPanelList", clsclp)
+	clslst:SetPos(5, 25)
+	clslst:SetSize(390, 50)
+	clslst:SetSpacing(5)
 
-            local clslst2 = vgui.Create("DPanelList", clsclp2)
-            clslst2:SetPos(5, 25)
-            clslst2:SetSize(390, 50)
-            clslst2:SetSpacing(5)
-    
-            local clscl = xlib.makecheckbox{label = pName .. "? (tttc_class_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_tttc_class_" .. v.name .. "_enabled", parent = clslst2}
-            clslst2:AddItem(clscl)
-    
-            local clsrcl = xlib.makeslider{label = "tttc_class_" .. v.name .. "_random", min = 1, max = 100, repconvar = "rep_tttc_class_" .. v.name .. "_random", parent = clslst2}
-            clslst2:AddItem(clsrcl)
-        end
-    end
+	local clsccl = xlib.makecheckbox{label = "Custom Classes? (ttt_customclasses_enabled) (def. 1)", repconvar = "rep_ttt_customclasses_enabled", parent = clslst}
+	clslst:AddItem(clsccl)
 
-    xgui.hookEvent("onProcessModules", nil, clspnl.processModules)
-    xgui.addSubModule("Classes", clspnl, nil, "terrortown_settings")
+	local clslim = xlib.makecheckbox{label = "Limited Classes? (ttt_customclasses_limited) (def. 1)", repconvar = "rep_ttt_customclasses_limited", parent = clslst}
+	clslst:AddItem(clslim)
+
+	for _, v in pairs(GetSortedClasses()) do
+		if v ~= CLASSES.UNSET then
+			local pName = GetClassTranslation(v)
+
+			local clsclp2 = vgui.Create("DCollapsibleCategory", clspnl)
+			clsclp2:SetSize(390, 50)
+			clsclp2:SetExpanded(0)
+			clsclp2:SetLabel(pName)
+
+			local clslst2 = vgui.Create("DPanelList", clsclp2)
+			clslst2:SetPos(5, 25)
+			clslst2:SetSize(390, 50)
+			clslst2:SetSpacing(5)
+
+			local clscl = xlib.makecheckbox{label = pName .. "? (tttc_class_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_tttc_class_" .. v.name .. "_enabled", parent = clslst2}
+			clslst2:AddItem(clscl)
+
+			local clsrcl = xlib.makeslider{label = "tttc_class_" .. v.name .. "_random", min = 1, max = 100, repconvar = "rep_tttc_class_" .. v.name .. "_random", parent = clslst2}
+			clslst2:AddItem(clsrcl)
+		end
+	end
+
+	xgui.hookEvent("onProcessModules", nil, clspnl.processModules)
+	xgui.addSubModule("Classes", clspnl, nil, "terrortown_settings")
 end
 
 --------------------WEAPONS Module--------------------
 if TTTWEAPON_CVARS then
-    local wcvarspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
+	local wcvarspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
-    for wepCls, cvarTbl in pairs(TTTWEAPON_CVARS) do
+	for wepCls, cvarTbl in pairs(TTTWEAPON_CVARS) do
 		local size = 0
-		
+
 		for k in pairs(cvarTbl) do
 			size = size + 25
 		end
-    
-        local wcvarsclp = vgui.Create("DCollapsibleCategory", wcvarspnl) 
-        wcvarsclp:SetSize(390, size)
-        wcvarsclp:SetExpanded(0)
-        wcvarsclp:SetLabel(wepCls)
 
-        local wcvarslst = vgui.Create("DPanelList", wcvarsclp)
-        wcvarslst:SetPos(5, 25)
-        wcvarslst:SetSize(390, size)
-        wcvarslst:SetSpacing(5)
-        
-        for _, cvar in pairs(cvarTbl) do
-            if cvar.checkbox then
-                local wcvarscl = xlib.makecheckbox{label = (cvar.desc or cvar.cvar), repconvar = "rep_" .. cvar.cvar, parent = wcvarslst}
-                wcvarslst:AddItem(wcvarscl)
-            elseif cvar.slider then
-                local wcvarsrcl = xlib.makeslider{label = (cvar.desc or cvar.cvar), min = cvar.min or 0, max = cvar.max or 1000, repconvar = "rep_" .. cvar.cvar, parent = wcvarslst}
-                wcvarslst:AddItem(wcvarsrcl)
-            end
-        end
-    end
+		local wcvarsclp = vgui.Create("DCollapsibleCategory", wcvarspnl)
+		wcvarsclp:SetSize(390, size)
+		wcvarsclp:SetExpanded(0)
+		wcvarsclp:SetLabel(wepCls)
 
-    xgui.hookEvent("onProcessModules", nil, wcvarspnl.processModules)
-    xgui.addSubModule("Weapons", wcvarspnl, nil, "terrortown_settings")
+		local wcvarslst = vgui.Create("DPanelList", wcvarsclp)
+		wcvarslst:SetPos(5, 25)
+		wcvarslst:SetSize(390, size)
+		wcvarslst:SetSpacing(5)
+
+		for _, cvar in pairs(cvarTbl) do
+			if cvar.checkbox then
+				local wcvarscl = xlib.makecheckbox{label = cvar.desc or cvar.cvar, repconvar = "rep_" .. cvar.cvar, parent = wcvarslst}
+				wcvarslst:AddItem(wcvarscl)
+			elseif cvar.slider then
+				local wcvarsrcl = xlib.makeslider{label = cvar.desc or cvar.cvar, min = cvar.min or 0, max = cvar.max or 1000, repconvar = "rep_" .. cvar.cvar, parent = wcvarslst}
+				wcvarslst:AddItem(wcvarsrcl)
+			end
+		end
+	end
+
+	xgui.hookEvent("onProcessModules", nil, wcvarspnl.processModules)
+	xgui.addSubModule("Weapons", wcvarspnl, nil, "terrortown_settings")
 end
 
 --------------------Karma Module--------------------
 local krmpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
-local krmclp = vgui.Create("DCollapsibleCategory", krmpnl) 
+local krmclp = vgui.Create("DCollapsibleCategory", krmpnl)
 krmclp:SetSize(390, 400)
 krmclp:SetExpanded(1)
 krmclp:SetLabel("Karma")
@@ -521,125 +519,125 @@ xgui.addSubModule("Map-related", mprpnl, nil, "terrortown_settings")
 local ecpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
 if not ROLES then
-    --Traitor credits
-    local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl) 
-    ectcclp:SetSize(390, 125)
-    ectcclp:SetExpanded(1)
-    ectcclp:SetLabel("Traitor credits")
+	--Traitor credits
+	local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
+	ectcclp:SetSize(390, 125)
+	ectcclp:SetExpanded(1)
+	ectcclp:SetLabel("Traitor credits")
 
-    local ectclst = vgui.Create("DPanelList", ectcclp)
-    ectclst:SetPos(5, 25)
-    ectclst:SetSize(390, 125)
-    ectclst:SetSpacing(5)
+	local ectclst = vgui.Create("DPanelList", ectcclp)
+	ectclst:SetPos(5, 25)
+	ectclst:SetSize(390, 125)
+	ectclst:SetSpacing(5)
 
-    local ectccs = xlib.makeslider{label = "ttt_credits_starting (def. 2)", min = 0, max = 10, repconvar = "rep_ttt_credits_starting", parent = ectclst}
-    ectclst:AddItem(ectccs)
+	local ectccs = xlib.makeslider{label = "ttt_credits_starting (def. 2)", min = 0, max = 10, repconvar = "rep_ttt_credits_starting", parent = ectclst}
+	ectclst:AddItem(ectccs)
 
-    local ectcap = xlib.makeslider{label = "ttt_credits_award_pct (def. 0.35)", min = 0.01, max = 0.9, decimal = 2, repconvar = "rep_ttt_credits_award_pct", parent = krmlst}
-    ectclst:AddItem(ectcap)
+	local ectcap = xlib.makeslider{label = "ttt_credits_award_pct (def. 0.35)", min = 0.01, max = 0.9, decimal = 2, repconvar = "rep_ttt_credits_award_pct", parent = krmlst}
+	ectclst:AddItem(ectcap)
 
-    local ectcas = xlib.makeslider{label = "ttt_credits_award_size (def. 1)", min = 0, max = 5, repconvar = "rep_ttt_credits_award_size", parent = ectclst}
-    ectclst:AddItem(ectcas)
+	local ectcas = xlib.makeslider{label = "ttt_credits_award_size (def. 1)", min = 0, max = 5, repconvar = "rep_ttt_credits_award_size", parent = ectclst}
+	ectclst:AddItem(ectcas)
 
-    local ectcar = xlib.makeslider{label = "ttt_credits_award_repeat (def. 1)", min = 0, max = 5, repconvar = "rep_ttt_credits_award_repeat", parent = ectclst}
-    ectclst:AddItem(ectcar)
+	local ectcar = xlib.makeslider{label = "ttt_credits_award_repeat (def. 1)", min = 0, max = 5, repconvar = "rep_ttt_credits_award_repeat", parent = ectclst}
+	ectclst:AddItem(ectcar)
 
-    local ectcdk = xlib.makeslider{label = "ttt_credits_detectivekill (def. 1)", min = 0, max = 5, repconvar = "rep_ttt_credits_detectivekill", parent = ectclst}
-    ectclst:AddItem(ectcdk)
+	local ectcdk = xlib.makeslider{label = "ttt_credits_detectivekill (def. 1)", min = 0, max = 5, repconvar = "rep_ttt_credits_detectivekill", parent = ectclst}
+	ectclst:AddItem(ectcdk)
 
-    --Detective credits
-    local ecdcclp = vgui.Create("DCollapsibleCategory", ecpnl) 
-    ecdcclp:SetSize(390, 90)
-    ecdcclp:SetExpanded(0)
-    ecdcclp:SetLabel("Detective credits")
+	--Detective credits
+	local ecdcclp = vgui.Create("DCollapsibleCategory", ecpnl)
+	ecdcclp:SetSize(390, 90)
+	ecdcclp:SetExpanded(0)
+	ecdcclp:SetLabel("Detective credits")
 
-    local ecdclst = vgui.Create("DPanelList", ecdcclp)
-    ecdclst:SetPos(5, 25)
-    ecdclst:SetSize(390, 90)
-    ecdclst:SetSpacing(3)
+	local ecdclst = vgui.Create("DPanelList", ecdcclp)
+	ecdclst:SetPos(5, 25)
+	ecdclst:SetSize(390, 90)
+	ecdclst:SetSpacing(3)
 
-    local ecdccs = xlib.makeslider{label = "ttt_det_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_det_credits_starting", parent = ecdclst}
-    ecdclst:AddItem(ecdccs)
+	local ecdccs = xlib.makeslider{label = "ttt_det_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_det_credits_starting", parent = ecdclst}
+	ecdclst:AddItem(ecdccs)
 
-    local ecdctk = xlib.makeslider{label = "ttt_det_credits_traitorkill (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_det_credits_traitorkill", parent = ecdclst}
-    ecdclst:AddItem(ecdctk)
+	local ecdctk = xlib.makeslider{label = "ttt_det_credits_traitorkill (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_det_credits_traitorkill", parent = ecdclst}
+	ecdclst:AddItem(ecdctk)
 
-    local ecdctd = xlib.makeslider{label = "ttt_det_credits_traitordead (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_det_credits_traitordead", parent = ecdclst}
-    ecdclst:AddItem(ecdctd)
+	local ecdctd = xlib.makeslider{label = "ttt_det_credits_traitordead (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_det_credits_traitordead", parent = ecdclst}
+	ecdclst:AddItem(ecdctd)
 else
-    local b = true
-    
-    for _, v in pairs(GetSortedRoles()) do
-        if v ~= ROLES.INNOCENT and (not v.notSelectable or v.shop) then
-            -- ROLES credits
-            if v == ROLES.TRAITOR then
-                local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl) 
-                ectcclp:SetSize(390, 125)
-                ectcclp:SetExpanded(b and 1 or 0)
-                ectcclp:SetLabel(v.name .. " credits")
-                
-                b = false
+	local b = true
 
-                local ectclst = vgui.Create("DPanelList", ectcclp)
-                ectclst:SetPos(5, 25)
-                ectclst:SetSize(390, 125)
-                ectclst:SetSpacing(5)
-                
-                local ectccs = xlib.makeslider{label = "ttt_credits_starting (def. 2)", min = 0, max = 10, repconvar = "rep_ttt_credits_starting", parent = ectclst}
-                ectclst:AddItem(ectccs)
+	for _, v in pairs(GetSortedRoles()) do
+		if v ~= ROLES.INNOCENT and (not v.notSelectable or v.shop) then
+			-- ROLES credits
+			if v == ROLES.TRAITOR then
+				local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
+				ectcclp:SetSize(390, 125)
+				ectcclp:SetExpanded(b and 1 or 0)
+				ectcclp:SetLabel(v.name .. " credits")
 
-                local ectcap = xlib.makeslider{label = "ttt_credits_award_pct (def. 0.35)", min = 0.01, max = 0.9, decimal = 2, repconvar = "rep_ttt_credits_award_pct", parent = krmlst}
-                ectclst:AddItem(ectcap)
+				b = false
 
-                local ectcas = xlib.makeslider{label = "ttt_credits_award_size (def. 1)", min = 0, max = 5, repconvar = "rep_ttt_credits_award_size", parent = ectclst}
-                ectclst:AddItem(ectcas)
+				local ectclst = vgui.Create("DPanelList", ectcclp)
+				ectclst:SetPos(5, 25)
+				ectclst:SetSize(390, 125)
+				ectclst:SetSpacing(5)
 
-                local ectcar = xlib.makeslider{label = "ttt_credits_award_repeat (def. 1)", min = 0, max = 5, repconvar = "rep_ttt_credits_award_repeat", parent = ectclst}
-                ectclst:AddItem(ectcar)
+				local ectccs = xlib.makeslider{label = "ttt_credits_starting (def. 2)", min = 0, max = 10, repconvar = "rep_ttt_credits_starting", parent = ectclst}
+				ectclst:AddItem(ectccs)
 
-                local ectcdk = xlib.makeslider{label = "ttt_credits_detectivekill (def. 1)", min = 0, max = 5, repconvar = "rep_ttt_credits_detectivekill", parent = ectclst}
-                ectclst:AddItem(ectcdk)
-            elseif ConVarExists("ttt_" .. v.abbr .. "_credits_starting") then
-                local i = 1
-            
-                local bTk = ConVarExists("ttt_" .. v.abbr .. "_credits_traitorkill")
-                local bTd = ConVarExists("ttt_" .. v.abbr .. "_credits_traitordead")
-                
-                if bTk then
-                    i = i + 1
-                end
-                
-                if bTd then
-                    i = i + 1
-                end
-                
-                local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl) 
-                ectcclp:SetSize(390, 25 * i)
-                ectcclp:SetExpanded(b and 1 or 0)
-                ectcclp:SetLabel(v.name .. " credits")
-                
-                b = false
+				local ectcap = xlib.makeslider{label = "ttt_credits_award_pct (def. 0.35)", min = 0.01, max = 0.9, decimal = 2, repconvar = "rep_ttt_credits_award_pct", parent = krmlst}
+				ectclst:AddItem(ectcap)
 
-                local ectclst = vgui.Create("DPanelList", ectcclp)
-                ectclst:SetPos(5, 25)
-                ectclst:SetSize(390, 25 * i)
-                ectclst:SetSpacing(5)
-            
-                local ecdccs = xlib.makeslider{label = "ttt_" .. v.abbr .. "_credits_starting", min = 0, max = 10, repconvar = "rep_ttt_" .. v.abbr .. "_credits_starting", parent = ectclst}
-                ectclst:AddItem(ecdccs)
+				local ectcas = xlib.makeslider{label = "ttt_credits_award_size (def. 1)", min = 0, max = 5, repconvar = "rep_ttt_credits_award_size", parent = ectclst}
+				ectclst:AddItem(ectcas)
 
-                if bTk then
-                    local ecdctk = xlib.makeslider{label = "ttt_" .. v.abbr .. "_credits_traitorkill", min = 0, max = 10, repconvar = "rep_ttt_" .. v.abbr .. "_credits_traitorkill", parent = ectclst}
-                    ectclst:AddItem(ecdctk)
-                end
+				local ectcar = xlib.makeslider{label = "ttt_credits_award_repeat (def. 1)", min = 0, max = 5, repconvar = "rep_ttt_credits_award_repeat", parent = ectclst}
+				ectclst:AddItem(ectcar)
 
-                if bTd then
-                    local ecdctd = xlib.makeslider{label = "ttt_" .. v.abbr .. "_credits_traitordead", min = 0, max = 10, repconvar = "rep_ttt_" .. v.abbr .. "_credits_traitordead", parent = ectclst}
-                    ectclst:AddItem(ecdctd)
-                end
-            end
-        end
-    end
+				local ectcdk = xlib.makeslider{label = "ttt_credits_detectivekill (def. 1)", min = 0, max = 5, repconvar = "rep_ttt_credits_detectivekill", parent = ectclst}
+				ectclst:AddItem(ectcdk)
+			elseif ConVarExists("ttt_" .. v.abbr .. "_credits_starting") then
+				local i = 1
+
+				local bTk = ConVarExists("ttt_" .. v.abbr .. "_credits_traitorkill")
+				local bTd = ConVarExists("ttt_" .. v.abbr .. "_credits_traitordead")
+
+				if bTk then
+					i = i + 1
+				end
+
+				if bTd then
+					i = i + 1
+				end
+
+				local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
+				ectcclp:SetSize(390, 25 * i)
+				ectcclp:SetExpanded(b and 1 or 0)
+				ectcclp:SetLabel(v.name .. " credits")
+
+				b = false
+
+				local ectclst = vgui.Create("DPanelList", ectcclp)
+				ectclst:SetPos(5, 25)
+				ectclst:SetSize(390, 25 * i)
+				ectclst:SetSpacing(5)
+
+				local ecdccs = xlib.makeslider{label = "ttt_" .. v.abbr .. "_credits_starting", min = 0, max = 10, repconvar = "rep_ttt_" .. v.abbr .. "_credits_starting", parent = ectclst}
+				ectclst:AddItem(ecdccs)
+
+				if bTk then
+					local ecdctk = xlib.makeslider{label = "ttt_" .. v.abbr .. "_credits_traitorkill", min = 0, max = 10, repconvar = "rep_ttt_" .. v.abbr .. "_credits_traitorkill", parent = ectclst}
+					ectclst:AddItem(ecdctk)
+				end
+
+				if bTd then
+					local ecdctd = xlib.makeslider{label = "ttt_" .. v.abbr .. "_credits_traitordead", min = 0, max = 10, repconvar = "rep_ttt_" .. v.abbr .. "_credits_traitordead", parent = ectclst}
+					ectclst:AddItem(ecdctd)
+				end
+			end
+		end
+	end
 end
 
 xgui.hookEvent("onProcessModules", nil, ecpnl.processModules)
@@ -648,7 +646,7 @@ xgui.addSubModule("Equipment credits", ecpnl, nil, "terrortown_settings")
 --------------------Prop possession Module--------------------
 local pppnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
-local ppclp = vgui.Create("DCollapsibleCategory", pppnl) 
+local ppclp = vgui.Create("DCollapsibleCategory", pppnl)
 ppclp:SetSize(390, 120)
 ppclp:SetExpanded(1)
 ppclp:SetLabel("Prop possession")
@@ -682,7 +680,7 @@ xgui.addSubModule("Prop possession", pppnl, nil, "terrortown_settings")
 --------------------Admin-related Module--------------------
 local arpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
-local arclp = vgui.Create("DCollapsibleCategory", arpnl) 
+local arclp = vgui.Create("DCollapsibleCategory", arpnl)
 arclp:SetSize(390, 120)
 arclp:SetExpanded(1)
 arclp:SetLabel("Admin-related")
@@ -707,7 +705,7 @@ xgui.addSubModule("Admin-related", arpnl, nil, "terrortown_settings")
 --------------------Miscellaneous Module--------------------
 local miscpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
-local miscclp = vgui.Create("DCollapsibleCategory", miscpnl) 
+local miscclp = vgui.Create("DCollapsibleCategory", miscpnl)
 miscclp:SetSize(390, 120)
 miscclp:SetExpanded(1)
 miscclp:SetLabel("Miscellaneous")
