@@ -3,7 +3,7 @@ if SERVER then
 	AddCSLuaFile("ulxtttdevcolour.lua")
 else
 	function ulxtttdevcolour(ply)
-		local sid = ply:SteamID()
+		local sid = ply:SteamID64()
 
 		if sid == "STEAM_0:1:31456488" or sid == "STEAM_1:1:44782680" then
 			return Color(100, 240, 105, 255)

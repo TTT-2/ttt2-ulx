@@ -206,7 +206,7 @@ hook.Add("TTTBeginRound", "SlayPlayersNextRound", function()
 
 			table.insert(affected_plys, v)
 
-			timer.Create("check" .. v:SteamID(), 0.1, 0, function() --workaround for issue with tommys damage log
+			timer.Create("check" .. v:SteamID64(), 0.1, 0, function() --workaround for issue with tommys damage log
 				v:Kill()
 
 				GAMEMODE:PlayerSilentDeath(v)
@@ -227,15 +227,19 @@ hook.Add("TTTBeginRound", "SlayPlayersNextRound", function()
 				v:SetTeam(TEAM_SPEC)
 
 				if v:IsSpec() then
-					timer.Remove("check" .. v:SteamID())
+					timer.Remove("check" .. v:SteamID64())
 
 					return
 				end
 			end)
 
-			timer.Create("traitorcheck" .. v:SteamID(), 1, 0, function() -- have to wait for gamemode before doing this
+			timer.Create("traitorcheck" .. v:SteamID64(), 1, 0, function() -- have to wait for gamemode before doing this
 				if not TTT2 and v:IsRole(ROLE_TRAITOR) or TTT2 and v:HasTeam(TEAM_TRAITOR) then
-					SendConfirmedTeam(TEAM_TRAITOR)
+					if TTT2 then
+						SendConfirmedTeam(TEAM_TRAITOR)
+					else
+						SendConfirmedTraitors()
+					end
 
 					SCORE:HandleBodyFound(v, v)
 				end
@@ -309,12 +313,8 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 	if GetConVar("gamemode"):GetString() ~= "terrortown" then
 		ULib.tsayError(calling_ply, gamemode_error, true)
 	else
+		local role, role_grammar, role_string, role_credits
 		local affected_plys = {}
-
-		local role
-		local role_grammar
-		local role_string
-		local role_credits
 
 		if not TTT2 then
 			if target_role == "traitor" or target_role == "t" then
@@ -381,8 +381,6 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 
 				v:SetCredits(role_credits)
 
-				SendFullStateUpdate()
-
 				table.insert(affected_plys, v)
 			end
 		end
@@ -392,6 +390,8 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 
 			send_messages(affected_plys, "Your role has been set to " .. role_string .. ".")
 		end
+
+		SendFullStateUpdate()
 	end
 end
 
@@ -517,7 +517,7 @@ function ulx.respawn(calling_ply, target_plys, should_silent)
 			elseif GetRoundState() == 1 then
 				ULib.tsayError(calling_ply, "Waiting for players!", true)
 			elseif v:Alive() and v:IsSpec() then -- players arent really dead when they are spectating, we need to handle that correctly
-				timer.Remove("traitorcheck" .. v:SteamID())
+				timer.Remove("traitorcheck" .. v:SteamID64())
 
 				v:ConCommand("ttt_spectator_mode 0") -- just incase they are in spectator mode take them out of it
 
@@ -551,7 +551,7 @@ function ulx.respawn(calling_ply, target_plys, should_silent)
 			elseif v:Alive() then
 				ULib.tsayError(calling_ply, v:Nick() .. " is already alive!", true)
 			else
-				timer.Remove("traitorcheck" .. v:SteamID())
+				timer.Remove("traitorcheck" .. v:SteamID64())
 
 				local corpse = corpse_find(v)
 
@@ -607,7 +607,7 @@ function ulx.respawntp(calling_ply, target_ply, should_silent)
 		elseif GetRoundState() == 1 then
 			ULib.tsayError(calling_ply, "Waiting for players!", true)
 		elseif target_ply:Alive() and target_ply:IsSpec() then
-			timer.Remove("traitorcheck" .. target_ply:SteamID())
+			timer.Remove("traitorcheck" .. target_ply:SteamID64())
 
 			target_ply:ConCommand("ttt_spectator_mode 0")
 
@@ -653,7 +653,7 @@ function ulx.respawntp(calling_ply, target_ply, should_silent)
 		elseif target_ply:Alive() then
 			ULib.tsayError(calling_ply, target_ply:Nick() .. " is already alive!", true)
 		else
-			timer.Remove("traitorcheck" .. target_ply:SteamID())
+			timer.Remove("traitorcheck" .. target_ply:SteamID64())
 
 			local t = {}
 			t.start = calling_ply:GetPos() + Vector(0, 0, 32) -- Move them up a bit so they can travel across the ground
