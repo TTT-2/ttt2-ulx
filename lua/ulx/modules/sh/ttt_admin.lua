@@ -36,10 +36,6 @@ function updateRoles()
 		if TTT2 then
 			local rd = GetRoleByName(v)
 
-			if rd == INNOCENT then
-				rd = GetRoleByAbbr(v)
-			end
-
 			if not rd.notSelectable then
 				table.insert(ulx.target_role, v)
 			end
@@ -1107,7 +1103,7 @@ restartround:help("Restarts the round.")
 ---[End]----------------------------------------------------------------------------------------
 
 -- update roles table
-hook.Add("Initialize", "TTT2UlxSync", function(first)
+hook.Add("Initialize", "TTT2UlxSync", function()
 	table.Empty(ulx.rolesTbl)
 
 	for _, v in pairs(GetRoles()) do
