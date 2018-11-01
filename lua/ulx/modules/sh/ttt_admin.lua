@@ -354,7 +354,7 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 
 		for i = 1, #target_plys do
 			local v = target_plys[i]
-			local current_role = TTT2 and v:GetSubRole() or v:GetRole()
+			local current_role = TTT2 and v:GetSubRole() or not TTT2 and v:GetRole()
 
 			if ulx.getExclusive(v, calling_ply) then
 				ULib.tsayError(calling_ply, ulx.getExclusive(v, calling_ply), true)
@@ -438,7 +438,7 @@ function RemoveBoughtWeapons(ply)
 
 		if wep and type(wep.CanBuy) == "table" then
 			for _, weprole in pairs(wep.CanBuy) do
-				if weprole == ply:GetRole() and ply:HasWeapon(wep_class) then
+				if (TTT2 and weprole == ply:GetSubRole() or not TTT2 and weprole == ply:GetRole()) and ply:HasWeapon(wep_class) then
 					ply:StripWeapon(wep_class)
 				end
 			end
@@ -450,7 +450,7 @@ end
 @param  {[PlayerObject]} ply [The player who will have their loadout weapons removed.]
 --]]
 function RemoveLoadoutWeapons(ply)
-	local weps = GetLoadoutWeapons(GetRoundState() == ROUND_PREP and ROLE_INNOCENT or ply:GetRole())
+	local weps = GetLoadoutWeapons(GetRoundState() == ROUND_PREP and ROLE_INNOCENT or (TTT2 and ply:GetSubRole() or not TTT2 and ply:GetRole()))
 
 	for _, cls in pairs(weps) do
 		if ply:HasWeapon(cls) then
@@ -463,7 +463,7 @@ end
 @param  {[PlayerObject]} ply [The player who will have their loadout weapons given.]
 --]]
 function GiveLoadoutWeapons(ply)
-	local r = GetRoundState() == ROUND_PREP and ROLE_INNOCENT or ply:GetRole()
+	local r = GetRoundState() == ROUND_PREP and ROLE_INNOCENT or (TTT2 and ply:GetSubRole() or not TTT2 and ply:GetRole())
 	local weps = GetLoadoutWeapons(r)
 
 	if not weps then return end
@@ -479,7 +479,7 @@ end
 @param  {[PlayerObject]} ply [The player who the equipment will be given to.]
 --]]
 function GiveLoadoutItems(ply)
-	local items = EquipmentItems[ply:GetRole()]
+	local items = EquipmentItems[TTT2 and ply:GetSubRole() or not TTT2 and ply:GetRole()]
 
 	if items then
 		for _, item in pairs(items) do
