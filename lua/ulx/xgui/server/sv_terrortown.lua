@@ -214,7 +214,9 @@ hook.Add("Initialize", "TTT2UlxInitCVars", function()
 	updateCVarsForTTT2ULXRoles()
 
 	updateDynamicCVarsForTTT2ULXRoles()
+end)
 
+hook.Add("TTT2FinishedLoading", "TTT2UlxInitSWEPCVars", function()
 	updateWeaponCVarsForTTT2ULX()
 end)
 
