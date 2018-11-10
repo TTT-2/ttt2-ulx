@@ -205,6 +205,8 @@ local function init()
 		if CLASSES then
 			updateCVarsForTTTCULXClasses()
 		end
+
+		hook.Run("TTTUlxInitRWCVar", "xgui_gmsettings")
 	end
 end
 

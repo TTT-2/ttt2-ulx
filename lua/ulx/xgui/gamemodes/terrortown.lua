@@ -272,6 +272,8 @@ else
 	end
 end
 
+hook.Run("TTTUlxModifyGameplaySettings", gppnl)
+
 --DNA
 local gpdnaclp = vgui.Create("DCollapsibleCategory", gppnl)
 gpdnaclp:SetSize(390, 45)
@@ -741,3 +743,5 @@ misclst:AddItem(miscswi)
 
 xgui.hookEvent("onProcessModules", nil, miscpnl.processModules)
 xgui.addSubModule("Miscellaneous", miscpnl, nil, "terrortown_settings")
+
+hook.Run("TTTUlxModifySettings", "terrortown_settings")
