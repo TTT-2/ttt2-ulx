@@ -66,7 +66,7 @@ local function updateDynamicCVarsForTTT2ULXRoles()
 	hook.Run("TTTUlxDynamicRCVars", ULX_DYNAMIC_RCVARS)
 
 	for _, v in pairs(GetRoles()) do
-		if v ~= INNOCENT and ULX_DYNAMIC_RCVARS[v.index] then
+		if ULX_DYNAMIC_RCVARS[v.index] then
 			for _, cvar in pairs(ULX_DYNAMIC_RCVARS[v.index]) do
 				ULib.replicatedWritableCvar(cvar.cvar, "rep_" .. cvar.cvar, GetConVar(cvar.cvar):GetInt(), true, false, "xgui_gmsettings")
 			end
@@ -214,11 +214,11 @@ xgui.addSVModule("terrortown", init)
 
 hook.Add("Initialize", "TTT2UlxInitCVars", function()
 	updateCVarsForTTT2ULXRoles()
-
-	updateDynamicCVarsForTTT2ULXRoles()
 end)
 
 hook.Add("TTT2FinishedLoading", "TTT2UlxInitSWEPCVars", function()
+	updateDynamicCVarsForTTT2ULXRoles()
+
 	updateWeaponCVarsForTTT2ULX()
 end)
 
