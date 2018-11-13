@@ -67,7 +67,18 @@ local function updateDynamicCVarsForTTT2ULXRoles()
 
 	for _, v in pairs(GetRoles()) do
 		if ULX_DYNAMIC_RCVARS[v.index] then
-			for _, cvar in pairs(ULX_DYNAMIC_RCVARS[v.index]) do
+			for k, cvar in pairs(ULX_DYNAMIC_RCVARS[v.index]) do
+				if not cvar.cvar or not GetConVar(cvar.cvar) then
+					print()
+					print("[TTT2][ULX][ERROR] Can't add CVAR! MALFORM")
+					PrintTable(cvar)
+					print()
+
+					table.remove(ULX_DYNAMIC_RCVARS[v.index], k)
+
+					return
+				end
+
 				ULib.replicatedWritableCvar(cvar.cvar, "rep_" .. cvar.cvar, GetConVar(cvar.cvar):GetInt(), true, false, "xgui_gmsettings")
 			end
 		end
