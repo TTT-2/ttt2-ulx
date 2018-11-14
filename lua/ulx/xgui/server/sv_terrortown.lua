@@ -161,7 +161,7 @@ local function init()
 		ULib.replicatedWritableCvar("ttt_ragdoll_pinning_innocents", "rep_ttt_ragdoll_pinning_innocents", GetConVar("ttt_ragdoll_pinning_innocents"):GetInt(), true, false, "xgui_gmsettings")
 
 		if TTT2 then
-			ULib.replicatedWritableCvar("ttt_identify_body_woconfirm", "rep_ttt_identify_body_woconfirm", GetConVar("rep_ttt_identify_body_woconfirm"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt_identify_body_woconfirm", "rep_ttt_identify_body_woconfirm", GetConVar("ttt_identify_body_woconfirm"):GetInt(), true, false, "xgui_gmsettings")
 		end
 
 		-- karma
