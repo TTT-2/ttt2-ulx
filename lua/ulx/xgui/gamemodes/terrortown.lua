@@ -322,7 +322,7 @@ gpogsclp:SetLabel("Other gameplay settings")
 
 local gpogslst = vgui.Create("DPanelList", gpogsclp)
 gpogslst:SetPos(5, 25)
-gpogslst:SetSize(390, TTT2 and 225 or 200)
+gpogslst:SetSize(390, TTT2 and 250 or 200)
 gpogslst:SetSpacing(5)
 
 if TTT2 then
@@ -356,6 +356,11 @@ gpogslst:AddItem(gprdp)
 
 local gprdpi = xlib.makecheckbox{label = "ttt_ragdoll_pinning_innocents (def. 0)", repconvar = "rep_ttt_ragdoll_pinning_innocents", parent = gpogslst}
 gpogslst:AddItem(gprdpi)
+
+if TTT2 then
+	local gpibwoc = xlib.makecheckbox{label = "ttt_identify_body_woconfirm (def. 0)", repconvar = "rep_ttt_identify_body_woconfirm", parent = gpogslst}
+	gpogslst:AddItem(gpibwoc)
+end
 
 xgui.hookEvent("onProcessModules", nil, gppnl.processModules)
 xgui.addSubModule("Gameplay", gppnl, nil, "terrortown_settings")
