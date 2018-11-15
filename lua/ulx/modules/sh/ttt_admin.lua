@@ -1104,14 +1104,16 @@ restartround:help("Restarts the round.")
 
 -- update roles table
 hook.Add("Initialize", "TTT2UlxSync", function()
-	table.Empty(ulx.rolesTbl)
+	if TTT2 then
+		table.Empty(ulx.rolesTbl)
 
-	for _, v in pairs(GetRoles()) do
-		if not v.notSelectable then
-			table.insert(ulx.rolesTbl, v.name)
+		for _, v in pairs(GetRoles()) do
+			if not v.notSelectable then
+				table.insert(ulx.rolesTbl, v.name)
+			end
 		end
-	end
 
-	updateRoles()
-	updateNextround()
+		updateRoles()
+		updateNextround()
+	end
 end)

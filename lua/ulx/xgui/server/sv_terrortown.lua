@@ -228,7 +228,9 @@ end
 xgui.addSVModule("terrortown", init)
 
 hook.Add("Initialize", "TTT2UlxInitCVars", function()
-	updateCVarsForTTT2ULXRoles()
+	if TTT2 then
+		updateCVarsForTTT2ULXRoles()
+	end
 end)
 
 hook.Add("TTT2FinishedLoading", "TTT2UlxInitSWEPCVars", function()
