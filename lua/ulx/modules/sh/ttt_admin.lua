@@ -369,12 +369,7 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 			elseif current_role == role then
 				ULib.tsayError(calling_ply, v:Nick() .. " is already " .. role_string, true)
 			else
-				if not TTT2 then
-					v:SetRole(role)
-				else
-					v:UpdateRole(role)
-				end
-
+				v:SetRole(role)
 				v:SetCredits(role_credits)
 
 				table.insert(affected_plys, v)
@@ -833,10 +828,8 @@ hook.Add("Initialize", "InitializeSetupForTTTMod", function()
 						if v then
 							local ply = player.GetByUniqueID(k)
 
-							ply:UpdateRole(role.index)
+							ply:SetRole(role.index)
 							ply:AddCredits(GetStartingCredits(role.abbr))
-
-							hook.Run("TTT2_RoleTypeSet", ply)
 
 							ply:ChatPrint("You have been made a " .. role.name .. " by an admin this round.")
 
