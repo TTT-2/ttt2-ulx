@@ -21,8 +21,6 @@ ROLE_TRAITOR = ROLE_TRAITOR or 2
 ROLE_DETECTIVE = ROLE_DETECTIVE or 3
 
 --[Ulx Completes]------------------------------------------------------------------------------
-PlysMarkedForRole = {}
-
 ulx.rolesTbl = {}
 table.insert(ulx.rolesTbl, "traitor")
 table.insert(ulx.rolesTbl, "detective")
@@ -394,100 +392,6 @@ force:defaultAccess(ULib.ACCESS_SUPERADMIN)
 force:setOpposite("ulx sforce", {nil, nil, nil, true}, "!sforce", true)
 force:help("Force <target(s)> to become a specified role.")
 
---[Helper Functions]---------------------------------------------------------------------------
---[[GetLoadoutWeapons][Returns the loadout weapons]
-@param  {[Number]} r [The role of the loadout weapons to be returned]
-@return {[table]}    [A table of loadout weapons for the given role.]
---]]
-function GetLoadoutWeapons(r)
-	local tbl = {}
-	if not TTT2 then
-		tbl = {
-			[ROLE_INNOCENT] = {},
-			[ROLE_TRAITOR] = {},
-			[ROLE_DETECTIVE] = {}
-		}
-	else
-		for _, v in pairs(GetRoles()) do
-			tbl[v.index] = {}
-		end
-	end
-
-	for _, w in pairs(weapons.GetList()) do
-		if w and type(w.InLoadoutFor) == "table" then
-			for _, wrole in pairs(w.InLoadoutFor) do
-				table.insert(tbl[wrole], WEPS.GetClass(w))
-			end
-		end
-	end
-
-	return tbl[r]
-end
-
---[[RemoveBoughtWeapons][Removes previously bought weapons from the shop.]
-@param  {[PlayerObject]} ply [The player who will have their bought weapons removed.]
---]]
-function RemoveBoughtWeapons(ply)
-	for _, wep in pairs(weapons.GetList()) do
-		local wep_class = WEPS.GetClass(wep)
-
-		if wep and type(wep.CanBuy) == "table" then
-			for _, weprole in pairs(wep.CanBuy) do
-				if (TTT2 and weprole == ply:GetSubRole() or not TTT2 and weprole == ply:GetRole()) and ply:HasWeapon(wep_class) then
-					ply:StripWeapon(wep_class)
-				end
-			end
-		end
-	end
-end
-
---[[RemoveLoadoutWeapons][Removes all loadout weapons for the given player.]
-@param  {[PlayerObject]} ply [The player who will have their loadout weapons removed.]
---]]
-function RemoveLoadoutWeapons(ply)
-	local weps = GetLoadoutWeapons(GetRoundState() == ROUND_PREP and ROLE_INNOCENT or (TTT2 and ply:GetSubRole() or not TTT2 and ply:GetRole()))
-
-	for _, cls in pairs(weps) do
-		if ply:HasWeapon(cls) then
-			ply:StripWeapon(cls)
-		end
-	end
-end
-
---[[GiveLoadoutWeapons][Gives the loadout weapons for that player.]
-@param  {[PlayerObject]} ply [The player who will have their loadout weapons given.]
---]]
-function GiveLoadoutWeapons(ply)
-	local r = GetRoundState() == ROUND_PREP and ROLE_INNOCENT or (TTT2 and ply:GetSubRole() or not TTT2 and ply:GetRole())
-	local weps = GetLoadoutWeapons(r)
-
-	if not weps then return end
-
-	for _, cls in pairs(weps) do
-		if not ply:HasWeapon(cls) then
-			ply:Give(cls)
-		end
-	end
-end
-
---[[GiveLoadoutItems][Gives the default loadout items for that role.]
-@param  {[PlayerObject]} ply [The player who the equipment will be given to.]
---]]
-function GiveLoadoutItems(ply)
-	local items = EquipmentItems[TTT2 and ply:GetSubRole() or not TTT2 and ply:GetRole()]
-
-	if items then
-		for _, item in pairs(items) do
-			if item.loadout and item.id then
-				ply:GiveEquipmentItem(item.id)
-			end
-		end
-	end
-end
---[End]----------------------------------------------------------------------------------------
-
-
-
 --[Respawn]------------------------------------------------------------------------------------
 --[[ulx.respawn][Respawns < target(s) > ]
 @param  {[PlayerObject]} calling_ply   [The player who used the command.]
@@ -777,10 +681,9 @@ hook.Add(ULib.HOOK_UCLCHANGED, "ULXNextRoundUpdate", updateNextround)
 
 updateNextround() -- Init
 
-PlysMarkedForRole = {}
-
 hook.Add("Initialize", "InitializeSetupForTTTMod", function()
 	if not TTT2 then
+		_G["PlysMarkedForRole"] = {}
 		PlysMarkedForRole[ROLE_TRAITOR] = {}
 		PlysMarkedForRole[ROLE_DETECTIVE] = {}
 
@@ -811,31 +714,6 @@ hook.Add("Initialize", "InitializeSetupForTTTMod", function()
 					ply:ChatPrint("You have been made a detective by an admin this round.")
 
 					PlysMarkedForRole[ROLE_DETECTIVE][k] = false
-				end
-			end
-		end)
-	else
-		for _, v in pairs(GetRoles()) do
-			if v ~= INNOCENT and not v.notSelectable then
-				PlysMarkedForRole[v.index] = {}
-			end
-		end
-
-		hook.Add("TTTBeginRound", "Admin_Round_Role", function()
-			for _, role in pairs(GetRoles()) do
-				if role ~= INNOCENT and not role.notSelectable and PlysMarkedForRole[role.index] then
-					for k, v in pairs(PlysMarkedForRole[role.index]) do
-						if v then
-							local ply = player.GetByUniqueID(k)
-
-							ply:SetRole(role.index)
-							ply:AddCredits(GetStartingCredits(role.abbr))
-
-							ply:ChatPrint("You have been made a " .. role.name .. " by an admin this round.")
-
-							PlysMarkedForRole[role.index][k] = false
-						end
-					end
 				end
 			end
 		end)
@@ -890,39 +768,21 @@ function ulx.nextround(calling_ply, target_plys, next_round)
 					end
 				end
 			else
-				local marked = false
-
-				for _, role in pairs(GetRoles()) do
-					if role ~= INNOCENT and not role.notSelectable then
-						PlysMarkedForRole[role.index] = PlysMarkedForRole[role.index] or {}
-
-						if PlysMarkedForRole[role.index][ID] then
-							marked = true
-
-							break
-						end
-					end
-				end
+				if not PLYFORCEDROLES then return end
 
 				if next_round ~= "unmark" then
-					for _, role in pairs(GetRoles()) do
-						if next_round == role.name and role ~= INNOCENT and not role.notSelectable then
-							if marked then
-								ULib.tsayError(calling_ply, "That player is already marked for the next round.", true)
-							else
-								PlysMarkedForRole[role.index][ID] = true
+					local rd = GetRoleByName(next_round)
 
-								table.insert(affected_plys, v)
-							end
-						end
+					if next_round == rd.name and not rd.notSelectable then
+						PLYFORCEDROLES[ID] = rd.index
+
+						table.insert(affected_plys, v)
 					end
 				else
-					for _, role in pairs(GetRoles()) do
-						if PlysMarkedForRole[role.index][ID] then
-							PlysMarkedForRole[role.index][ID] = false
+					if PLYFORCEDROLES[ID] then
+						PLYFORCEDROLES[ID] = nil
 
-							table.insert(affected_plys, v)
-						end
+						table.insert(affected_plys, v)
 					end
 				end
 			end
