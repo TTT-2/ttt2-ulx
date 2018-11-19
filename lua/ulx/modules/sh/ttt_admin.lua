@@ -800,7 +800,51 @@ local nxtr = ulx.command(CATEGORY_NAME, "ulx forcenr", ulx.nextround, "!nr")
 nxtr:addParam{type = ULib.cmds.PlayersArg}
 nxtr:addParam{type = ULib.cmds.StringArg, completes = ulx.next_round, hint = "Next Round", error = "invalid role \"%s\" specified", ULib.cmds.restrictToCompletes}
 nxtr:defaultAccess(ULib.ACCESS_SUPERADMIN)
-nxtr:help("Forces the target to be a special role in the following round.")
+nxtr:help("Forces the target to be a special role in the following round. This just happen if the role is selectable (enabled and enough players).")
+
+if TTT2 then
+	function ulx.hardnextround(calling_ply, target_plys, next_round)
+		if GetConVar("gamemode"):GetString() ~= "terrortown" then
+			ULib.tsayError(calling_ply, gamemode_error, true)
+		else
+			local affected_plys = {}
+
+			for i = 1, #target_plys do
+				local v = target_plys[i]
+
+				if not PLYFINALROLES then return end
+
+				if next_round ~= "unmark" then
+					local rd = GetRoleByName(next_round)
+
+					if next_round == rd.name and not rd.notSelectable then
+						PLYFINALROLES[v] = rd.index
+
+						table.insert(affected_plys, v)
+					end
+				else
+					if PLYFINALROLES[v] then
+						PLYFINALROLES[v] = nil
+
+						table.insert(affected_plys, v)
+					end
+				end
+			end
+
+			if next_round == "unmark" then
+				ulx.fancyLogAdmin(calling_ply, true, "#A has hard unmarked #T.", affected_plys)
+			else
+				ulx.fancyLogAdmin(calling_ply, true, "#A hard marked #T to be #s next round.", affected_plys, next_round)
+			end
+		end
+	end
+
+	local hnxtr = ulx.command(CATEGORY_NAME, "ulx hardforcenr", ulx.hardnextround, "!hnr")
+	hnxtr:addParam{type = ULib.cmds.PlayersArg}
+	hnxtr:addParam{type = ULib.cmds.StringArg, completes = ulx.next_round, hint = "Next Round", error = "invalid role \"%s\" specified", ULib.cmds.restrictToCompletes}
+	hnxtr:defaultAccess(ULib.ACCESS_SUPERADMIN)
+	hnxtr:help("Hard forces the target to be a special role in the following round.")
+end
 
 ---[Identify Corpse Thanks Neku]----------------------------------------------------------------------------
 function ulx.identify(calling_ply, target_ply, unidentify)
