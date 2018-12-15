@@ -333,13 +333,13 @@ gpvcblst:AddItem(gpvdr)
 
 --Other gameplay settings
 local gpogsclp = vgui.Create("DCollapsibleCategory", gppnl)
-gpogsclp:SetSize(390, TTT2 and 275 or 200)
+gpogsclp:SetSize(390, TTT2 and 350 or 200)
 gpogsclp:SetExpanded(0)
 gpogsclp:SetLabel("Other gameplay settings")
 
 local gpogslst = vgui.Create("DPanelList", gpogsclp)
 gpogslst:SetPos(5, 25)
-gpogslst:SetSize(390, TTT2 and 275 or 200)
+gpogslst:SetSize(390, TTT2 and 350 or 200)
 gpogslst:SetSpacing(5)
 
 if TTT2 then
@@ -348,6 +348,15 @@ if TTT2 then
 
 	local gpnren2 = xlib.makeslider{label = "ttt_max_roles (def. 0)", min = 0, max = 64, repconvar = "rep_ttt_max_roles", parent = gpogslst}
 	gpogslst:AddItem(gpnren2)
+
+	local gpnren3 = xlib.makeslider{label = "ttt_max_roles_pct (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_max_roles_pct", parent = gpogslst}
+	gpogslst:AddItem(gpnren3)
+
+	local gpnren4 = xlib.makeslider{label = "ttt_max_baseroles (def. 0)", min = 0, max = 64, repconvar = "rep_ttt_max_baseroles", parent = gpogslst}
+	gpogslst:AddItem(gpnren4)
+
+	local gpnren5 = xlib.makeslider{label = "ttt_max_baseroles_pct (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_max_baseroles_pct", parent = gpogslst}
+	gpogslst:AddItem(gpnren5)
 end
 
 local gpminply = xlib.makeslider{label = "ttt_minimum_players (def. 2)", min = 1, max = 64, repconvar = "rep_ttt_minimum_players", parent = gpogslst}

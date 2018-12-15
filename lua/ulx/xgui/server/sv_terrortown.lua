@@ -6,6 +6,9 @@ local function updateCVarsForTTT2ULXRoles()
 	ULib.replicatedWritableCvar("ttt_newroles_enabled", "rep_ttt_newroles_enabled", GetConVar("ttt_newroles_enabled"):GetInt(), true, true, "xgui_gmsettings")
 	ULib.replicatedWritableCvar("ttt_min_inno_pct", "rep_ttt_min_inno_pct", GetConVar("ttt_min_inno_pct"):GetFloat(), true, true, "xgui_gmsettings")
 	ULib.replicatedWritableCvar("ttt_max_roles", "rep_ttt_max_roles", GetConVar("ttt_max_roles"):GetInt(), true, true, "xgui_gmsettings")
+	ULib.replicatedWritableCvar("ttt_max_roles_pct", "rep_ttt_max_roles_pct", GetConVar("ttt_max_roles_pct"):GetFloat(), true, true, "xgui_gmsettings")
+	ULib.replicatedWritableCvar("ttt_max_baseroles", "rep_ttt_max_baseroles", GetConVar("ttt_max_baseroles"):GetInt(), true, true, "xgui_gmsettings")
+	ULib.replicatedWritableCvar("ttt_max_baseroles_pct", "rep_ttt_max_baseroles_pct", GetConVar("ttt_max_baseroles_pct"):GetFloat(), true, true, "xgui_gmsettings")
 
 	for _, v in pairs(GetRoles()) do
 		if v ~= INNOCENT and not v.notSelectable then
