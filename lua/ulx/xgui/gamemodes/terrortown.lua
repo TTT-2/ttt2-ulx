@@ -198,7 +198,24 @@ else
 	local b = true
 
 	for _, v in pairs(GetSortedRoles()) do
-		if v ~= INNOCENT then
+		if v == INNOCENT then
+			local size = 25
+
+			local gptdcclp = vgui.Create("DCollapsibleCategory", gppnl)
+			gptdcclp:SetSize(390, size)
+			gptdcclp:SetExpanded(b and 1 or 0)
+			gptdcclp:SetLabel("" .. v.name)
+
+			b = false
+
+			local gptdlst = vgui.Create("DPanelList", gptdcclp)
+			gptdlst:SetPos(5, 25)
+			gptdlst:SetSize(390, size)
+			gptdlst:SetSpacing(5)
+
+			local tpercet = xlib.makeslider{label = "ttt_min_inno_pct", min = 0.01, max = 1, decimal = 2, repconvar = "rep_ttt_min_inno_pct", parent = gptdlst}
+			gptdlst:AddItem(tpercet)
+		else
 			local tmp = 0
 
 			if ULX_DYNAMIC_RCVARS[v.index] then
@@ -233,10 +250,10 @@ else
 				gptdlst:SetSpacing(5)
 
 				if not v.notSelectable then
-					local tpercet = xlib.makeslider{label = "ttt_" .. v.name .. "_pct", min = 0.01, max = 2, decimal = 2, repconvar = "rep_ttt_" .. v.name .. "_pct", parent = gptdlst}
+					local tpercet = xlib.makeslider{label = "ttt_" .. v.name .. "_pct", min = 0.01, max = 1, decimal = 2, repconvar = "rep_ttt_" .. v.name .. "_pct", parent = gptdlst}
 					gptdlst:AddItem(tpercet)
 
-					local tmax = xlib.makeslider{label = "ttt_" .. v.name .. "_max", min = 1, max = 80, repconvar = "rep_ttt_" .. v.name .. "_max", parent = gptdlst}
+					local tmax = xlib.makeslider{label = "ttt_" .. v.name .. "_max", min = 1, max = 64, repconvar = "rep_ttt_" .. v.name .. "_max", parent = gptdlst}
 					gptdlst:AddItem(tmax)
 
 					if v ~= ROLES.TRAITOR then
@@ -245,7 +262,7 @@ else
 							gptdlst:AddItem(drs)
 						end
 
-						local dmp = xlib.makeslider{label = "ttt_" .. v.name .. "_min_players", min = 1, max = 50, repconvar = "rep_ttt_" .. v.name .. "_min_players", parent = gptdlst}
+						local dmp = xlib.makeslider{label = "ttt_" .. v.name .. "_min_players", min = 1, max = 64, repconvar = "rep_ttt_" .. v.name .. "_min_players", parent = gptdlst}
 						gptdlst:AddItem(dmp)
 
 						local dkm = xlib.makeslider{label = "ttt_" .. v.name .. "_karma_min", min = 1, max = 1000, repconvar = "rep_ttt_" .. v.name .. "_karma_min", parent = gptdlst}
@@ -316,21 +333,24 @@ gpvcblst:AddItem(gpvdr)
 
 --Other gameplay settings
 local gpogsclp = vgui.Create("DCollapsibleCategory", gppnl)
-gpogsclp:SetSize(390, TTT2 and 225 or 200)
+gpogsclp:SetSize(390, TTT2 and 275 or 200)
 gpogsclp:SetExpanded(0)
 gpogsclp:SetLabel("Other gameplay settings")
 
 local gpogslst = vgui.Create("DPanelList", gpogsclp)
 gpogslst:SetPos(5, 25)
-gpogslst:SetSize(390, TTT2 and 250 or 200)
+gpogslst:SetSize(390, TTT2 and 275 or 200)
 gpogslst:SetSpacing(5)
 
 if TTT2 then
 	local gpnren = xlib.makecheckbox{label = "ttt_newroles_enabled (def. 1)", repconvar = "rep_ttt_newroles_enabled", parent = gpogslst}
 	gpogslst:AddItem(gpnren)
+
+	local gpnren2 = xlib.makeslider{label = "ttt_max_roles (def. 0)", min = 0, max = 64, repconvar = "rep_ttt_max_roles", parent = gpogslst}
+	gpogslst:AddItem(gpnren2)
 end
 
-local gpminply = xlib.makeslider{label = "ttt_minimum_players (def. 2)", min = 1, max = 10, repconvar = "rep_ttt_minimum_players", parent = gpogslst}
+local gpminply = xlib.makeslider{label = "ttt_minimum_players (def. 2)", min = 1, max = 64, repconvar = "rep_ttt_minimum_players", parent = gpogslst}
 gpogslst:AddItem(gpminply)
 
 local gpprdm = xlib.makecheckbox{label = "ttt_postround_dm (def. 0)", repconvar = "rep_ttt_postround_dm", parent = gpogslst}

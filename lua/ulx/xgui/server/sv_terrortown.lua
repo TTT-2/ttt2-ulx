@@ -4,10 +4,12 @@ ULX_DYNAMIC_RCVARS = {}
 
 local function updateCVarsForTTT2ULXRoles()
 	ULib.replicatedWritableCvar("ttt_newroles_enabled", "rep_ttt_newroles_enabled", GetConVar("ttt_newroles_enabled"):GetInt(), true, true, "xgui_gmsettings")
+	ULib.replicatedWritableCvar("ttt_min_inno_pct", "rep_ttt_min_inno_pct", GetConVar("ttt_min_inno_pct"):GetFloat(), true, true, "xgui_gmsettings")
+	ULib.replicatedWritableCvar("ttt_max_roles", "rep_ttt_max_roles", GetConVar("ttt_max_roles"):GetInt(), true, true, "xgui_gmsettings")
 
 	for _, v in pairs(GetRoles()) do
 		if v ~= INNOCENT and not v.notSelectable then
-			ULib.replicatedWritableCvar("ttt_" .. v.name .. "_pct", "rep_ttt_" .. v.name .. "_pct", GetConVar("ttt_" .. v.name .. "_pct"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt_" .. v.name .. "_pct", "rep_ttt_" .. v.name .. "_pct", GetConVar("ttt_" .. v.name .. "_pct"):GetFloat(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt_" .. v.name .. "_max", "rep_ttt_" .. v.name .. "_max", GetConVar("ttt_" .. v.name .. "_max"):GetInt(), true, false, "xgui_gmsettings")
 
 			if v ~= TRAITOR then
@@ -19,7 +21,7 @@ local function updateCVarsForTTT2ULXRoles()
 
 				-- roles credits
 				if ConVarExists("ttt_" .. v.abbr .. "_credits_starting") then
-					ULib.replicatedWritableCvar("ttt_" .. v.abbr .. "_credits_starting", "rep_ttt_" .. v.abbr .. "_credits_starting", GetConVar("ttt_" .. v.abbr .. "_credits_starting"):GetInt(), true, false, "xgui_gmsettings")
+					ULib.replicatedWritableCvar("ttt_" .. v.abbr .. "_credits_starting", "rep_ttt_" .. v.abbr .. "_credits_starting", GetConVar("ttt_" .. v.abbr .. "_credits_starting"):GetFloat(), true, false, "xgui_gmsettings")
 				end
 
 				if ConVarExists("ttt_" .. v.abbr .. "_credits_traitorkill") then
@@ -38,7 +40,7 @@ local function updateCVarsForTTT2ULXRoles()
 				end
 			else
 				-- traitor credits
-				ULib.replicatedWritableCvar("ttt_credits_starting", "rep_ttt_credits_starting", GetConVar("ttt_credits_starting"):GetInt(), true, false, "xgui_gmsettings")
+				ULib.replicatedWritableCvar("ttt_credits_starting", "rep_ttt_credits_starting", GetConVar("ttt_credits_starting"):GetFloat(), true, false, "xgui_gmsettings")
 				ULib.replicatedWritableCvar("ttt_credits_award_pct", "rep_ttt_credits_award_pct", GetConVar("ttt_credits_award_pct"):GetInt(), true, false, "xgui_gmsettings")
 				ULib.replicatedWritableCvar("ttt_credits_award_size", "rep_ttt_credits_award_size", GetConVar("ttt_credits_award_size"):GetInt(), true, false, "xgui_gmsettings")
 				ULib.replicatedWritableCvar("ttt_credits_award_repeat", "rep_ttt_credits_award_repeat", GetConVar("ttt_credits_award_repeat"):GetInt(), true, false, "xgui_gmsettings")
@@ -119,22 +121,22 @@ local function init()
 
 		if not TTT2 then
 			-- traitor and detective counts
-			ULib.replicatedWritableCvar("ttt_traitor_pct", "rep_ttt_traitor_pct", GetConVar("ttt_traitor_pct"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt_traitor_pct", "rep_ttt_traitor_pct", GetConVar("ttt_traitor_pct"):GetFloat(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt_traitor_max", "rep_ttt_traitor_max", GetConVar("ttt_traitor_max"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt_detective_pct", "rep_ttt_detective_pct", GetConVar("ttt_detective_pct"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt_detective_pct", "rep_ttt_detective_pct", GetConVar("ttt_detective_pct"):GetFloat(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt_detective_max", "rep_ttt_detective_max", GetConVar("ttt_detective_max"):GetInt(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt_detective_min_players", "rep_ttt_detective_min_players", GetConVar("ttt_detective_min_players"):GetInt(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt_detective_karma_min", "rep_ttt_detective_karma_min", GetConVar("ttt_detective_karma_min"):GetInt(), true, false, "xgui_gmsettings")
 
 			-- traitor credits
-			ULib.replicatedWritableCvar("ttt_credits_starting", "rep_ttt_credits_starting", GetConVar("ttt_credits_starting"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt_credits_starting", "rep_ttt_credits_starting", GetConVar("ttt_credits_starting"):GetFloat(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt_credits_award_pct", "rep_ttt_credits_award_pct", GetConVar("ttt_credits_award_pct"):GetInt(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt_credits_award_size", "rep_ttt_credits_award_size", GetConVar("ttt_credits_award_size"):GetInt(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt_credits_award_repeat", "rep_ttt_credits_award_repeat", GetConVar("ttt_credits_award_repeat"):GetInt(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt_credits_detectivekill", "rep_ttt_credits_detectivekill", GetConVar("ttt_credits_detectivekill"):GetInt(), true, false, "xgui_gmsettings")
 
 			-- detective credits
-			ULib.replicatedWritableCvar("ttt_det_credits_starting", "rep_ttt_det_credits_starting", GetConVar("ttt_det_credits_starting"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt_det_credits_starting", "rep_ttt_det_credits_starting", GetConVar("ttt_det_credits_starting"):GetFloat(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt_det_credits_traitorkill", "rep_ttt_det_credits_traitorkill", GetConVar("ttt_det_credits_traitorkill"):GetInt(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt_det_credits_traitordead", "rep_ttt_det_credits_traitordead", GetConVar("ttt_det_credits_traitordead"):GetInt(), true, false, "xgui_gmsettings")
 		end
