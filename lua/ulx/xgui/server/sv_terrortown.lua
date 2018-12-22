@@ -90,17 +90,6 @@ local function updateDynamicCVarsForTTT2ULXRoles()
 	end
 end
 
-local function updateWeaponCVarsForTTT2ULX()
-	-- update weapons cvars too
-	if TTTWEAPON_CVARS then
-		for _, cvarTbl in pairs(TTTWEAPON_CVARS) do
-			for _, cvar in pairs(cvarTbl) do
-				ULib.replicatedWritableCvar(cvar.cvar, "rep_" .. cvar.cvar, GetConVar(cvar.cvar):GetInt(), true, false, "xgui_gmsettings")
-			end
-		end
-	end
-end
-
 local function init()
 	if GetConVar("gamemode"):GetString() == "terrortown" then -- Only execute the following code if it's a terrortown gamemode
 		-- Preparation and post-round
@@ -218,8 +207,6 @@ local function init()
 			updateCVarsForTTT2ULXRoles()
 
 			updateDynamicCVarsForTTT2ULXRoles()
-
-			updateWeaponCVarsForTTT2ULX()
 		end
 
 		if CLASSES then
@@ -240,8 +227,6 @@ end)
 
 hook.Add("TTT2FinishedLoading", "TTT2UlxInitSWEPCVars", function()
 	updateDynamicCVarsForTTT2ULXRoles()
-
-	updateWeaponCVarsForTTT2ULX()
 end)
 
 hook.Add("TTTCPostClassesInit", "TTT2UlxInitClassesCVars", function()

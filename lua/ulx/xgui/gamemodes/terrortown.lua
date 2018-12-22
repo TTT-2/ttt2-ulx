@@ -440,42 +440,6 @@ if CLASSES then
 	xgui.addSubModule("Classes", clspnl, nil, "terrortown_settings")
 end
 
---------------------WEAPONS Module--------------------
-if TTTWEAPON_CVARS then
-	local wcvarspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
-
-	for wepCls, cvarTbl in pairs(TTTWEAPON_CVARS) do
-		local size = 0
-
-		for k in pairs(cvarTbl) do
-			size = size + 25
-		end
-
-		local wcvarsclp = vgui.Create("DCollapsibleCategory", wcvarspnl)
-		wcvarsclp:SetSize(390, size)
-		wcvarsclp:SetExpanded(0)
-		wcvarsclp:SetLabel(wepCls)
-
-		local wcvarslst = vgui.Create("DPanelList", wcvarsclp)
-		wcvarslst:SetPos(5, 25)
-		wcvarslst:SetSize(390, size)
-		wcvarslst:SetSpacing(5)
-
-		for _, cvar in pairs(cvarTbl) do
-			if cvar.checkbox then
-				local wcvarscl = xlib.makecheckbox{label = cvar.desc or cvar.cvar, repconvar = "rep_" .. cvar.cvar, parent = wcvarslst}
-				wcvarslst:AddItem(wcvarscl)
-			elseif cvar.slider then
-				local wcvarsrcl = xlib.makeslider{label = cvar.desc or cvar.cvar, min = cvar.min or 0, max = cvar.max or 1000, repconvar = "rep_" .. cvar.cvar, parent = wcvarslst}
-				wcvarslst:AddItem(wcvarsrcl)
-			end
-		end
-	end
-
-	xgui.hookEvent("onProcessModules", nil, wcvarspnl.processModules)
-	xgui.addSubModule("Weapons", wcvarspnl, nil, "terrortown_settings")
-end
-
 --------------------Karma Module--------------------
 local krmpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
