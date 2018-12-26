@@ -9,7 +9,7 @@
 ║──────────────────────────────────╚═╝────────╚═╝────────╚═╝───────────────────────────────────║
 ║                                                                                              ║
 ----------------------------------------------------------------------------------------------]]
-local CATEGORY_NAME = "TTT Weaponshop"
+local CATEGORY_NAME = "TTT ShopEditor"
 local gamemode_error = "The current gamemode is not trouble in terrorest town"
 
 function GamemodeCheck(calling_ply)
@@ -30,16 +30,16 @@ end
 @param  {[PlayerObject]} calling_ply   [The player who used the command.]
 @param  {[PlayerObject]} target_plys   [The player(s) who will have the effects of the command applied to them.]
 --]]
-function ulx.weaponshop(calling_ply)
+function ulx.shopeditor(calling_ply)
 	if GetConVar("gamemode"):GetString() ~= "terrortown" then
 		ULib.tsayError(calling_ply, gamemode_error, true)
 	else
-		calling_ply:ConCommand("weaponshop")
+		calling_ply:ConCommand("shopeditor")
 	end
 end
 
-local weaponshop = ulx.command(CATEGORY_NAME, "ulx weaponshop", ulx.weaponshop, "!weaponshop")
-weaponshop:defaultAccess(ULib.ACCESS_SUPERADMIN)
-weaponshop:setOpposite("ulx silent weaponshop", {nil, nil, nil, true}, "!sweaponshop", true)
-weaponshop:help("Opens the weaponshop.")
+local shopeditor = ulx.command(CATEGORY_NAME, "ulx shopeditor", ulx.shopeditor, "!shopeditor")
+shopeditor:defaultAccess(ULib.ACCESS_SUPERADMIN)
+shopeditor:setOpposite("ulx silent shopeditor", {nil, nil, nil, true}, "!sshopeditor", true)
+shopeditor:help("Opens the shopeditor.")
 --[End]----------------------------------------------------------------------------------------
