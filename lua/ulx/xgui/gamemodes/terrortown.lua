@@ -444,16 +444,6 @@ end
 if hudelements then
 	local clspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
-	local clsclp = vgui.Create("DCollapsibleCategory", clspnl)
-	clsclp:SetSize(390, 50)
-	clsclp:SetExpanded(1)
-	clsclp:SetLabel("TTT2 HUD settings")
-
-	local clslst = vgui.Create("DPanelList", clsclp)
-	clslst:SetPos(5, 25)
-	clslst:SetSize(390, 50)
-	clslst:SetSpacing(5)
-
 	for _, elem in ipairs(hudelements.GetList()) do
 		if elem.togglable then
 			local clsclp2 = vgui.Create("DCollapsibleCategory", clspnl)
