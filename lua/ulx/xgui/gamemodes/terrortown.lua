@@ -466,7 +466,7 @@ if hudelements then
 			clslst2:SetSize(390, 25)
 			clslst2:SetSpacing(5)
 
-			local clscl = xlib.makecheckbox{label = "toggle '" .. item.id .. "'?", repconvar = "rep_ttt2_elem_toggled_" .. item.id, parent = clslst2}
+			local clscl = xlib.makecheckbox{label = "toggle '" .. elem.id .. "'?", repconvar = "rep_ttt2_elem_toggled_" .. elem.id, parent = clslst2}
 			clslst2:AddItem(clscl)
 		end
 	end
