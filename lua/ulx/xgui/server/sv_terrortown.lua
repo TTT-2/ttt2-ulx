@@ -217,8 +217,6 @@ local function init()
 			updateCVarsForTTT2ULXRoles()
 
 			updateDynamicCVarsForTTT2ULXRoles()
-
-			updateHUDCVars()
 		end
 
 		if CLASSES then
@@ -237,10 +235,12 @@ hook.Add("Initialize", "TTT2UlxInitCVars", function()
 	end
 end)
 
+hook.Add("PostInitPostEntity", "TTT2UlxInitCVars", function()
+	updateHUDCVars()
+end)
+
 hook.Add("TTT2FinishedLoading", "TTT2UlxInitSWEPCVars", function()
 	updateDynamicCVarsForTTT2ULXRoles()
-
-	updateHUDCVars()
 end)
 
 hook.Add("TTTCPostClassesInit", "TTT2UlxInitClassesCVars", function()
