@@ -90,6 +90,16 @@ local function updateDynamicCVarsForTTT2ULXRoles()
 	end
 end
 
+local function updateHUDCVars()
+	if hudelements then
+		for _, elem in ipairs(hudelements.GetList()) do
+			if elem.togglable then
+				ULib.replicatedWritableCvar("ttt2_elem_toggled_" .. elem.id, "rep_ttt2_elem_toggled_" .. elem.id, GetConVar("ttt2_elem_toggled_" .. elem.id):GetInt(), true, false, "xgui_gmsettings")
+			end
+		end
+	end
+end
+
 local function init()
 	if GetConVar("gamemode"):GetString() == "terrortown" then -- Only execute the following code if it's a terrortown gamemode
 		-- Preparation and post-round
@@ -207,13 +217,15 @@ local function init()
 			updateCVarsForTTT2ULXRoles()
 
 			updateDynamicCVarsForTTT2ULXRoles()
+
+			updateHUDCVars()
 		end
 
 		if CLASSES then
 			updateCVarsForTTTCULXClasses()
 		end
 
-		hook.Run("TTTUlxInitRWCVar", "xgui_gmsettings")
+		hook.Run("TTTUlxInitCustomCVar", "xgui_gmsettings")
 	end
 end
 
@@ -227,6 +239,8 @@ end)
 
 hook.Add("TTT2FinishedLoading", "TTT2UlxInitSWEPCVars", function()
 	updateDynamicCVarsForTTT2ULXRoles()
+
+	updateHUDCVars()
 end)
 
 hook.Add("TTTCPostClassesInit", "TTT2UlxInitClassesCVars", function()
