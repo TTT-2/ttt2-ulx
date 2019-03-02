@@ -256,7 +256,7 @@ else
 					local tmax = xlib.makeslider{label = "ttt_" .. v.name .. "_max", min = 1, max = 64, repconvar = "rep_ttt_" .. v.name .. "_max", parent = gptdlst}
 					gptdlst:AddItem(tmax)
 
-					if v ~= ROLES.TRAITOR then
+					if v ~= TRAITOR then
 						if ConVarExists("ttt_" .. v.name .. "_random") then
 							local drs = xlib.makeslider{label = "ttt_" .. v.name .. "_random", min = 1, max = 100, repconvar = "rep_ttt_" .. v.name .. "_random", parent = gptdlst}
 							gptdlst:AddItem(drs)
