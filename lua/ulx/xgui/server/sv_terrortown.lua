@@ -10,7 +10,7 @@ local function updateCVarsForTTT2ULXRoles()
 	ULib.replicatedWritableCvar("ttt_max_baseroles", "rep_ttt_max_baseroles", GetConVar("ttt_max_baseroles"):GetInt(), true, true, "xgui_gmsettings")
 	ULib.replicatedWritableCvar("ttt_max_baseroles_pct", "rep_ttt_max_baseroles_pct", GetConVar("ttt_max_baseroles_pct"):GetFloat(), true, true, "xgui_gmsettings")
 
-	for _, v in pairs(GetRoles()) do
+	for _, v in pairs(roles.GetList()) do
 		if v ~= INNOCENT and not v.notSelectable then
 			ULib.replicatedWritableCvar("ttt_" .. v.name .. "_pct", "rep_ttt_" .. v.name .. "_pct", GetConVar("ttt_" .. v.name .. "_pct"):GetFloat(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt_" .. v.name .. "_max", "rep_ttt_" .. v.name .. "_max", GetConVar("ttt_" .. v.name .. "_max"):GetInt(), true, false, "xgui_gmsettings")
@@ -212,12 +212,6 @@ local function init()
 		ULib.replicatedWritableCvar("ttt_locational_voice", "rep_ttt_locational_voice", GetConVar("ttt_locational_voice"):GetInt(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_allow_discomb_jump", "rep_ttt_allow_discomb_jump", GetConVar("ttt_allow_discomb_jump"):GetInt(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_spawn_wave_interval", "rep_ttt_spawn_wave_interval", GetConVar("ttt_spawn_wave_interval"):GetInt(), true, false, "xgui_gmsettings")
-
-		if TTT2 then
-			updateCVarsForTTT2ULXRoles()
-
-			updateDynamicCVarsForTTT2ULXRoles()
-		end
 
 		if CLASSES then
 			updateCVarsForTTTCULXClasses()
