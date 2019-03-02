@@ -681,7 +681,7 @@ hook.Add(ULib.HOOK_UCLCHANGED, "ULXNextRoundUpdate", updateNextround)
 
 updateNextround() -- Init
 
-hook.Add("Initialize", "InitializeSetupForTTTMod", function()
+hook.Add("TTT2RolesLoaded", "InitializeSetupForTTTMod", function()
 	if not TTT2 then
 		_G["PlysMarkedForRole"] = {}
 		PlysMarkedForRole[ROLE_TRAITOR] = {}
@@ -998,7 +998,7 @@ restartround:help("Restarts the round.")
 ---[End]----------------------------------------------------------------------------------------
 
 -- update roles table
-hook.Add("Initialize", "TTT2UlxSync", function()
+hook.Add("TTT2RolesLoaded", "TTT2UlxSync", function()
 	if TTT2 then
 		table.Empty(ulx.rolesTbl)
 

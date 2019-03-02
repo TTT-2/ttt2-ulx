@@ -223,7 +223,7 @@ end
 
 xgui.addSVModule("terrortown", init)
 
-hook.Add("Initialize", "TTT2UlxInitCVars", function()
+hook.Add("TTT2RolesLoaded", "TTT2UlxInitCVars", function()
 	if TTT2 then
 		updateCVarsForTTT2ULXRoles()
 	end
