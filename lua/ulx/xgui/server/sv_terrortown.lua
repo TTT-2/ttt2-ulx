@@ -215,9 +215,9 @@ local function init()
 
 		if TTT2 then
 			ULib.replicatedWritableCvar("ttt2_sprint_enabled", "rep_ttt2_sprint_enabled", GetConVar("ttt2_sprint_enabled"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt2_sprint_max", "rep_ttt2_sprint_max", GetConVar("ttt2_sprint_max"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt2_sprint_stamina_consumption", "rep_ttt2_sprint_stamina_consumption", GetConVar("ttt2_sprint_stamina_consumption"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt2_sprint_stamina_regeneration", "rep_ttt2_sprint_stamina_regeneration", GetConVar("ttt2_sprint_stamina_regeneration"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt2_sprint_max", "rep_ttt2_sprint_max", GetConVar("ttt2_sprint_max"):GetFloat(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt2_sprint_stamina_consumption", "rep_ttt2_sprint_stamina_consumption", GetConVar("ttt2_sprint_stamina_consumption"):GetFloat(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt2_sprint_stamina_regeneration", "rep_ttt2_sprint_stamina_regeneration", GetConVar("ttt2_sprint_stamina_regeneration"):GetFloat(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt2_sprint_crosshair", "rep_ttt2_sprint_crosshair", GetConVar("ttt2_sprint_crosshair"):GetInt(), true, false, "xgui_gmsettings")
 		end
 
