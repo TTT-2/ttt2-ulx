@@ -743,13 +743,13 @@ slst:SetSpacing(5)
 local ttt2sprintcb = xlib.makecheckbox{label = "ttt2_sprint_enabled (def. 1)", repconvar = "rep_ttt2_sprint_enabled", parent = slst}
 slst:AddItem(ttt2sprintcb)
 
-ttt2sprintcb = xlib.makeslider{label = "ttt2_sprint_max (def. 0.5)", min = 0, max = 2, repconvar = "rep_ttt2_sprint_max", parent = slst}
+ttt2sprintcb = xlib.makeslider{label = "ttt2_sprint_max (def. 0.5)", min = 0, max = 2, decimal = 2, repconvar = "rep_ttt2_sprint_max", parent = slst}
 slst:AddItem(ttt2sprintcb)
 
-ttt2sprintcb = xlib.makeslider{label = "ttt2_sprint_stamina_consumption (def. 0.6)", min = 0, max = 2, repconvar = "rep_ttt2_sprint_stamina_consumption", parent = slst}
+ttt2sprintcb = xlib.makeslider{label = "ttt2_sprint_stamina_consumption (def. 0.6)", min = 0, max = 2, decimal = 2, repconvar = "rep_ttt2_sprint_stamina_consumption", parent = slst}
 slst:AddItem(ttt2sprintcb)
 
-ttt2sprintcb = xlib.makeslider{label = "ttt2_sprint_stamina_regeneration (def. 0.3)", min = 0, max = 2, repconvar = "rep_ttt2_sprint_stamina_regeneration", parent = slst}
+ttt2sprintcb = xlib.makeslider{label = "ttt2_sprint_stamina_regeneration (def. 0.3)", min = 0, max = 2, decimal = 2, repconvar = "rep_ttt2_sprint_stamina_regeneration", parent = slst}
 slst:AddItem(ttt2sprintcb)
 
 ttt2sprintcb = xlib.makecheckbox{label = "ttt2_sprint_crosshair (def. 1)", repconvar = "rep_ttt2_sprint_crosshair", parent = slst}
