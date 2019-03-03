@@ -213,6 +213,14 @@ local function init()
 		ULib.replicatedWritableCvar("ttt_allow_discomb_jump", "rep_ttt_allow_discomb_jump", GetConVar("ttt_allow_discomb_jump"):GetInt(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_spawn_wave_interval", "rep_ttt_spawn_wave_interval", GetConVar("ttt_spawn_wave_interval"):GetInt(), true, false, "xgui_gmsettings")
 
+		if TTT2 then
+			ULib.replicatedWritableCvar("ttt2_sprint_enabled", "rep_ttt2_sprint_enabled", GetConVar("ttt2_sprint_enabled"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt2_sprint_max", "rep_ttt2_sprint_max", GetConVar("ttt2_sprint_max"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt2_sprint_stamina_consumption", "rep_ttt2_sprint_stamina_consumption", GetConVar("ttt2_sprint_stamina_consumption"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt2_sprint_stamina_regeneration", "rep_ttt2_sprint_stamina_regeneration", GetConVar("ttt2_sprint_stamina_regeneration"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt2_sprint_crosshair", "rep_ttt2_sprint_crosshair", GetConVar("ttt2_sprint_crosshair"):GetInt(), true, false, "xgui_gmsettings")
+		end
+
 		if CLASSES then
 			updateCVarsForTTTCULXClasses()
 		end
