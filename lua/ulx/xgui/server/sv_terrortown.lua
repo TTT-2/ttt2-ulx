@@ -158,8 +158,15 @@ local function init()
 		ULib.replicatedWritableCvar("ttt_postround_dm", "rep_ttt_postround_dm", GetConVar("ttt_postround_dm"):GetInt(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_dyingshot", "rep_ttt_dyingshot", GetConVar("ttt_dyingshot"):GetInt(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_no_nade_throw_during_prep", "rep_ttt_no_nade_throw_during_prep", GetConVar("ttt_no_nade_throw_during_prep"):GetInt(), true, false, "xgui_gmsettings")
-		ULib.replicatedWritableCvar("ttt_weapon_carrying", "rep_ttt_weapon_carrying", GetConVar("ttt_weapon_carrying"):GetInt(), true, false, "xgui_gmsettings")
-		ULib.replicatedWritableCvar("ttt_weapon_carrying_range", "rep_ttt_weapon_carrying_range", GetConVar("ttt_weapon_carrying_range"):GetInt(), true, false, "xgui_gmsettings")
+
+		if ConVarExists("ttt_weapon_carrying") then
+			ULib.replicatedWritableCvar("ttt_weapon_carrying", "rep_ttt_weapon_carrying", GetConVar("ttt_weapon_carrying"):GetInt(), true, false, "xgui_gmsettings")
+		end
+
+		if ConVarExists("ttt_weapon_carrying_range") then
+			ULib.replicatedWritableCvar("ttt_weapon_carrying_range", "rep_ttt_weapon_carrying_range", GetConVar("ttt_weapon_carrying_range"):GetInt(), true, false, "xgui_gmsettings")
+		end
+
 		ULib.replicatedWritableCvar("ttt_teleport_telefrags", "rep_ttt_teleport_telefrags", GetConVar("ttt_teleport_telefrags"):GetInt(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_ragdoll_pinning", "rep_ttt_ragdoll_pinning", GetConVar("ttt_ragdoll_pinning"):GetInt(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_ragdoll_pinning_innocents", "rep_ttt_ragdoll_pinning_innocents", GetConVar("ttt_ragdoll_pinning_innocents"):GetInt(), true, false, "xgui_gmsettings")

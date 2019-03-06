@@ -371,11 +371,15 @@ gpogslst:AddItem(gpds)
 local gpnntdp = xlib.makecheckbox{label = "ttt_no_nade_throw_during_prep (def. 0)", repconvar = "rep_ttt_no_nade_throw_during_prep", parent = gpogslst}
 gpogslst:AddItem(gpnntdp)
 
-local gpwc = xlib.makecheckbox{label = "ttt_weapon_carrying (def. 1)", repconvar = "rep_ttt_weapon_carrying", parent = gpogslst}
-gpogslst:AddItem(gpwc)
+if ConVarExists("rep_ttt_weapon_carrying") then
+	local gpwc = xlib.makecheckbox{label = "ttt_weapon_carrying (def. 1)", repconvar = "rep_ttt_weapon_carrying", parent = gpogslst}
+	gpogslst:AddItem(gpwc)
+end
 
-local gpwcr = xlib.makeslider{label = "ttt_weapon_carrying_range (def. 50)", min = 10, max = 100, repconvar = "rep_ttt_weapon_carrying_range", parent = gpogslst}
-gpogslst:AddItem(gpwcr)
+if ConVarExists("rep_ttt_weapon_carrying_range") then
+	local gpwcr = xlib.makeslider{label = "ttt_weapon_carrying_range (def. 50)", min = 10, max = 100, repconvar = "rep_ttt_weapon_carrying_range", parent = gpogslst}
+	gpogslst:AddItem(gpwcr)
+end
 
 local gpttf = xlib.makecheckbox{label = "ttt_teleport_telefrags (def. 0)", repconvar = "rep_ttt_teleport_telefrags", parent = gpogslst}
 gpogslst:AddItem(gpttf)
