@@ -265,8 +265,10 @@ else
 						local dmp = xlib.makeslider{label = "ttt_" .. v.name .. "_min_players", min = 1, max = 64, repconvar = "rep_ttt_" .. v.name .. "_min_players", parent = gptdlst}
 						gptdlst:AddItem(dmp)
 
-						local dkm = xlib.makeslider{label = "ttt_" .. v.name .. "_karma_min", min = 1, max = 1000, repconvar = "rep_ttt_" .. v.name .. "_karma_min", parent = gptdlst}
-						gptdlst:AddItem(dkm)
+						if ConVarExists("rep_ttt_" .. v.name .. "_karma_min") then
+							local dkm = xlib.makeslider{label = "ttt_" .. v.name .. "_karma_min", min = 1, max = 1000, repconvar = "rep_ttt_" .. v.name .. "_karma_min", parent = gptdlst}
+							gptdlst:AddItem(dkm)
+						end
 
 						local gpds = xlib.makecheckbox{label = v.name .. "? (ttt_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_ttt_" .. v.name .. "_enabled", parent = gptdlst}
 						gptdlst:AddItem(gpds)
