@@ -323,7 +323,7 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 				role, role_grammar, role_string, role_credits = ROLE_INNOCENT, "an ", "innocent", 0
 			end
 		else
-			for _, v in pairs(GetRoles()) do
+			for _, v in pairs(GetSortedRoles()) do
 				if target_role == v.name or target_role == v.abbr then
 					if v.notSelectable then
 						role = "invalid_role_not_selectable"
@@ -1002,7 +1002,7 @@ hook.Add("TTT2RolesLoaded", "TTT2UlxSync", function()
 	if TTT2 then
 		table.Empty(ulx.rolesTbl)
 
-		for _, v in pairs(GetRoles()) do
+		for _, v in pairs(GetSortedRoles()) do
 			if not v.notSelectable then
 				table.insert(ulx.rolesTbl, v.name)
 			end
