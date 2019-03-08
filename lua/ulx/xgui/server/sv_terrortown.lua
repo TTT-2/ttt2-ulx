@@ -226,6 +226,15 @@ local function init()
 			ULib.replicatedWritableCvar("ttt2_sprint_stamina_consumption", "rep_ttt2_sprint_stamina_consumption", GetConVar("ttt2_sprint_stamina_consumption"):GetInt(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt2_sprint_stamina_regeneration", "rep_ttt2_sprint_stamina_regeneration", GetConVar("ttt2_sprint_stamina_regeneration"):GetInt(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt2_sprint_crosshair", "rep_ttt2_sprint_crosshair", GetConVar("ttt2_sprint_crosshair"):GetInt(), true, false, "xgui_gmsettings")
+
+			ULib.replicatedWritableCvar("ttt2_max_melee_slots", "rep_ttt2_max_melee_slots", GetConVar("ttt2_max_melee_slots"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt2_max_secondary_slots", "rep_ttt2_max_secondary_slots", GetConVar("ttt2_max_secondary_slots"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt2_max_primary_slots", "rep_ttt2_max_primary_slots", GetConVar("ttt2_max_primary_slots"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt2_max_nade_slots", "rep_ttt2_max_nade_slots", GetConVar("ttt2_max_nade_slots"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt2_max_carry_slots", "rep_ttt2_max_carry_slots", GetConVar("ttt2_max_carry_slots"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt2_max_unarmed_slots", "rep_ttt2_max_unarmed_slots", GetConVar("ttt2_max_unarmed_slots"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt2_max_special_slots", "rep_ttt2_max_special_slots", GetConVar("ttt2_max_special_slots"):GetInt(), true, false, "xgui_gmsettings")
+			ULib.replicatedWritableCvar("ttt2_max_extra_slots", "rep_ttt2_max_extra_slots", GetConVar("ttt2_max_extra_slots"):GetInt(), true, false, "xgui_gmsettings")
 		end
 
 		if CLASSES then

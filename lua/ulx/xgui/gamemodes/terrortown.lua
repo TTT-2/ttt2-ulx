@@ -762,6 +762,49 @@ slst:AddItem(ttt2sprintcb)
 xgui.hookEvent("onProcessModules", nil, spnl.processModules)
 xgui.addSubModule("TTT2 Sprint", spnl, nil, "terrortown_settings")
 
+--------------------Inventory Module--------------------
+local ipnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
+
+local iclp = vgui.Create("DCollapsibleCategory", ipnl)
+iclp:SetSize(390, 240)
+iclp:SetExpanded(1)
+iclp:SetLabel("TTT2 Inventory")
+
+local ilst = vgui.Create("DPanelList", iclp)
+ilst:SetPos(5, 25)
+ilst:SetSize(390, 240)
+ilst:SetSpacing(5)
+
+local ttt2invhint = xlib.makelabel{x = 0, y = 0, w = 390, h = 30, wordwrap = true, label = "Maximum possible weapon count on each slot. Set -1 for infinite", parent = ilst}
+ilst:AddItem(ttt2invhint)
+
+local ttt2invslider = xlib.makeslider{label = "ttt2_max_melee_slots (def. 1)", min = -1, max = 10, decimal = 0, repconvar = "rep_ttt2_max_melee_slots", parent = ilst}
+ilst:AddItem(ttt2invslider)
+
+ttt2invslider = xlib.makeslider{label = "ttt2_max_secondary_slots (def. 1)", min = -1, max = 10, decimal = 0, repconvar = "rep_ttt2_max_secondary_slots", parent = ilst}
+ilst:AddItem(ttt2invslider)
+
+ttt2invslider = xlib.makeslider{label = "ttt2_max_primary_slots (def. 1)", min = -1, max = 10, decimal = 0, repconvar = "rep_ttt2_max_primary_slots", parent = ilst}
+ilst:AddItem(ttt2invslider)
+
+ttt2invslider = xlib.makeslider{label = "ttt2_max_nade_slots (def. 1)", min = -1, max = 10, decimal = 0, repconvar = "rep_ttt2_max_nade_slots", parent = ilst}
+ilst:AddItem(ttt2invslider)
+
+ttt2invslider = xlib.makeslider{label = "ttt2_max_carry_slots (def. 1)", min = -1, max = 10, decimal = 0, repconvar = "rep_ttt2_max_carry_slots", parent = ilst}
+ilst:AddItem(ttt2invslider)
+
+ttt2invslider = xlib.makeslider{label = "ttt2_max_unarmed_slots (def. 1)", min = -1, max = 10, decimal = 0, repconvar = "rep_ttt2_max_unarmed_slots", parent = ilst}
+ilst:AddItem(ttt2invslider)
+
+ttt2invslider = xlib.makeslider{label = "ttt2_max_special_slots (def. 2)", min = -1, max = 10, decimal = 0, repconvar = "rep_ttt2_max_special_slots", parent = ilst}
+ilst:AddItem(ttt2invslider)
+
+ttt2invslider = xlib.makeslider{label = "ttt2_max_extra_slots (def. -1)", min = -1, max = 10, decimal = 0, repconvar = "rep_ttt2_max_extra_slots", parent = ilst}
+ilst:AddItem(ttt2invslider)
+
+xgui.hookEvent("onProcessModules", nil, ipnl.processModules)
+xgui.addSubModule("TTT2 Inventory", ipnl, nil, "terrortown_settings")
+
 --------------------Miscellaneous Module--------------------
 local miscpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
