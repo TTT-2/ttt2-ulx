@@ -451,20 +451,23 @@ if HEROES then
 	local clspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
 	local clsclp = vgui.Create("DCollapsibleCategory", clspnl)
-	clsclp:SetSize(390, 50)
+	clsclp:SetSize(390, 75)
 	clsclp:SetExpanded(1)
-	clsclp:SetLabel("HEROES settings")
+	clsclp:SetLabel("TTT2 HEROES")
 
 	local clslst = vgui.Create("DPanelList", clsclp)
 	clslst:SetPos(5, 25)
-	clslst:SetSize(390, 50)
+	clslst:SetSize(390, 75)
 	clslst:SetSpacing(5)
 
-	local clslim = xlib.makecheckbox{label = "Limited Heroes? (ttt_heroes_limited) (def. 1)", repconvar = "rep_ttt_heroes_limited", parent = clslst}
+	local clslim = xlib.makecheckbox{label = "Enable Heroes? (ttt2_heroes) (def. 1)", repconvar = "rep_ttt2_heroes", parent = clslst}
 	clslst:AddItem(clslim)
 
-	local clslim2 = xlib.makecheckbox{label = "Option to choose between two heroes? (ttt_heroes_option) (def. 1)", repconvar = "rep_ttt_heroes_option", parent = clslst}
+	local clslim2 = xlib.makecheckbox{label = "Limited Heroes? (ttt_heroes_limited) (def. 1)", repconvar = "rep_ttt_heroes_limited", parent = clslst}
 	clslst:AddItem(clslim2)
+
+	local clslim3 = xlib.makecheckbox{label = "Option to choose between two heroes? (ttt_heroes_option) (def. 1)", repconvar = "rep_ttt_heroes_option", parent = clslst}
+	clslst:AddItem(clslim3)
 
 	for _, v in pairs(HEROES.GetSortedHeroes()) do
 		local pName = HEROES.GetHeroTranslation(v)
@@ -487,7 +490,7 @@ if HEROES then
 	end
 
 	xgui.hookEvent("onProcessModules", nil, clspnl.processModules)
-	xgui.addSubModule("Heroes", clspnl, nil, "terrortown_settings")
+	xgui.addSubModule("TTT2 HEROES", clspnl, nil, "terrortown_settings")
 end
 
 --------------------TTT2 HUDs Module--------------------
