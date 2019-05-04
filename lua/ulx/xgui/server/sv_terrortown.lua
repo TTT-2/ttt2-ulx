@@ -65,12 +65,23 @@ local function updateCVarsForTTTCULXClasses()
 	end
 end
 
+local function updateCVarsForTTTCULXHeroes()
+	ULib.replicatedWritableCvar("ttt2_heroes", "rep_ttt2_heroes", GetConVar("ttt2_heroes"):GetInt(), true, true, "xgui_gmsettings")
+	ULib.replicatedWritableCvar("ttt_heroes_limited", "rep_ttt_heroes_limited", GetConVar("ttt_heroes_limited"):GetInt(), true, true, "xgui_gmsettings")
+	ULib.replicatedWritableCvar("ttt_heroes_option", "rep_ttt_heroes_option", GetConVar("ttt_heroes_option"):GetInt(), true, true, "xgui_gmsettings")
+
+	for _, v in pairs(HEROES.HEROES or {}) do
+		ULib.replicatedWritableCvar("ttth_hero_" .. v.name .. "_enabled", "rep_ttth_hero_" .. v.name .. "_enabled", GetConVar("ttth_hero_" .. v.name .. "_enabled"):GetInt(), true, true, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttth_hero_" .. v.name .. "_random", "rep_ttth_hero_" .. v.name .. "_random", GetConVar("ttth_hero_" .. v.name .. "_random"):GetInt(), true, false, "xgui_gmsettings")
+	end
+end
+
 local function updateDynamicCVarsForTTT2ULXRoles()
 	ULX_DYNAMIC_RCVARS = {}
 
 	hook.Run("TTTUlxDynamicRCVars", ULX_DYNAMIC_RCVARS)
 
-	for _, v in pairs(GetRoles()) do
+	for _, v in pairs(roles.GetList()) do
 		if ULX_DYNAMIC_RCVARS[v.index] then
 			for k, cvar in pairs(ULX_DYNAMIC_RCVARS[v.index]) do
 				if not cvar.cvar or not GetConVar(cvar.cvar) then
@@ -241,6 +252,10 @@ local function init()
 			updateCVarsForTTTCULXClasses()
 		end
 
+		if HEROES then
+			updateCVarsForTTTCULXHeroes()
+		end
+
 		hook.Run("TTTUlxInitCustomCVar", "xgui_gmsettings")
 	end
 end
@@ -259,6 +274,10 @@ end)
 
 hook.Add("TTT2FinishedLoading", "TTT2UlxInitSWEPCVars", function()
 	updateDynamicCVarsForTTT2ULXRoles()
+
+	if HEROES then
+		updateCVarsForTTTCULXHeroes()
+	end
 end)
 
 hook.Add("TTTCPostClassesInit", "TTT2UlxInitClassesCVars", function()
