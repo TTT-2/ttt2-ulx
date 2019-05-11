@@ -11,6 +11,22 @@ local function updateCVarsForTTT2ULXRoles()
 	ULib.replicatedWritableCvar("ttt_max_baseroles_pct", "rep_ttt_max_baseroles_pct", GetConVar("ttt_max_baseroles_pct"):GetFloat(), true, true, "xgui_gmsettings")
 
 	for _, v in pairs(roles.GetList()) do
+		
+		--adding special role credit convars
+		if v ~= INNOCENT and v~= TRAITOR then
+			if ConVarExists("ttt_" .. v.abbr .. "_credits_starting") then
+				ULib.replicatedWritableCvar("ttt_" .. v.abbr .. "_credits_starting", "rep_ttt_" .. v.abbr .. "_credits_starting", GetConVar("ttt_" .. v.abbr .. "_credits_starting"):GetFloat(), true, false, "xgui_gmsettings")
+			end
+
+			if ConVarExists("ttt_" .. v.abbr .. "_credits_traitorkill") then
+				ULib.replicatedWritableCvar("ttt_" .. v.abbr .. "_credits_traitorkill", "rep_ttt_" .. v.abbr .. "_credits_traitorkill", GetConVar("ttt_" .. v.abbr .. "_credits_traitorkill"):GetInt(), true, false, "xgui_gmsettings")
+			end
+
+			if ConVarExists("ttt_" .. v.abbr .. "_credits_traitordead") then
+				ULib.replicatedWritableCvar("ttt_" .. v.abbr .. "_credits_traitordead", "rep_ttt_" .. v.abbr .. "_credits_traitordead", GetConVar("ttt_" .. v.abbr .. "_credits_traitordead"):GetInt(), true, false, "xgui_gmsettings")
+			end
+		end 
+
 		if v ~= INNOCENT and not v.notSelectable then
 			ULib.replicatedWritableCvar("ttt_" .. v.name .. "_pct", "rep_ttt_" .. v.name .. "_pct", GetConVar("ttt_" .. v.name .. "_pct"):GetFloat(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt_" .. v.name .. "_max", "rep_ttt_" .. v.name .. "_max", GetConVar("ttt_" .. v.name .. "_max"):GetInt(), true, false, "xgui_gmsettings")
@@ -20,19 +36,6 @@ local function updateCVarsForTTT2ULXRoles()
 
 				if ConVarExists("ttt_" .. v.name .. "_karma_min") then
 					ULib.replicatedWritableCvar("ttt_" .. v.name .. "_karma_min", "rep_ttt_" .. v.name .. "_karma_min", GetConVar("ttt_" .. v.name .. "_karma_min"):GetInt(), true, false, "xgui_gmsettings")
-				end
-
-				-- roles credits
-				if ConVarExists("ttt_" .. v.abbr .. "_credits_starting") then
-					ULib.replicatedWritableCvar("ttt_" .. v.abbr .. "_credits_starting", "rep_ttt_" .. v.abbr .. "_credits_starting", GetConVar("ttt_" .. v.abbr .. "_credits_starting"):GetFloat(), true, false, "xgui_gmsettings")
-				end
-
-				if ConVarExists("ttt_" .. v.abbr .. "_credits_traitorkill") then
-					ULib.replicatedWritableCvar("ttt_" .. v.abbr .. "_credits_traitorkill", "rep_ttt_" .. v.abbr .. "_credits_traitorkill", GetConVar("ttt_" .. v.abbr .. "_credits_traitorkill"):GetInt(), true, false, "xgui_gmsettings")
-				end
-
-				if ConVarExists("ttt_" .. v.abbr .. "_credits_traitordead") then
-					ULib.replicatedWritableCvar("ttt_" .. v.abbr .. "_credits_traitordead", "rep_ttt_" .. v.abbr .. "_credits_traitordead", GetConVar("ttt_" .. v.abbr .. "_credits_traitordead"):GetInt(), true, false, "xgui_gmsettings")
 				end
 
 				ULib.replicatedWritableCvar("ttt_" .. v.name .. "_enabled", "rep_ttt_" .. v.name .. "_enabled", GetConVar("ttt_" .. v.name .. "_enabled"):GetInt(), true, true, "xgui_gmsettings")

@@ -599,7 +599,7 @@ else
 	local b = true
 
 	for _, v in pairs(GetSortedRoles()) do
-		if v ~= INNOCENT and not v.notSelectable and IsShoppingRole(v.index) then
+		if v ~= INNOCENT and IsShoppingRole(v.index) then
 			-- ROLES credits
 			if v == TRAITOR then
 				local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
