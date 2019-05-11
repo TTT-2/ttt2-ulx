@@ -446,6 +446,53 @@ if CLASSES then
 	xgui.addSubModule("Classes", clspnl, nil, "terrortown_settings")
 end
 
+--------------------Heroes Module--------------------
+if HEROES then
+	local clspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
+
+	local clsclp = vgui.Create("DCollapsibleCategory", clspnl)
+	clsclp:SetSize(390, 75)
+	clsclp:SetExpanded(1)
+	clsclp:SetLabel("TTT2 HEROES")
+
+	local clslst = vgui.Create("DPanelList", clsclp)
+	clslst:SetPos(5, 25)
+	clslst:SetSize(390, 75)
+	clslst:SetSpacing(5)
+
+	local clslim = xlib.makecheckbox{label = "Enable Heroes? (ttt2_heroes) (def. 1)", repconvar = "rep_ttt2_heroes", parent = clslst}
+	clslst:AddItem(clslim)
+
+	local clslim2 = xlib.makecheckbox{label = "Limited Heroes? (ttt_heroes_limited) (def. 1)", repconvar = "rep_ttt_heroes_limited", parent = clslst}
+	clslst:AddItem(clslim2)
+
+	local clslim3 = xlib.makecheckbox{label = "Option to choose between two heroes? (ttt_heroes_option) (def. 1)", repconvar = "rep_ttt_heroes_option", parent = clslst}
+	clslst:AddItem(clslim3)
+
+	for _, v in pairs(HEROES.GetSortedHeroes()) do
+		local pName = HEROES.GetHeroTranslation(v)
+
+		local clsclp2 = vgui.Create("DCollapsibleCategory", clspnl)
+		clsclp2:SetSize(390, 50)
+		clsclp2:SetExpanded(0)
+		clsclp2:SetLabel(pName)
+
+		local clslst2 = vgui.Create("DPanelList", clsclp2)
+		clslst2:SetPos(5, 25)
+		clslst2:SetSize(390, 50)
+		clslst2:SetSpacing(5)
+
+		local clscl = xlib.makecheckbox{label = pName .. "? (ttth_hero_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_ttth_hero_" .. v.name .. "_enabled", parent = clslst2}
+		clslst2:AddItem(clscl)
+
+		local clsrcl = xlib.makeslider{label = "ttth_hero_" .. v.name .. "_random", min = 1, max = 100, repconvar = "rep_ttth_hero_" .. v.name .. "_random", parent = clslst2}
+		clslst2:AddItem(clsrcl)
+	end
+
+	xgui.hookEvent("onProcessModules", nil, clspnl.processModules)
+	xgui.addSubModule("TTT2 HEROES", clspnl, nil, "terrortown_settings")
+end
+
 --------------------TTT2 HUDs Module--------------------
 if hudelements then
 	local clspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}

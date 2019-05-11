@@ -21,12 +21,9 @@ ROLE_TRAITOR = ROLE_TRAITOR or 2
 ROLE_DETECTIVE = ROLE_DETECTIVE or 3
 
 --[Ulx Completes]------------------------------------------------------------------------------
-ulx.rolesTbl = {}
-table.insert(ulx.rolesTbl, "traitor")
-table.insert(ulx.rolesTbl, "detective")
-table.insert(ulx.rolesTbl, "innocent")
+ulx.rolesTbl = ulx.rolesTbl or {"traitor", "detective", "innocent"}
 
-ulx.target_role = {}
+ulx.target_role = ulx.target_role or {}
 function updateRoles()
 	table.Empty(ulx.target_role)
 
@@ -45,6 +42,9 @@ end
 hook.Add(ULib.HOOK_UCLCHANGED, "ULXRoleNamesUpdate", updateRoles)
 
 updateRoles()
+
+ulx.target_hero = ulx.target_hero or {}
+
 --[End]----------------------------------------------------------------------------------------
 
 --[Global Helper Functions][Used by more than one command.]------------------------------------
@@ -392,6 +392,95 @@ force:defaultAccess(ULib.ACCESS_SUPERADMIN)
 force:setOpposite("ulx sforce", {nil, nil, nil, true}, "!sforce", true)
 force:help("Force <target(s)> to become a specified role.")
 
+--[Force hero]---------------------------------------------------------------------------------
+--[[ulx.forcehero][Forces < target(s) > to become a specified hero.]
+@param  {[PlayerObject]} calling_ply   [The player who used the command.]
+@param  {[PlayerObject]} target_plys   [The player(s) who will have the effects of the command applied to them.]
+@param  {[Number]}       target_hero   [The hero that target player(s) will have there hero set to.]
+@param  {[Boolean]}      should_silent [Hidden, determines weather the output will be silent or not.]
+--]]
+function ulx.forcehero(calling_ply, target_plys, target_hero, should_silent)
+	if GetConVar("gamemode"):GetString() ~= "terrortown" then
+		ULib.tsayError(calling_ply, gamemode_error, true)
+	else
+		if TTT2 and HEROES then
+			local hero, hero_grammar, hero_string
+			local affected_plys = {}
+
+			for _, v in pairs(HEROES.HEROES) do
+				if target_hero == v.name then
+					local gr = "a"
+					local i = 1
+					local sh = string.sub(v.name, i, i)
+
+					while sh == "h" do
+						i = i + 1
+						sh = string.sub(v.name, i, i)
+					end
+
+					if sh == "a" or sh == "e" or sh == "i" or sh == "o" or sh == "u" then
+						gr = gr .. "n"
+					end
+
+					hero, hero_grammar, hero_string = v.index, gr, v.name
+
+					break
+				end
+			end
+
+			for i = 1, #target_plys do
+				local v = target_plys[i]
+				local current_hero = v:GetHero()
+
+				if ulx.getExclusive(v, calling_ply) then
+					ULib.tsayError(calling_ply, ulx.getExclusive(v, calling_ply), true)
+				elseif GetRoundState() == 1 or GetRoundState() == 2 then
+					ULib.tsayError(calling_ply, "The round has not begun!", true)
+				elseif not hero then
+					ULib.tsayError(calling_ply, "Invalid hero :\"" .. target_hero .. "\" specified", true)
+				elseif hero == "invalid_hero_not_selectable" then
+					ULib.tsayError(calling_ply, "The selected hero can't be selected!", true)
+				elseif not v:Alive() then
+					ULib.tsayError(calling_ply, v:Nick() .. " is dead!", true)
+				elseif current_hero and current_hero == hero then
+					ULib.tsayError(calling_ply, v:Nick() .. " is already " .. role_string, true)
+				else
+					v:UpdateHero(hero)
+
+					table.insert(affected_plys, v)
+				end
+			end
+
+			if hero_grammar then -- if not set, no message!
+				ulx.fancyLogAdmin(calling_ply, should_silent, "#A forced #T to become the hero of " .. hero_grammar .. " #s.", affected_plys, hero_string)
+
+				send_messages(affected_plys, "Your hero has been set to " .. hero_string .. ".")
+			end
+		end
+	end
+end
+
+local forcehero = ulx.command(CATEGORY_NAME, "ulx forcehero", ulx.forcehero, "!forcehero")
+forcehero:addParam{type = ULib.cmds.PlayersArg}
+forcehero:addParam{type = ULib.cmds.StringArg, completes = ulx.target_hero, hint = "Hero", ULib.cmds.restrictToCompletes}
+forcehero:addParam{type = ULib.cmds.BoolArg, invisible = true}
+forcehero:defaultAccess(ULib.ACCESS_SUPERADMIN)
+forcehero:setOpposite("ulx sforcehero", {nil, nil, nil, true}, "!sforcehero", true)
+forcehero:help("Forcehero <target(s)> to become a specified hero.")
+
+local function initHeroClasses()
+	if HEROES then
+		table.Empty(ulx.target_hero)
+
+		for _, v in pairs(HEROES.HEROES) do
+			table.insert(ulx.target_hero, v.name)
+		end
+	end
+end
+
+hook.Add("TTT2FinishedLoading", "TTT2UlxInitHeroesComplete", initHeroClasses)
+hook.Add(ULib.HOOK_UCLCHANGED, "ULXHeroNamesUpdate", initHeroClasses)
+
 --[Respawn]------------------------------------------------------------------------------------
 --[[ulx.respawn][Respawns < target(s) > ]
 @param  {[PlayerObject]} calling_ply   [The player who used the command.]
@@ -681,7 +770,7 @@ hook.Add(ULib.HOOK_UCLCHANGED, "ULXNextRoundUpdate", updateNextround)
 
 updateNextround() -- Init
 
-hook.Add("TTT2RolesLoaded", "InitializeSetupForTTTMod", function()
+hook.Add("Initialize", "InitializeSetupForTTTMod", function()
 	if not TTT2 then
 		_G["PlysMarkedForRole"] = {}
 		PlysMarkedForRole[ROLE_TRAITOR] = {}
