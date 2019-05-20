@@ -867,6 +867,9 @@ misclst:SetPos(5, 25)
 misclst:SetSize(390, 120)
 misclst:SetSpacing(5)
 
+local miscdh = xlib.makeslider{label = "ttt2_crowbar_shove_delay (def. 1.0)", repconvar = "rep_ttt2_crowbar_shove_delay", min = 0, max = 10, decimal = 1, parent = misclst}
+misclst:AddItem(miscdh)
+
 local miscdh = xlib.makecheckbox{label = "ttt_detective_hats (def. 0)", repconvar = "rep_ttt_detective_hats", parent = misclst}
 misclst:AddItem(miscdh)
 

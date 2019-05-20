@@ -249,6 +249,8 @@ local function init()
 			ULib.replicatedWritableCvar("ttt2_max_unarmed_slots", "rep_ttt2_max_unarmed_slots", GetConVar("ttt2_max_unarmed_slots"):GetInt(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt2_max_special_slots", "rep_ttt2_max_special_slots", GetConVar("ttt2_max_special_slots"):GetInt(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt2_max_extra_slots", "rep_ttt2_max_extra_slots", GetConVar("ttt2_max_extra_slots"):GetInt(), true, false, "xgui_gmsettings")
+
+			ULib.replicatedWritableCvar("ttt2_crowbar_shove_delay", "rep_ttt2_crowbar_shove_delay", GetConVar("ttt2_crowbar_shove_delay"):GetFloat(), true, false, "xgui_gmsettings")
 		end
 
 		if CLASSES then
