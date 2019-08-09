@@ -403,7 +403,7 @@ function ulx.forcehero(calling_ply, target_plys, target_hero, should_silent)
 	if GetConVar("gamemode"):GetString() ~= "terrortown" then
 		ULib.tsayError(calling_ply, gamemode_error, true)
 	else
-		if TTT2 and HEROES then
+		if TTT2 and TTTC then
 			local hero, hero_grammar, hero_string
 			local affected_plys = {}
 
@@ -469,7 +469,7 @@ forcehero:setOpposite("ulx sforcehero", {nil, nil, nil, true}, "!sforcehero", tr
 forcehero:help("Forcehero <target(s)> to become a specified hero.")
 
 local function initHeroClasses()
-	if HEROES then
+	if TTTC then
 		table.Empty(ulx.target_hero)
 
 		for _, v in pairs(HEROES.HEROES) do
