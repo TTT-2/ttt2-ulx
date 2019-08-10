@@ -7,7 +7,7 @@ hook.Run("TTTUlxDynamicRCVars", ULX_DYNAMIC_RCVARS)
 
 local terrortown_settings = xlib.makepanel{parent = xgui.null}
 
-xlib.makelabel{x = 5, y = 5, w = 600, wordwrap = true, label = "Trouble in Terrorist Town ULX Commands XGUI module Created by: Bender180 (modified by Alf21)", parent = terrortown_settings}
+xlib.makelabel{x = 5, y = 5, w = 600, wordwrap = true, label = "Trouble in Terrorist Town 2 ULX Commands XGUI module Created by: Bender180 (modified by Alf21)", parent = terrortown_settings}
 xlib.makelabel{x = 2, y = 345, w = 600, wordwrap = true, label = "The settings above WILL SAVE. So pay attention while editing them!", parent = terrortown_settings}
 xlib.makelabel{x = 5, y = 190, w = 160, wordwrap = true, label = "Note to server owners: to restrict this panel allow or deny permission to xgui_gmsettings.", parent = terrortown_settings}
 xlib.makelabel{x = 5, y = 250, w = 160, wordwrap = true, label = "All settings listed are explained here: http://ttt.badking.net/config- and-commands/convars", parent = terrortown_settings}
@@ -88,7 +88,7 @@ end
 terrortown_settings.processModules()
 
 xgui.hookEvent("onProcessModules", nil, terrortown_settings.processModules)
-xgui.addModule("TTT", terrortown_settings, "icon16/ttt.png", "xgui_gmsettings")
+xgui.addModule("TTT2", terrortown_settings, "icon16/ttt.png", "xgui_gmsettings")
 
 --------------------Round structure Module--------------------
 local rspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
