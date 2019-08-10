@@ -854,21 +854,53 @@ ilst:AddItem(ttt2invslider)
 xgui.hookEvent("onProcessModules", nil, ipnl.processModules)
 xgui.addSubModule("TTT2 Inventory", ipnl, nil, "terrortown_settings")
 
+
+--------------------Scoreboard Module--------------------
+local sbpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
+
+local sbclp = vgui.Create("DCollapsibleCategory", sbpnl)
+sbclp:SetSize(390, 100)
+sbclp:SetExpanded(1)
+sbclp:SetLabel("Highlight Groups")
+
+local sblst = vgui.Create("DPanelList", sbclp)
+sblst:SetPos(5, 25)
+sblst:SetSize(390, 100)
+sblst:SetSpacing(5)
+
+local sbcheck1 = xlib.makecheckbox{label = "ttt_highlight_admins (def. 1)", repconvar = "rep_ttt_highlight_admins", parent = sblst}
+sblst:AddItem(sbcheck1)
+
+local sbcheck2 = xlib.makecheckbox{label = "ttt_highlight_dev (def. 1)", repconvar = "rep_ttt_highlight_dev", parent = sblst}
+sblst:AddItem(sbcheck2)
+
+local sbcheck3 = xlib.makecheckbox{label = "ttt_highlight_vip (def. 1)", repconvar = "rep_ttt_highlight_vip", parent = sblst}
+sblst:AddItem(sbcheck3)
+
+local sbcheck4 = xlib.makecheckbox{label = "ttt_highlight_addondev (def. 1)", repconvar = "rep_ttt_highlight_addondev", parent = sblst}
+sblst:AddItem(sbcheck4)
+
+local sbcheck5 = xlib.makecheckbox{label = "ttt_highlight_supporter (def. 1)", repconvar = "rep_ttt_highlight_supporter", parent = sblst}
+sblst:AddItem(sbcheck5)
+
+xgui.hookEvent("onProcessModules", nil, sbpnl.processModules)
+xgui.addSubModule("Scoreboard", sbpnl, nil, "terrortown_settings")
+
 --------------------Miscellaneous Module--------------------
 local miscpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
 local miscclp = vgui.Create("DCollapsibleCategory", miscpnl)
-miscclp:SetSize(390, 120)
+miscclp:SetSize(390, 130)
 miscclp:SetExpanded(1)
 miscclp:SetLabel("Miscellaneous")
 
 local misclst = vgui.Create("DPanelList", miscclp)
 misclst:SetPos(5, 25)
-misclst:SetSize(390, 120)
+misclst:SetSize(390, 130)
 misclst:SetSpacing(5)
 
-local miscdh = xlib.makeslider{label = "ttt2_crowbar_shove_delay (def. 1.0)", repconvar = "rep_ttt2_crowbar_shove_delay", min = 0, max = 10, decimal = 1, parent = misclst}
-misclst:AddItem(miscdh)
+local miscsd = xlib.makeslider{label = "ttt2_crowbar_shove_delay (def. 1.0)", repconvar = "rep_ttt2_crowbar_shove_delay", min = 0, max = 10, decimal = 1, parent = misclst}
+misclst:AddItem(miscsd)
 
 local miscdh = xlib.makecheckbox{label = "ttt_detective_hats (def. 0)", repconvar = "rep_ttt_detective_hats", parent = misclst}
 misclst:AddItem(miscdh)

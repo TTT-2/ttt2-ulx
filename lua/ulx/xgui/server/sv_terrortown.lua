@@ -234,6 +234,13 @@ local function init()
 		ULib.replicatedWritableCvar("ttt_allow_discomb_jump", "rep_ttt_allow_discomb_jump", GetConVar("ttt_allow_discomb_jump"):GetInt(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_spawn_wave_interval", "rep_ttt_spawn_wave_interval", GetConVar("ttt_spawn_wave_interval"):GetInt(), true, false, "xgui_gmsettings")
 
+		-- scoreboard
+		ULib.replicatedWritableCvar("ttt_highlight_admins", "rep_ttt_highlight_admins", GetConVar("ttt_highlight_admins"):GetBool(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt_highlight_dev", "rep_ttt_highlight_dev", GetConVar("ttt_highlight_dev"):GetBool(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt_highlight_vip", "rep_ttt_highlight_vip", GetConVar("ttt_highlight_vip"):GetBool(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt_highlight_addondev", "rep_ttt_highlight_addondev", GetConVar("ttt_highlight_addondev"):GetBool(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt_highlight_supporter", "rep_ttt_highlight_supporter", GetConVar("ttt_highlight_supporter"):GetBool(), true, false, "xgui_gmsettings")
+
 		if TTT2 then
 			ULib.replicatedWritableCvar("ttt2_sprint_enabled", "rep_ttt2_sprint_enabled", GetConVar("ttt2_sprint_enabled"):GetInt(), true, false, "xgui_gmsettings")
 			ULib.replicatedWritableCvar("ttt2_sprint_max", "rep_ttt2_sprint_max", GetConVar("ttt2_sprint_max"):GetInt(), true, false, "xgui_gmsettings")
