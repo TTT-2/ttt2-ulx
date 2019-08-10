@@ -950,19 +950,12 @@ function ulx.identify(calling_ply, target_ply, unidentify)
 			ulx.fancyLogAdmin(calling_ply, "#A identified #T's body!", target_ply)
 			CORPSE.SetFound(body, true)
 
-			target_ply:SetNWBool("body_found", true)
-
-			if not TTT2 and target_ply:GetRole() == ROLE_TRAITOR or TTT2 and target_ply:HasTeam(TEAM_TRAITOR) then
-				-- update innocent's list of traitors
-				SendConfirmedTraitors(GetInnocentFilter(false))
-
-				SCORE:HandleBodyFound(calling_ply, target_ply)
-			end
-
+			target_ply:ConfirmPlayer(true)
 		else
 			ulx.fancyLogAdmin(calling_ply, "#A unidentified #T's body!", target_ply)
 			CORPSE.SetFound(body, false)
 
+			target_ply:ResetConfirmPlayer()
 			target_ply:SetNWBool("body_found", false)
 
 			SendFullStateUpdate()
