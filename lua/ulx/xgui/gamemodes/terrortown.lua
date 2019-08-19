@@ -454,7 +454,7 @@ if TTTH then
 	local clsclp = vgui.Create("DCollapsibleCategory", clspnl)
 	clsclp:SetSize(390, 75)
 	clsclp:SetExpanded(1)
-	clsclp:SetLabel("TTT2 CLASSES")
+	clsclp:SetLabel("TTT2 HEROES")
 
 	local clslst = vgui.Create("DPanelList", clsclp)
 	clslst:SetPos(5, 25)
