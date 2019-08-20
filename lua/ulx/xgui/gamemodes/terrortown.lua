@@ -436,10 +436,10 @@ if TTTC then
 		clslst2:SetSize(390, 50)
 		clslst2:SetSpacing(5)
 
-		local clscl = xlib.makecheckbox{label = pName .. "? (ttth_class_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_ttth_class_" .. v.name .. "_enabled", parent = clslst2}
+		local clscl = xlib.makecheckbox{label = pName .. "? (tttc_class_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_tttc_class_" .. v.name .. "_enabled", parent = clslst2}
 		clslst2:AddItem(clscl)
 
-		local clsrcl = xlib.makeslider{label = "ttth_class_" .. v.name .. "_random", min = 1, max = 100, repconvar = "rep_ttth_class_" .. v.name .. "_random", parent = clslst2}
+		local clsrcl = xlib.makeslider{label = "tttc_class_" .. v.name .. "_random", min = 1, max = 100, repconvar = "rep_tttc_class_" .. v.name .. "_random", parent = clslst2}
 		clslst2:AddItem(clsrcl)
 	end
 

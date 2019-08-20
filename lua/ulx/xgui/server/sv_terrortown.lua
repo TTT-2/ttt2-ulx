@@ -62,8 +62,8 @@ local function updateCVarsForTTTCULXClasses()
 	ULib.replicatedWritableCvar("ttt_classes_option", "rep_ttt_classes_option", GetConVar("ttt_classes_option"):GetInt(), true, true, "xgui_gmsettings")
 
 	for _, v in pairs(CLASS.CLASSES or {}) do
-		ULib.replicatedWritableCvar("ttth_class_" .. v.name .. "_enabled", "rep_ttth_class_" .. v.name .. "_enabled", GetConVar("ttth_class_" .. v.name .. "_enabled"):GetInt(), true, true, "xgui_gmsettings")
-		ULib.replicatedWritableCvar("ttth_class_" .. v.name .. "_random", "rep_ttth_class_" .. v.name .. "_random", GetConVar("ttth_class_" .. v.name .. "_random"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("tttc_class_" .. v.name .. "_enabled", "rep_tttc_class_" .. v.name .. "_enabled", GetConVar("tttc_class_" .. v.name .. "_enabled"):GetInt(), true, true, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("tttc_class_" .. v.name .. "_random", "rep_tttc_class_" .. v.name .. "_random", GetConVar("tttc_class_" .. v.name .. "_random"):GetInt(), true, false, "xgui_gmsettings")
 	end
 end
 
