@@ -430,7 +430,7 @@ function ulx.forceclass(calling_ply, target_plys, target_class, should_silent)
 
 			for i = 1, #target_plys do
 				local v = target_plys[i]
-				local current_class = v:GetHero()
+				local current_class = v:GetCustomClass()
 
 				if ulx.getExclusive(v, calling_ply) then
 					ULib.tsayError(calling_ply, ulx.getExclusive(v, calling_ply), true)
@@ -445,7 +445,7 @@ function ulx.forceclass(calling_ply, target_plys, target_class, should_silent)
 				elseif current_class and current_class == class then
 					ULib.tsayError(calling_ply, v:Nick() .. " is already " .. role_string, true)
 				else
-					v:UpdateHero(class)
+					v:UpdateClass(class)
 
 					table.insert(affected_plys, v)
 				end

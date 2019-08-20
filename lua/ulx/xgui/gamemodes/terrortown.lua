@@ -424,7 +424,7 @@ if TTTC then
 	clslst:AddItem(clslim3)
 
 	for _, v in pairs(CLASS.GetSortedHeroes()) do
-		local pName = CLASS.GetHeroTranslation(v)
+		local pName = CLASS.GetClassTranslation(v)
 
 		local clsclp2 = vgui.Create("DCollapsibleCategory", clspnl)
 		clsclp2:SetSize(390, 50)
