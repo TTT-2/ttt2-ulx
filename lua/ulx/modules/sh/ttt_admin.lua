@@ -407,7 +407,7 @@ function ulx.forcehero(calling_ply, target_plys, target_hero, should_silent)
 			local hero, hero_grammar, hero_string
 			local affected_plys = {}
 
-			for _, v in pairs(HEROES.HEROES) do
+			for _, v in pairs(CLASS.CLASSES) do
 				if target_hero == v.name then
 					local gr = "a"
 					local i = 1
@@ -472,7 +472,7 @@ local function initHeroClasses()
 	if TTTC then
 		table.Empty(ulx.target_hero)
 
-		for _, v in pairs(HEROES.HEROES) do
+		for _, v in pairs(CLASS.CLASSES) do
 			table.insert(ulx.target_hero, v.name)
 		end
 	end

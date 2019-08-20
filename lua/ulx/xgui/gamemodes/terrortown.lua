@@ -423,8 +423,8 @@ if TTTC then
 	local clslim3 = xlib.makecheckbox{label = "Option to choose between two classes? (ttt_classes_option) (def. 1)", repconvar = "rep_ttt_classes_option", parent = clslst}
 	clslst:AddItem(clslim3)
 
-	for _, v in pairs(HEROES.GetSortedHeroes()) do
-		local pName = HEROES.GetHeroTranslation(v)
+	for _, v in pairs(CLASS.GetSortedHeroes()) do
+		local pName = CLASS.GetHeroTranslation(v)
 
 		local clsclp2 = vgui.Create("DCollapsibleCategory", clspnl)
 		clsclp2:SetSize(390, 50)
