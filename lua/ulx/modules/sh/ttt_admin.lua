@@ -462,13 +462,13 @@ end
 
 local forceclass = ulx.command(CATEGORY_NAME, "ulx forceclass", ulx.forceclass, "!forceclass")
 forceclass:addParam{type = ULib.cmds.PlayersArg}
-forceclass:addParam{type = ULib.cmds.StringArg, completes = ulx.target_class, hint = "Hero", ULib.cmds.restrictToCompletes}
+forceclass:addParam{type = ULib.cmds.StringArg, completes = ulx.target_class, hint = "Class", ULib.cmds.restrictToCompletes}
 forceclass:addParam{type = ULib.cmds.BoolArg, invisible = true}
 forceclass:defaultAccess(ULib.ACCESS_SUPERADMIN)
 forceclass:setOpposite("ulx sforceclass", {nil, nil, nil, true}, "!sforceclass", true)
 forceclass:help("Forceclass <target(s)> to become a specified class.")
 
-local function initHeroClasses()
+local function initClassClasses()
 	if TTTC then
 		table.Empty(ulx.target_class)
 
@@ -478,8 +478,8 @@ local function initHeroClasses()
 	end
 end
 
-hook.Add("TTT2FinishedLoading", "TTT2UlxInitHeroesComplete", initHeroClasses)
-hook.Add(ULib.HOOK_UCLCHANGED, "ULXHeroNamesUpdate", initHeroClasses)
+hook.Add("TTT2FinishedLoading", "TTT2UlxInitClassesComplete", initClassClasses)
+hook.Add(ULib.HOOK_UCLCHANGED, "ULXClassNamesUpdate", initClassClasses)
 
 --[Respawn]------------------------------------------------------------------------------------
 --[[ulx.respawn][Respawns < target(s) > ]
