@@ -423,6 +423,9 @@ if TTTC then
 	local clslim3 = xlib.makecheckbox{label = "Option to choose between two classes? (ttt_classes_option) (def. 1)", repconvar = "rep_ttt_classes_option", parent = clslst}
 	clslst:AddItem(clslim3)
 
+	local clslim4 = xlib.makecheckbox{label = "Passive Items on Class Slot? (ttt_classes_extraslot) (def. 1)", repconvar = "rep_ttt_classes_extraslot", parent = clslst}
+	clslst:AddItem(clslim4)
+
 	for _, v in pairs(CLASS.GetSortedClasses()) do
 		local pName = CLASS.GetClassTranslation(v)
 
