@@ -472,7 +472,7 @@ local function initClassClasses()
 	if TTTC then
 		table.Empty(ulx.target_class)
 
-		for _, v in pairs(CLASS.CLASSES) do
+		for _, v in SortedPairs(CLASS.CLASSES) do
 			table.insert(ulx.target_class, v.name)
 		end
 	end
