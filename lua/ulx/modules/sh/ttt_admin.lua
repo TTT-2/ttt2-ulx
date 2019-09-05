@@ -43,7 +43,7 @@ hook.Add(ULib.HOOK_UCLCHANGED, "ULXRoleNamesUpdate", updateRoles)
 
 updateRoles()
 
-ulx.target_hero = ulx.target_hero or {}
+ulx.target_class = ulx.target_class or {}
 
 --[End]----------------------------------------------------------------------------------------
 
@@ -392,23 +392,23 @@ force:defaultAccess(ULib.ACCESS_SUPERADMIN)
 force:setOpposite("ulx sforce", {nil, nil, nil, true}, "!sforce", true)
 force:help("Force <target(s)> to become a specified role.")
 
---[Force hero]---------------------------------------------------------------------------------
---[[ulx.forcehero][Forces < target(s) > to become a specified hero.]
+--[Force class]---------------------------------------------------------------------------------
+--[[ulx.forceclass][Forces < target(s) > to become a specified class.]
 @param  {[PlayerObject]} calling_ply   [The player who used the command.]
 @param  {[PlayerObject]} target_plys   [The player(s) who will have the effects of the command applied to them.]
-@param  {[Number]}       target_hero   [The hero that target player(s) will have there hero set to.]
+@param  {[Number]}       target_class   [The class that target player(s) will have there class set to.]
 @param  {[Boolean]}      should_silent [Hidden, determines weather the output will be silent or not.]
 --]]
-function ulx.forcehero(calling_ply, target_plys, target_hero, should_silent)
+function ulx.forceclass(calling_ply, target_plys, target_class, should_silent)
 	if GetConVar("gamemode"):GetString() ~= "terrortown" then
 		ULib.tsayError(calling_ply, gamemode_error, true)
 	else
-		if TTT2 and HEROES then
-			local hero, hero_grammar, hero_string
+		if TTT2 and TTTC then
+			local class, class_grammar, class_string
 			local affected_plys = {}
 
-			for _, v in pairs(HEROES.HEROES) do
-				if target_hero == v.name then
+			for _, v in pairs(CLASS.CLASSES) do
+				if target_class == v.name then
 					local gr = "a"
 					local i = 1
 					local sh = string.sub(v.name, i, i)
@@ -422,7 +422,7 @@ function ulx.forcehero(calling_ply, target_plys, target_hero, should_silent)
 						gr = gr .. "n"
 					end
 
-					hero, hero_grammar, hero_string = v.index, gr, v.name
+					class, class_grammar, class_string = v.index, gr, v.name
 
 					break
 				end
@@ -430,56 +430,56 @@ function ulx.forcehero(calling_ply, target_plys, target_hero, should_silent)
 
 			for i = 1, #target_plys do
 				local v = target_plys[i]
-				local current_hero = v:GetHero()
+				local current_class = v:GetCustomClass()
 
 				if ulx.getExclusive(v, calling_ply) then
 					ULib.tsayError(calling_ply, ulx.getExclusive(v, calling_ply), true)
 				elseif GetRoundState() == 1 or GetRoundState() == 2 then
 					ULib.tsayError(calling_ply, "The round has not begun!", true)
-				elseif not hero then
-					ULib.tsayError(calling_ply, "Invalid hero :\"" .. target_hero .. "\" specified", true)
-				elseif hero == "invalid_hero_not_selectable" then
-					ULib.tsayError(calling_ply, "The selected hero can't be selected!", true)
+				elseif not class then
+					ULib.tsayError(calling_ply, "Invalid class :\"" .. target_class .. "\" specified", true)
+				elseif class == "invalid_class_not_selectable" then
+					ULib.tsayError(calling_ply, "The selected class can't be selected!", true)
 				elseif not v:Alive() then
 					ULib.tsayError(calling_ply, v:Nick() .. " is dead!", true)
-				elseif current_hero and current_hero == hero then
+				elseif current_class and current_class == class then
 					ULib.tsayError(calling_ply, v:Nick() .. " is already " .. role_string, true)
 				else
-					v:UpdateHero(hero)
+					v:UpdateClass(class)
 
 					table.insert(affected_plys, v)
 				end
 			end
 
-			if hero_grammar then -- if not set, no message!
-				ulx.fancyLogAdmin(calling_ply, should_silent, "#A forced #T to become the hero of " .. hero_grammar .. " #s.", affected_plys, hero_string)
+			if class_grammar then -- if not set, no message!
+				ulx.fancyLogAdmin(calling_ply, should_silent, "#A forced #T to become the class of " .. class_grammar .. " #s.", affected_plys, class_string)
 
-				send_messages(affected_plys, "Your hero has been set to " .. hero_string .. ".")
+				send_messages(affected_plys, "Your class has been set to " .. class_string .. ".")
 			end
 		end
 	end
 end
 
-local forcehero = ulx.command(CATEGORY_NAME, "ulx forcehero", ulx.forcehero, "!forcehero")
-forcehero:addParam{type = ULib.cmds.PlayersArg}
-forcehero:addParam{type = ULib.cmds.StringArg, completes = ulx.target_hero, hint = "Hero", ULib.cmds.restrictToCompletes}
-forcehero:addParam{type = ULib.cmds.BoolArg, invisible = true}
-forcehero:defaultAccess(ULib.ACCESS_SUPERADMIN)
-forcehero:setOpposite("ulx sforcehero", {nil, nil, nil, true}, "!sforcehero", true)
-forcehero:help("Forcehero <target(s)> to become a specified hero.")
+local forceclass = ulx.command(CATEGORY_NAME, "ulx forceclass", ulx.forceclass, "!forceclass")
+forceclass:addParam{type = ULib.cmds.PlayersArg}
+forceclass:addParam{type = ULib.cmds.StringArg, completes = ulx.target_class, hint = "Class", ULib.cmds.restrictToCompletes}
+forceclass:addParam{type = ULib.cmds.BoolArg, invisible = true}
+forceclass:defaultAccess(ULib.ACCESS_SUPERADMIN)
+forceclass:setOpposite("ulx sforceclass", {nil, nil, nil, true}, "!sforceclass", true)
+forceclass:help("Forceclass <target(s)> to become a specified class.")
 
-local function initHeroClasses()
-	if HEROES then
-		table.Empty(ulx.target_hero)
+local function initClassClasses()
+	if TTTC then
+		table.Empty(ulx.target_class)
 
-		for _, v in pairs(HEROES.HEROES) do
-			table.insert(ulx.target_hero, v.name)
+		for _, v in SortedPairs(CLASS.CLASSES) do
+			table.insert(ulx.target_class, v.name)
 		end
 	end
 end
 
-hook.Add("TTT2FinishedLoading", "TTT2UlxInitHeroesComplete", initHeroClasses)
-hook.Add(ULib.HOOK_UCLCHANGED, "ULXHeroNamesUpdate", initHeroClasses)
+hook.Add("TTT2FinishedLoading", "TTT2UlxInitClassesComplete", initClassClasses)
+hook.Add(ULib.HOOK_UCLCHANGED, "ULXClassNamesUpdate", initClassClasses)
 
 --[Respawn]------------------------------------------------------------------------------------
 --[[ulx.respawn][Respawns < target(s) > ]

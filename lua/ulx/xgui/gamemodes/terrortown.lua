@@ -401,53 +401,57 @@ xgui.hookEvent("onProcessModules", nil, gppnl.processModules)
 xgui.addSubModule("Gameplay", gppnl, nil, "terrortown_settings")
 
 --------------------Classes Module--------------------
-if CLASSES then
+if TTTC then
 	local clspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
 	local clsclp = vgui.Create("DCollapsibleCategory", clspnl)
-	clsclp:SetSize(390, 50)
+	clsclp:SetSize(390, 75)
 	clsclp:SetExpanded(1)
-	clsclp:SetLabel("CLASSES settings")
+	clsclp:SetLabel("TTT2 CLASSES")
 
 	local clslst = vgui.Create("DPanelList", clsclp)
 	clslst:SetPos(5, 25)
-	clslst:SetSize(390, 50)
+	clslst:SetSize(390, 75)
 	clslst:SetSpacing(5)
 
-	local clsccl = xlib.makecheckbox{label = "Custom Classes? (ttt_customclasses_enabled) (def. 1)", repconvar = "rep_ttt_customclasses_enabled", parent = clslst}
-	clslst:AddItem(clsccl)
-
-	local clslim = xlib.makecheckbox{label = "Limited Classes? (ttt_customclasses_limited) (def. 1)", repconvar = "rep_ttt_customclasses_limited", parent = clslst}
+	local clslim = xlib.makecheckbox{label = "Enable Classes? (ttt2_classes) (def. 1)", repconvar = "rep_ttt2_classes", parent = clslst}
 	clslst:AddItem(clslim)
 
-	for _, v in pairs(GetSortedClasses()) do
-		if v ~= CLASSES.UNSET then
-			local pName = GetClassTranslation(v)
+	local clslim2 = xlib.makecheckbox{label = "Limited Classes? (ttt_classes_limited) (def. 1)", repconvar = "rep_ttt_classes_limited", parent = clslst}
+	clslst:AddItem(clslim2)
 
-			local clsclp2 = vgui.Create("DCollapsibleCategory", clspnl)
-			clsclp2:SetSize(390, 50)
-			clsclp2:SetExpanded(0)
-			clsclp2:SetLabel(pName)
+	local clslim3 = xlib.makecheckbox{label = "Option to choose between two classes? (ttt_classes_option) (def. 1)", repconvar = "rep_ttt_classes_option", parent = clslst}
+	clslst:AddItem(clslim3)
 
-			local clslst2 = vgui.Create("DPanelList", clsclp2)
-			clslst2:SetPos(5, 25)
-			clslst2:SetSize(390, 50)
-			clslst2:SetSpacing(5)
+	local clslim4 = xlib.makecheckbox{label = "Passive Items on Class Slot? (ttt_classes_extraslot) (def. 1)", repconvar = "rep_ttt_classes_extraslot", parent = clslst}
+	clslst:AddItem(clslim4)
 
-			local clscl = xlib.makecheckbox{label = pName .. "? (tttc_class_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_tttc_class_" .. v.name .. "_enabled", parent = clslst2}
-			clslst2:AddItem(clscl)
+	for _, v in pairs(CLASS.GetSortedClasses()) do
+		local pName = CLASS.GetClassTranslation(v)
 
-			local clsrcl = xlib.makeslider{label = "tttc_class_" .. v.name .. "_random", min = 1, max = 100, repconvar = "rep_tttc_class_" .. v.name .. "_random", parent = clslst2}
-			clslst2:AddItem(clsrcl)
-		end
+		local clsclp2 = vgui.Create("DCollapsibleCategory", clspnl)
+		clsclp2:SetSize(390, 50)
+		clsclp2:SetExpanded(0)
+		clsclp2:SetLabel(pName)
+
+		local clslst2 = vgui.Create("DPanelList", clsclp2)
+		clslst2:SetPos(5, 25)
+		clslst2:SetSize(390, 50)
+		clslst2:SetSpacing(5)
+
+		local clscl = xlib.makecheckbox{label = pName .. "? (tttc_class_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_tttc_class_" .. v.name .. "_enabled", parent = clslst2}
+		clslst2:AddItem(clscl)
+
+		local clsrcl = xlib.makeslider{label = "tttc_class_" .. v.name .. "_random", min = 1, max = 100, repconvar = "rep_tttc_class_" .. v.name .. "_random", parent = clslst2}
+		clslst2:AddItem(clsrcl)
 	end
 
 	xgui.hookEvent("onProcessModules", nil, clspnl.processModules)
-	xgui.addSubModule("Classes", clspnl, nil, "terrortown_settings")
+	xgui.addSubModule("TTT2 CLASSES", clspnl, nil, "terrortown_settings")
 end
 
 --------------------Heroes Module--------------------
-if HEROES then
+if TTTH then
 	local clspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
 	local clsclp = vgui.Create("DCollapsibleCategory", clspnl)
@@ -462,32 +466,6 @@ if HEROES then
 
 	local clslim = xlib.makecheckbox{label = "Enable Heroes? (ttt2_heroes) (def. 1)", repconvar = "rep_ttt2_heroes", parent = clslst}
 	clslst:AddItem(clslim)
-
-	local clslim2 = xlib.makecheckbox{label = "Limited Heroes? (ttt_heroes_limited) (def. 1)", repconvar = "rep_ttt_heroes_limited", parent = clslst}
-	clslst:AddItem(clslim2)
-
-	local clslim3 = xlib.makecheckbox{label = "Option to choose between two heroes? (ttt_heroes_option) (def. 1)", repconvar = "rep_ttt_heroes_option", parent = clslst}
-	clslst:AddItem(clslim3)
-
-	for _, v in pairs(HEROES.GetSortedHeroes()) do
-		local pName = HEROES.GetHeroTranslation(v)
-
-		local clsclp2 = vgui.Create("DCollapsibleCategory", clspnl)
-		clsclp2:SetSize(390, 50)
-		clsclp2:SetExpanded(0)
-		clsclp2:SetLabel(pName)
-
-		local clslst2 = vgui.Create("DPanelList", clsclp2)
-		clslst2:SetPos(5, 25)
-		clslst2:SetSize(390, 50)
-		clslst2:SetSpacing(5)
-
-		local clscl = xlib.makecheckbox{label = pName .. "? (ttth_hero_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_ttth_hero_" .. v.name .. "_enabled", parent = clslst2}
-		clslst2:AddItem(clscl)
-
-		local clsrcl = xlib.makeslider{label = "ttth_hero_" .. v.name .. "_random", min = 1, max = 100, repconvar = "rep_ttth_hero_" .. v.name .. "_random", parent = clslst2}
-		clslst2:AddItem(clsrcl)
-	end
 
 	xgui.hookEvent("onProcessModules", nil, clspnl.processModules)
 	xgui.addSubModule("TTT2 HEROES", clspnl, nil, "terrortown_settings")

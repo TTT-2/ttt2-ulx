@@ -57,26 +57,19 @@ local function updateCVarsForTTT2ULXRoles()
 end
 
 local function updateCVarsForTTTCULXClasses()
-	ULib.replicatedWritableCvar("ttt_customclasses_enabled", "rep_ttt_customclasses_enabled", GetConVar("ttt_customclasses_enabled"):GetInt(), true, true, "xgui_gmsettings")
-	ULib.replicatedWritableCvar("ttt_customclasses_limited", "rep_ttt_customclasses_limited", GetConVar("ttt_customclasses_limited"):GetInt(), true, true, "xgui_gmsettings")
+	ULib.replicatedWritableCvar("ttt2_classes", "rep_ttt2_classes", GetConVar("ttt2_classes"):GetInt(), true, true, "xgui_gmsettings")
+	ULib.replicatedWritableCvar("ttt_classes_limited", "rep_ttt_classes_limited", GetConVar("ttt_classes_limited"):GetInt(), true, true, "xgui_gmsettings")
+	ULib.replicatedWritableCvar("ttt_classes_option", "rep_ttt_classes_option", GetConVar("ttt_classes_option"):GetInt(), true, true, "xgui_gmsettings")
+	ULib.replicatedWritableCvar("ttt_classes_extraslot", "rep_ttt_classes_extraslot", GetConVar("ttt_classes_extraslot"):GetInt(), true, true, "xgui_gmsettings")
 
-	for _, v in pairs(CLASSES) do
-		if v ~= CLASSES.UNSET then
-			ULib.replicatedWritableCvar("tttc_class_" .. v.name .. "_enabled", "rep_tttc_class_" .. v.name .. "_enabled", GetConVar("tttc_class_" .. v.name .. "_enabled"):GetInt(), true, true, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("tttc_class_" .. v.name .. "_random", "rep_tttc_class_" .. v.name .. "_random", GetConVar("tttc_class_" .. v.name .. "_random"):GetInt(), true, false, "xgui_gmsettings")
-		end
+	for _, v in pairs(CLASS.CLASSES or {}) do
+		ULib.replicatedWritableCvar("tttc_class_" .. v.name .. "_enabled", "rep_tttc_class_" .. v.name .. "_enabled", GetConVar("tttc_class_" .. v.name .. "_enabled"):GetInt(), true, true, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("tttc_class_" .. v.name .. "_random", "rep_tttc_class_" .. v.name .. "_random", GetConVar("tttc_class_" .. v.name .. "_random"):GetInt(), true, false, "xgui_gmsettings")
 	end
 end
 
 local function updateCVarsForTTTCULXHeroes()
 	ULib.replicatedWritableCvar("ttt2_heroes", "rep_ttt2_heroes", GetConVar("ttt2_heroes"):GetInt(), true, true, "xgui_gmsettings")
-	ULib.replicatedWritableCvar("ttt_heroes_limited", "rep_ttt_heroes_limited", GetConVar("ttt_heroes_limited"):GetInt(), true, true, "xgui_gmsettings")
-	ULib.replicatedWritableCvar("ttt_heroes_option", "rep_ttt_heroes_option", GetConVar("ttt_heroes_option"):GetInt(), true, true, "xgui_gmsettings")
-
-	for _, v in pairs(HEROES.HEROES or {}) do
-		ULib.replicatedWritableCvar("ttth_hero_" .. v.name .. "_enabled", "rep_ttth_hero_" .. v.name .. "_enabled", GetConVar("ttth_hero_" .. v.name .. "_enabled"):GetInt(), true, true, "xgui_gmsettings")
-		ULib.replicatedWritableCvar("ttth_hero_" .. v.name .. "_random", "rep_ttth_hero_" .. v.name .. "_random", GetConVar("ttth_hero_" .. v.name .. "_random"):GetInt(), true, false, "xgui_gmsettings")
-	end
 end
 
 local function updateDynamicCVarsForTTT2ULXRoles()
@@ -260,11 +253,11 @@ local function init()
 			ULib.replicatedWritableCvar("ttt2_crowbar_shove_delay", "rep_ttt2_crowbar_shove_delay", GetConVar("ttt2_crowbar_shove_delay"):GetFloat(), true, false, "xgui_gmsettings")
 		end
 
-		if CLASSES then
+		if TTTC then
 			updateCVarsForTTTCULXClasses()
 		end
 
-		if HEROES then
+		if TTTH then
 			updateCVarsForTTTCULXHeroes()
 		end
 
@@ -287,7 +280,11 @@ end)
 hook.Add("TTT2FinishedLoading", "TTT2UlxInitSWEPCVars", function()
 	updateDynamicCVarsForTTT2ULXRoles()
 
-	if HEROES then
+	if TTTC then
+		updateCVarsForTTTCULXClasses()
+	end
+
+	if TTTH then
 		updateCVarsForTTTCULXHeroes()
 	end
 end)
