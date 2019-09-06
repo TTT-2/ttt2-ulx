@@ -841,7 +841,69 @@ local sbcheck5 = xlib.makecheckbox{label = "ttt_highlight_supporter (def. 1)", r
 sblst:AddItem(sbcheck5)
 
 xgui.hookEvent("onProcessModules", nil, sbpnl.processModules)
-xgui.addSubModule("Scoreboard", sbpnl, nil, "terrortown_settings")
+xgui.addSubModule("TTT2 Scoreboard", sbpnl, nil, "terrortown_settings")
+
+
+--------------------Armor Module--------------------
+local apnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
+
+local aclp1 = vgui.Create("DCollapsibleCategory", apnl)
+aclp1:SetSize(390, 50)
+aclp1:SetExpanded(1)
+aclp1:SetLabel("Armor Features")
+
+local alst1 = vgui.Create("DPanelList", aclp1)
+alst1:SetPos(5, 25)
+alst1:SetSize(390, 50)
+alst1:SetSpacing(5)
+
+local acheck11 = xlib.makecheckbox{label = "ttt_armor_classic (def. 0)", repconvar = "rep_ttt_armor_classic", parent = alst1}
+alst1:AddItem(acheck11)
+
+local acheck12 = xlib.makecheckbox{label = "ttt_armor_is_reinforced_enabled (def. 1)", repconvar = "rep_ttt_armor_is_reinforced_enabled", parent = alst1}
+alst1:AddItem(acheck12)
+
+
+local aclp2 = vgui.Create("DCollapsibleCategory", apnl)
+aclp2:SetSize(390, 25)
+aclp2:SetExpanded(1)
+aclp2:SetLabel("Armor Item Settings")
+
+local alst2 = vgui.Create("DPanelList", aclp2)
+alst2:SetPos(5, 25)
+alst2:SetSize(390, 25)
+alst2:SetSpacing(5)
+
+local asld21 = xlib.makeslider{label = "ttt_item_armor_value (def. 30)", repconvar = "rep_ttt_item_armor_value", min = 0, max = 100, decimal = 0, parent = alst2}
+alst2:AddItem(asld21)
+
+
+local aclp3 = vgui.Create("DCollapsibleCategory", apnl)
+aclp3:SetSize(390, 100)
+aclp3:SetExpanded(1)
+aclp3:SetLabel("Armor Balancing")
+
+local alst3 = vgui.Create("DPanelList", aclp3)
+alst3:SetPos(5, 25)
+alst3:SetSize(390, 100)
+alst3:SetSpacing(5)
+
+local asld31 = xlib.makeslider{label = "ttt_armor_on_spawn (def. 0)", repconvar = "rep_ttt_armor_on_spawn", min = 0, max = 100, decimal = 0, parent = alst3}
+alst3:AddItem(asld31)
+
+local asld32 = xlib.makeslider{label = "ttt_armor_threshold_for_reinforced (def. 50)", repconvar = "rep_ttt_armor_threshold_for_reinforced", min = 0, max = 100, decimal = 0, parent = alst3}
+alst3:AddItem(asld32)
+
+local asld33 = xlib.makeslider{label = "ttt_armor_damage_block_pct (def. 0.2)", repconvar = "rep_ttt_armor_damage_block_pct", min = 0, max = 1, decimal = 2, parent = alst3}
+alst3:AddItem(asld33)
+
+local asld34 = xlib.makeslider{label = "ttt_armor_damage_health_pct (def. 0.7)", repconvar = "rep_ttt_armor_damage_health_pct", min = 0, max = 1, decimal = 2, parent = alst3}
+alst3:AddItem(asld34)
+
+
+xgui.hookEvent("onProcessModules", nil, apnl.processModules)
+xgui.addSubModule("TTT2 Armor", apnl, nil, "terrortown_settings")
+
 
 --------------------Miscellaneous Module--------------------
 local miscpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}

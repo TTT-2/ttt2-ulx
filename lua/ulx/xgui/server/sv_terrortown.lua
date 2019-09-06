@@ -222,6 +222,7 @@ local function init()
 		ULib.replicatedWritableCvar("ttt_locational_voice", "rep_ttt_locational_voice", GetConVar("ttt_locational_voice"):GetInt(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_allow_discomb_jump", "rep_ttt_allow_discomb_jump", GetConVar("ttt_allow_discomb_jump"):GetInt(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_spawn_wave_interval", "rep_ttt_spawn_wave_interval", GetConVar("ttt_spawn_wave_interval"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt2_crowbar_shove_delay", "rep_ttt2_crowbar_shove_delay", GetConVar("ttt2_crowbar_shove_delay"):GetFloat(), true, false, "xgui_gmsettings")
 
 		-- scoreboard
 		ULib.replicatedWritableCvar("ttt_highlight_admins", "rep_ttt_highlight_admins", GetConVar("ttt_highlight_admins"):GetBool(), true, false, "xgui_gmsettings")
@@ -230,24 +231,32 @@ local function init()
 		ULib.replicatedWritableCvar("ttt_highlight_addondev", "rep_ttt_highlight_addondev", GetConVar("ttt_highlight_addondev"):GetBool(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_highlight_supporter", "rep_ttt_highlight_supporter", GetConVar("ttt_highlight_supporter"):GetBool(), true, false, "xgui_gmsettings")
 
-		if TTT2 then
-			ULib.replicatedWritableCvar("ttt2_sprint_enabled", "rep_ttt2_sprint_enabled", GetConVar("ttt2_sprint_enabled"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt2_sprint_max", "rep_ttt2_sprint_max", GetConVar("ttt2_sprint_max"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt2_sprint_stamina_consumption", "rep_ttt2_sprint_stamina_consumption", GetConVar("ttt2_sprint_stamina_consumption"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt2_sprint_stamina_regeneration", "rep_ttt2_sprint_stamina_regeneration", GetConVar("ttt2_sprint_stamina_regeneration"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt2_sprint_crosshair", "rep_ttt2_sprint_crosshair", GetConVar("ttt2_sprint_crosshair"):GetInt(), true, false, "xgui_gmsettings")
+		-- sprint
+		ULib.replicatedWritableCvar("ttt2_sprint_enabled", "rep_ttt2_sprint_enabled", GetConVar("ttt2_sprint_enabled"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt2_sprint_max", "rep_ttt2_sprint_max", GetConVar("ttt2_sprint_max"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt2_sprint_stamina_consumption", "rep_ttt2_sprint_stamina_consumption", GetConVar("ttt2_sprint_stamina_consumption"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt2_sprint_stamina_regeneration", "rep_ttt2_sprint_stamina_regeneration", GetConVar("ttt2_sprint_stamina_regeneration"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt2_sprint_crosshair", "rep_ttt2_sprint_crosshair", GetConVar("ttt2_sprint_crosshair"):GetInt(), true, false, "xgui_gmsettings")
 
-			ULib.replicatedWritableCvar("ttt2_max_melee_slots", "rep_ttt2_max_melee_slots", GetConVar("ttt2_max_melee_slots"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt2_max_secondary_slots", "rep_ttt2_max_secondary_slots", GetConVar("ttt2_max_secondary_slots"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt2_max_primary_slots", "rep_ttt2_max_primary_slots", GetConVar("ttt2_max_primary_slots"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt2_max_nade_slots", "rep_ttt2_max_nade_slots", GetConVar("ttt2_max_nade_slots"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt2_max_carry_slots", "rep_ttt2_max_carry_slots", GetConVar("ttt2_max_carry_slots"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt2_max_unarmed_slots", "rep_ttt2_max_unarmed_slots", GetConVar("ttt2_max_unarmed_slots"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt2_max_special_slots", "rep_ttt2_max_special_slots", GetConVar("ttt2_max_special_slots"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt2_max_extra_slots", "rep_ttt2_max_extra_slots", GetConVar("ttt2_max_extra_slots"):GetInt(), true, false, "xgui_gmsettings")
+		-- wepaon system
+		ULib.replicatedWritableCvar("ttt2_max_melee_slots", "rep_ttt2_max_melee_slots", GetConVar("ttt2_max_melee_slots"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt2_max_secondary_slots", "rep_ttt2_max_secondary_slots", GetConVar("ttt2_max_secondary_slots"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt2_max_primary_slots", "rep_ttt2_max_primary_slots", GetConVar("ttt2_max_primary_slots"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt2_max_nade_slots", "rep_ttt2_max_nade_slots", GetConVar("ttt2_max_nade_slots"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt2_max_carry_slots", "rep_ttt2_max_carry_slots", GetConVar("ttt2_max_carry_slots"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt2_max_unarmed_slots", "rep_ttt2_max_unarmed_slots", GetConVar("ttt2_max_unarmed_slots"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt2_max_special_slots", "rep_ttt2_max_special_slots", GetConVar("ttt2_max_special_slots"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt2_max_extra_slots", "rep_ttt2_max_extra_slots", GetConVar("ttt2_max_extra_slots"):GetInt(), true, false, "xgui_gmsettings")
 
-			ULib.replicatedWritableCvar("ttt2_crowbar_shove_delay", "rep_ttt2_crowbar_shove_delay", GetConVar("ttt2_crowbar_shove_delay"):GetFloat(), true, false, "xgui_gmsettings")
-		end
+		-- armor
+		ULib.replicatedWritableCvar("ttt_armor_classic", "rep_ttt_armor_classic", GetConVar("ttt_armor_classic"):GetBool(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt_armor_is_reinforced_enabled", "rep_ttt_armor_is_reinforced_enabled", GetConVar("ttt_armor_is_reinforced_enabled"):GetBool(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt_item_armor_value", "rep_ttt_item_armor_value", GetConVar("ttt_item_armor_value"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt_armor_on_spawn", "rep_ttt_armor_on_spawn", GetConVar("ttt_armor_on_spawn"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt_armor_threshold_for_reinforced", "rep_ttt_armor_threshold_for_reinforced", GetConVar("ttt_armor_threshold_for_reinforced"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt_armor_damage_block_pct", "rep_ttt_armor_damage_block_pct", GetConVar("ttt_armor_damage_block_pct"):GetFloat(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt_armor_damage_health_pct", "rep_ttt_armor_damage_health_pct", GetConVar("ttt_armor_damage_health_pct"):GetFloat(), true, false, "xgui_gmsettings")
+
 
 		if TTTC then
 			updateCVarsForTTTCULXClasses()
