@@ -68,10 +68,6 @@ local function updateCVarsForTTTCULXClasses()
 	end
 end
 
-local function updateCVarsForTTTCULXHeroes()
-	ULib.replicatedWritableCvar("ttt2_heroes", "rep_ttt2_heroes", GetConVar("ttt2_heroes"):GetInt(), true, true, "xgui_gmsettings")
-end
-
 local function updateDynamicCVarsForTTT2ULXRoles()
 	ULX_DYNAMIC_RCVARS = {}
 
@@ -257,10 +253,6 @@ local function init()
 			updateCVarsForTTTCULXClasses()
 		end
 
-		if TTTH then
-			updateCVarsForTTTCULXHeroes()
-		end
-
 		hook.Run("TTTUlxInitCustomCVar", "xgui_gmsettings")
 	end
 end
@@ -282,10 +274,6 @@ hook.Add("TTT2FinishedLoading", "TTT2UlxInitSWEPCVars", function()
 
 	if TTTC then
 		updateCVarsForTTTCULXClasses()
-	end
-
-	if TTTH then
-		updateCVarsForTTTCULXHeroes()
 	end
 end)
 

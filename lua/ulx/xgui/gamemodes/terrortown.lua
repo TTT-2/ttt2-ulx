@@ -450,27 +450,6 @@ if TTTC then
 	xgui.addSubModule("TTT2 CLASSES", clspnl, nil, "terrortown_settings")
 end
 
---------------------Heroes Module--------------------
-if TTTH then
-	local clspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
-
-	local clsclp = vgui.Create("DCollapsibleCategory", clspnl)
-	clsclp:SetSize(390, 75)
-	clsclp:SetExpanded(1)
-	clsclp:SetLabel("TTT2 HEROES")
-
-	local clslst = vgui.Create("DPanelList", clsclp)
-	clslst:SetPos(5, 25)
-	clslst:SetSize(390, 75)
-	clslst:SetSpacing(5)
-
-	local clslim = xlib.makecheckbox{label = "Enable Heroes? (ttt2_heroes) (def. 1)", repconvar = "rep_ttt2_heroes", parent = clslst}
-	clslst:AddItem(clslim)
-
-	xgui.hookEvent("onProcessModules", nil, clspnl.processModules)
-	xgui.addSubModule("TTT2 HEROES", clspnl, nil, "terrortown_settings")
-end
-
 --------------------TTT2 HUDs Module--------------------
 if hudelements then
 	local clspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
