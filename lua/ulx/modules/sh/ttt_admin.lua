@@ -443,7 +443,7 @@ function ulx.forceclass(calling_ply, target_plys, target_class, should_silent)
 				elseif not v:Alive() then
 					ULib.tsayError(calling_ply, v:Nick() .. " is dead!", true)
 				elseif current_class and current_class == class then
-					ULib.tsayError(calling_ply, v:Nick() .. " is already " .. role_string, true)
+					ULib.tsayError(calling_ply, v:Nick() .. " has already this class!", true)
 				else
 					v:UpdateClass(class)
 
