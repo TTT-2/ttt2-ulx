@@ -79,3 +79,63 @@ ttt2_addon_settings.processModules()
 xgui.hookEvent("onProcessModules", nil, ttt2_addon_settings.processModules)
 xgui.addModule("Addons", ttt2_addon_settings, "icon16/addons.png", "xgui_gmsettings")
 hook.Run("TTTUlxModifyAddonSettings", "ttt2_addon_settings")
+
+
+
+
+if TTTC then
+	--------------------Classes Module - Basic Settings--------------------
+	local clspnl1 = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
+
+	local clsclp = vgui.Create("DCollapsibleCategory", clspnl1)
+	clsclp:SetSize(390, 75)
+	clsclp:SetExpanded(1)
+	clsclp:SetLabel("Basic Settings")
+
+	local clslst1 = vgui.Create("DPanelList", clsclp)
+	clslst1:SetPos(5, 25)
+	clslst1:SetSize(390, 75)
+	clslst1:SetSpacing(5)
+
+	local clslim = xlib.makecheckbox{label = "Enable Classes? (ttt2_classes) (def. 1)", repconvar = "rep_ttt2_classes", parent = clslst}
+	clslst1:AddItem(clslim)
+
+	local clslim2 = xlib.makecheckbox{label = "Limited Classes? (ttt_classes_limited) (def. 1)", repconvar = "rep_ttt_classes_limited", parent = clslst}
+	clslst1:AddItem(clslim2)
+
+	local clslim3 = xlib.makecheckbox{label = "Option to choose between two classes? (ttt_classes_option) (def. 1)", repconvar = "rep_ttt_classes_option", parent = clslst}
+	clslst1:AddItem(clslim3)
+
+	local clslim4 = xlib.makecheckbox{label = "Passive Items on Class Slot? (ttt_classes_extraslot) (def. 1)", repconvar = "rep_ttt_classes_extraslot", parent = clslst}
+	clslst1:AddItem(clslim4)
+
+	xgui.hookEvent("onProcessModules", nil, clspnl1.processModules)
+	xgui.addSubModule("TTT2 Classes", clspnl1, nil, "ttt2_addon_settings")
+
+
+	--------------------Classes Module - Class Specific Settings--------------------
+	local clspnl2 = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
+
+	for _, v in pairs(CLASS.GetSortedClasses()) do
+		local pName = CLASS.GetClassTranslation(v)
+
+		local clsclp2 = vgui.Create("DCollapsibleCategory", clspnl2)
+		clsclp2:SetSize(390, 50)
+		clsclp2:SetExpanded(0)
+		clsclp2:SetLabel(pName)
+
+		local clslst2 = vgui.Create("DPanelList", clsclp2)
+		clslst2:SetPos(5, 25)
+		clslst2:SetSize(390, 50)
+		clslst2:SetSpacing(5)
+
+		local clscl = xlib.makecheckbox{label = pName .. "? (tttc_class_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_tttc_class_" .. v.name .. "_enabled", parent = clslst2}
+		clslst2:AddItem(clscl)
+
+		local clsrcl = xlib.makeslider{label = "tttc_class_" .. v.name .. "_random", min = 1, max = 100, repconvar = "rep_tttc_class_" .. v.name .. "_random", parent = clslst2}
+		clslst2:AddItem(clsrcl)
+	end
+
+	xgui.hookEvent("onProcessModules", nil, clspnl2.processModules)
+	xgui.addSubModule("TTT2 Class Settings", clspnl2, nil, "ttt2_addon_settings")
+end

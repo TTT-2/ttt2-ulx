@@ -400,55 +400,6 @@ end
 xgui.hookEvent("onProcessModules", nil, gppnl.processModules)
 xgui.addSubModule("Gameplay", gppnl, nil, "terrortown_settings")
 
---------------------Classes Module--------------------
-if TTTC then
-	local clspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
-
-	local clsclp = vgui.Create("DCollapsibleCategory", clspnl)
-	clsclp:SetSize(390, 75)
-	clsclp:SetExpanded(1)
-	clsclp:SetLabel("TTT2 CLASSES")
-
-	local clslst = vgui.Create("DPanelList", clsclp)
-	clslst:SetPos(5, 25)
-	clslst:SetSize(390, 75)
-	clslst:SetSpacing(5)
-
-	local clslim = xlib.makecheckbox{label = "Enable Classes? (ttt2_classes) (def. 1)", repconvar = "rep_ttt2_classes", parent = clslst}
-	clslst:AddItem(clslim)
-
-	local clslim2 = xlib.makecheckbox{label = "Limited Classes? (ttt_classes_limited) (def. 1)", repconvar = "rep_ttt_classes_limited", parent = clslst}
-	clslst:AddItem(clslim2)
-
-	local clslim3 = xlib.makecheckbox{label = "Option to choose between two classes? (ttt_classes_option) (def. 1)", repconvar = "rep_ttt_classes_option", parent = clslst}
-	clslst:AddItem(clslim3)
-
-	local clslim4 = xlib.makecheckbox{label = "Passive Items on Class Slot? (ttt_classes_extraslot) (def. 1)", repconvar = "rep_ttt_classes_extraslot", parent = clslst}
-	clslst:AddItem(clslim4)
-
-	for _, v in pairs(CLASS.GetSortedClasses()) do
-		local pName = CLASS.GetClassTranslation(v)
-
-		local clsclp2 = vgui.Create("DCollapsibleCategory", clspnl)
-		clsclp2:SetSize(390, 50)
-		clsclp2:SetExpanded(0)
-		clsclp2:SetLabel(pName)
-
-		local clslst2 = vgui.Create("DPanelList", clsclp2)
-		clslst2:SetPos(5, 25)
-		clslst2:SetSize(390, 50)
-		clslst2:SetSpacing(5)
-
-		local clscl = xlib.makecheckbox{label = pName .. "? (tttc_class_" .. v.name .. "_enabled) (def. 1)", repconvar = "rep_tttc_class_" .. v.name .. "_enabled", parent = clslst2}
-		clslst2:AddItem(clscl)
-
-		local clsrcl = xlib.makeslider{label = "tttc_class_" .. v.name .. "_random", min = 1, max = 100, repconvar = "rep_tttc_class_" .. v.name .. "_random", parent = clslst2}
-		clslst2:AddItem(clsrcl)
-	end
-
-	xgui.hookEvent("onProcessModules", nil, clspnl.processModules)
-	xgui.addSubModule("TTT2 CLASSES", clspnl, nil, "terrortown_settings")
-end
 
 --------------------TTT2 HUDs Module--------------------
 if hudelements then
