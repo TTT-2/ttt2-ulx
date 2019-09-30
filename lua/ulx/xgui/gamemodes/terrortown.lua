@@ -860,7 +860,7 @@ alst1:SetSpacing(5)
 local acheck11 = xlib.makecheckbox{label = "ttt_armor_classic (def. 0)", repconvar = "rep_ttt_armor_classic", parent = alst1}
 alst1:AddItem(acheck11)
 
-local acheck12 = xlib.makecheckbox{label = "ttt_armor_is_reinforced_enabled (def. 1)", repconvar = "rep_ttt_armor_is_reinforced_enabled", parent = alst1}
+local acheck12 = xlib.makecheckbox{label = "ttt_armor_enable_reinforced (def. 1)", repconvar = "rep_ttt_armor_enable_reinforced", parent = alst1}
 alst1:AddItem(acheck12)
 
 

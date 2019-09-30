@@ -250,7 +250,7 @@ local function init()
 
 		-- armor
 		ULib.replicatedWritableCvar("ttt_armor_classic", "rep_ttt_armor_classic", GetConVar("ttt_armor_classic"):GetBool(), true, false, "xgui_gmsettings")
-		ULib.replicatedWritableCvar("ttt_armor_is_reinforced_enabled", "rep_ttt_armor_is_reinforced_enabled", GetConVar("ttt_armor_is_reinforced_enabled"):GetBool(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt_armor_enable_reinforced", "rep_ttt_armor_enable_reinforced", GetConVar("ttt_armor_enable_reinforced"):GetBool(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_item_armor_value", "rep_ttt_item_armor_value", GetConVar("ttt_item_armor_value"):GetInt(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_armor_on_spawn", "rep_ttt_armor_on_spawn", GetConVar("ttt_armor_on_spawn"):GetInt(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_armor_threshold_for_reinforced", "rep_ttt_armor_threshold_for_reinforced", GetConVar("ttt_armor_threshold_for_reinforced"):GetInt(), true, false, "xgui_gmsettings")
