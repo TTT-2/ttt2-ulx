@@ -162,7 +162,7 @@ msavlst:AddItem(rndawmtxt)
 xgui.hookEvent("onProcessModules", nil, rspnl.processModules)
 xgui.addSubModule("Round structure", rspnl, nil, "terrortown_settings")
 
---------------------Gameplay Module--------------------
+--------------------Roles Module--------------------
 local rolepnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
 local b = true
@@ -323,15 +323,47 @@ gpvcblst:AddItem(gpvda)
 local gpvdr = xlib.makeslider{label = "ttt_voice_drain_recharge (def. 0.05)", min = 0.01, max = 1, decimal = 2, repconvar = "rep_ttt_voice_drain_recharge", parent = gpvcblst}
 gpvcblst:AddItem(gpvdr)
 
+
+-- dead player settings
+local gpdpsclp = vgui.Create("DCollapsibleCategory", gppnl)
+gpdpsclp:SetSize(390, 120)
+gpdpsclp:SetExpanded(0)
+gpdpsclp:SetLabel("Dead Player Settings")
+
+local gpdpslst = vgui.Create("DPanelList", gpdpsclp)
+gpdpslst:SetPos(5, 25)
+gpdpslst:SetSize(390, 120)
+gpdpslst:SetSpacing(5)
+
+local gprdp = xlib.makecheckbox{label = "ttt_ragdoll_pinning (def. 1)", repconvar = "rep_ttt_ragdoll_pinning", parent = gpdpslst}
+gpdpslst:AddItem(gprdp)
+
+local gprdpi = xlib.makecheckbox{label = "ttt_ragdoll_pinning_innocents (def. 0)", repconvar = "rep_ttt_ragdoll_pinning_innocents", parent = gpdpslst}
+gpdpslst:AddItem(gprdpi)
+
+local gpibwoc = xlib.makecheckbox{label = "ttt_identify_body_woconfirm (def. 0)", repconvar = "rep_ttt_identify_body_woconfirm", parent = gpdpslst}
+gpdpslst:AddItem(gpibwoc)
+
+local gpanbf = xlib.makecheckbox{label = "ttt_announce_body_found (def. 1)", repconvar = "rep_ttt_announce_body_found", parent = gpdpslst}
+gpdpslst:AddItem(gpanbf)
+
+local gplsc = xlib.makecheckbox{label = "ttt_limit_spectator_chat (def. 1)", repconvar = "rep_ttt_limit_spectator_chat", parent = gpdpslst}
+gpdpslst:AddItem(gplsc)
+
+local gplsc = xlib.makecheckbox{label = "ttt_lastwords_chatprint (def. 0)", repconvar = "rep_ttt_lastwords_chatprint", parent = gpdpslst}
+gpdpslst:AddItem(gplsc)
+
+
+
 --Other gameplay settings
 local gpogsclp = vgui.Create("DCollapsibleCategory", gppnl)
-gpogsclp:SetSize(390, TTT2 and 350 or 200)
+gpogsclp:SetSize(390, 270)
 gpogsclp:SetExpanded(0)
-gpogsclp:SetLabel("Other gameplay settings")
+gpogsclp:SetLabel("Other Gameplay Settings")
 
 local gpogslst = vgui.Create("DPanelList", gpogsclp)
 gpogslst:SetPos(5, 25)
-gpogslst:SetSize(390, TTT2 and 350 or 200)
+gpogslst:SetSize(390, 270)
 gpogslst:SetSpacing(5)
 
 local gpnren = xlib.makecheckbox{label = "ttt_newroles_enabled (def. 1)", repconvar = "rep_ttt_newroles_enabled", parent = gpogslst}
@@ -361,27 +393,14 @@ gpogslst:AddItem(gpds)
 local gpnntdp = xlib.makecheckbox{label = "ttt_no_nade_throw_during_prep (def. 0)", repconvar = "rep_ttt_no_nade_throw_during_prep", parent = gpogslst}
 gpogslst:AddItem(gpnntdp)
 
-if ConVarExists("rep_ttt_weapon_carrying") then
-	local gpwc = xlib.makecheckbox{label = "ttt_weapon_carrying (def. 1)", repconvar = "rep_ttt_weapon_carrying", parent = gpogslst}
-	gpogslst:AddItem(gpwc)
-end
+local gpwc = xlib.makecheckbox{label = "ttt_weapon_carrying (def. 1)", repconvar = "rep_ttt_weapon_carrying", parent = gpogslst}
+gpogslst:AddItem(gpwc)
 
-if ConVarExists("rep_ttt_weapon_carrying_range") then
-	local gpwcr = xlib.makeslider{label = "ttt_weapon_carrying_range (def. 50)", min = 10, max = 100, repconvar = "rep_ttt_weapon_carrying_range", parent = gpogslst}
-	gpogslst:AddItem(gpwcr)
-end
+local gpwcr = xlib.makeslider{label = "ttt_weapon_carrying_range (def. 50)", min = 10, max = 100, repconvar = "rep_ttt_weapon_carrying_range", parent = gpogslst}
+gpogslst:AddItem(gpwcr)
 
 local gpttf = xlib.makecheckbox{label = "ttt_teleport_telefrags (def. 0)", repconvar = "rep_ttt_teleport_telefrags", parent = gpogslst}
 gpogslst:AddItem(gpttf)
-
-local gprdp = xlib.makecheckbox{label = "ttt_ragdoll_pinning (def. 1)", repconvar = "rep_ttt_ragdoll_pinning", parent = gpogslst}
-gpogslst:AddItem(gprdp)
-
-local gprdpi = xlib.makecheckbox{label = "ttt_ragdoll_pinning_innocents (def. 0)", repconvar = "rep_ttt_ragdoll_pinning_innocents", parent = gpogslst}
-gpogslst:AddItem(gprdpi)
-
-local gpibwoc = xlib.makecheckbox{label = "ttt_identify_body_woconfirm (def. 0)", repconvar = "rep_ttt_identify_body_woconfirm", parent = gpogslst}
-gpogslst:AddItem(gpibwoc)
 
 xgui.hookEvent("onProcessModules", nil, gppnl.processModules)
 xgui.addSubModule("Gameplay", gppnl, nil, "terrortown_settings")
@@ -482,10 +501,24 @@ xgui.addSubModule("Karma", krmpnl, nil, "terrortown_settings")
 --------------------Map-related Module--------------------
 local mprpnl = xlib.makepanel{w = 415, h = 318, parent = xgui.null}
 
-xlib.makecheckbox{x = 5, y = 5, label = "ttt_use_weapon_spawn_scripts (def. 1)", repconvar = "rep_ttt_use_weapon_spawn_scripts", parent = mprpnl}
+local mapclp = vgui.Create("DCollapsibleCategory", mprpnl)
+mapclp:SetSize(390, 400)
+mapclp:SetExpanded(1)
+mapclp:SetLabel("Map Related")
+
+local maplst = vgui.Create("DPanelList", mapclp)
+maplst:SetPos(5, 25)
+maplst:SetSize(390, 400)
+maplst:SetSpacing(5)
+
+local mapwss = xlib.makecheckbox{label = "ttt_use_weapon_spawn_scripts (def. 1)", repconvar = "rep_ttt_use_weapon_spawn_scripts", parent = maplst}
+maplst:AddItem(mapwss)
+
+local mapwsc = xlib.makeslider{label = "ttt_weapon_spawn_count (def. 0)", min = 0, max = 100, decimal = 0, repconvar = "rep_ttt_weapon_spawn_count", parent = maplst}
+maplst:AddItem(mapwsc)
 
 xgui.hookEvent("onProcessModules", nil, mprpnl.processModules)
-xgui.addSubModule("Map-related", mprpnl, nil, "terrortown_settings")
+xgui.addSubModule("Map Related", mprpnl, nil, "terrortown_settings")
 
 --------------------Equipment credits Module--------------------
 local ecpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
@@ -605,13 +638,13 @@ xgui.addSubModule("Prop possession", pppnl, nil, "terrortown_settings")
 local arpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
 local arclp = vgui.Create("DCollapsibleCategory", arpnl)
-arclp:SetSize(390, 120)
+arclp:SetSize(390, 150)
 arclp:SetExpanded(1)
-arclp:SetLabel("Admin-related")
+arclp:SetLabel("Admin Related")
 
 local arlst = vgui.Create("DPanelList", arclp)
 arlst:SetPos(5, 25)
-arlst:SetSize(390, 120)
+arlst:SetSize(390, 150)
 arlst:SetSpacing(5)
 
 local aril = xlib.makeslider{label = "ttt_idle_limit (def. 180)", min = 50, max = 300, repconvar = "rep_ttt_idle_limit", parent = arlst}
@@ -623,8 +656,17 @@ arlst:AddItem(arnck)
 local arncbt = xlib.makeslider{label = "ttt_namechange_bantime (def. 10)", min = 0, max = 60, repconvar = "rep_ttt_namechange_bantime", parent = arlst}
 arlst:AddItem(arncbt)
 
+local arldfc = xlib.makecheckbox{label = "ttt_log_damage_for_console (def. 1)", repconvar = "rep_ttt_log_damage_for_console", parent = arlst}
+arlst:AddItem(arldfc)
+
+local ardls = xlib.makecheckbox{label = "ttt_damagelog_save (def. 0)", repconvar = "rep_ttt_damagelog_save", parent = arlst}
+arlst:AddItem(ardls)
+
+local ardls = xlib.makecheckbox{label = "ttt_ragdoll_collide (def. 0)", repconvar = "rep_ttt_ragdoll_collide", parent = arlst}
+arlst:AddItem(ardls)
+
 xgui.hookEvent("onProcessModules", nil, arpnl.processModules)
-xgui.addSubModule("Admin-related", arpnl, nil, "terrortown_settings")
+xgui.addSubModule("Admin Related", arpnl, nil, "terrortown_settings")
 
 --------------------Sprint Module--------------------
 local spnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}

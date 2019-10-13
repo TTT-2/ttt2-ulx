@@ -124,28 +124,6 @@ local function init()
 			ULib.replicatedWritableCvar("ttt_always_use_mapcycle", "rep_ttt_always_use_mapcycle", GetConVar("ttt_always_use_mapcycle"):GetInt(), true, false, "xgui_gmsettings")
 		end
 
-		if not TTT2 then
-			-- traitor and detective counts
-			ULib.replicatedWritableCvar("ttt_traitor_pct", "rep_ttt_traitor_pct", GetConVar("ttt_traitor_pct"):GetFloat(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt_traitor_max", "rep_ttt_traitor_max", GetConVar("ttt_traitor_max"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt_detective_pct", "rep_ttt_detective_pct", GetConVar("ttt_detective_pct"):GetFloat(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt_detective_max", "rep_ttt_detective_max", GetConVar("ttt_detective_max"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt_detective_min_players", "rep_ttt_detective_min_players", GetConVar("ttt_detective_min_players"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt_detective_karma_min", "rep_ttt_detective_karma_min", GetConVar("ttt_detective_karma_min"):GetInt(), true, false, "xgui_gmsettings")
-
-			-- traitor credits
-			ULib.replicatedWritableCvar("ttt_credits_starting", "rep_ttt_credits_starting", GetConVar("ttt_credits_starting"):GetFloat(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt_credits_award_pct", "rep_ttt_credits_award_pct", GetConVar("ttt_credits_award_pct"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt_credits_award_size", "rep_ttt_credits_award_size", GetConVar("ttt_credits_award_size"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt_credits_award_repeat", "rep_ttt_credits_award_repeat", GetConVar("ttt_credits_award_repeat"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt_credits_detectivekill", "rep_ttt_credits_detectivekill", GetConVar("ttt_credits_detectivekill"):GetInt(), true, false, "xgui_gmsettings")
-
-			-- detective credits
-			ULib.replicatedWritableCvar("ttt_det_credits_starting", "rep_ttt_det_credits_starting", GetConVar("ttt_det_credits_starting"):GetFloat(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt_det_credits_traitorkill", "rep_ttt_det_credits_traitorkill", GetConVar("ttt_det_credits_traitorkill"):GetInt(), true, false, "xgui_gmsettings")
-			ULib.replicatedWritableCvar("ttt_det_credits_traitordead", "rep_ttt_det_credits_traitordead", GetConVar("ttt_det_credits_traitordead"):GetInt(), true, false, "xgui_gmsettings")
-		end
-
 		-- dna
 		ULib.replicatedWritableCvar("ttt_killer_dna_range", "rep_ttt_killer_dna_range", GetConVar("ttt_killer_dna_range"):GetInt(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_killer_dna_basetime", "rep_ttt_killer_dna_basetime", GetConVar("ttt_killer_dna_basetime"):GetInt(), true, false, "xgui_gmsettings")
@@ -171,12 +149,15 @@ local function init()
 		end
 
 		ULib.replicatedWritableCvar("ttt_teleport_telefrags", "rep_ttt_teleport_telefrags", GetConVar("ttt_teleport_telefrags"):GetInt(), true, false, "xgui_gmsettings")
+		
+		-- dead player settings
 		ULib.replicatedWritableCvar("ttt_ragdoll_pinning", "rep_ttt_ragdoll_pinning", GetConVar("ttt_ragdoll_pinning"):GetInt(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_ragdoll_pinning_innocents", "rep_ttt_ragdoll_pinning_innocents", GetConVar("ttt_ragdoll_pinning_innocents"):GetInt(), true, false, "xgui_gmsettings")
 
-		if TTT2 then
-			ULib.replicatedWritableCvar("ttt_identify_body_woconfirm", "rep_ttt_identify_body_woconfirm", GetConVar("ttt_identify_body_woconfirm"):GetInt(), true, false, "xgui_gmsettings")
-		end
+		ULib.replicatedWritableCvar("ttt_identify_body_woconfirm", "rep_ttt_identify_body_woconfirm", GetConVar("ttt_identify_body_woconfirm"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt_announce_body_found", "rep_ttt_announce_body_found", GetConVar("ttt_announce_body_found"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt_limit_spectator_chat", "rep_ttt_limit_spectator_chat", GetConVar("ttt_limit_spectator_chat"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt_lastwords_chatprint", "rep_ttt_lastwords_chatprint", GetConVar("ttt_lastwords_chatprint"):GetInt(), true, false, "xgui_gmsettings")
 
 		-- karma
 		ULib.replicatedWritableCvar("ttt_karma", "rep_ttt_karma", GetConVar("ttt_karma"):GetInt(), true, false, "xgui_gmsettings")
@@ -199,6 +180,7 @@ local function init()
 
 		-- map related
 		ULib.replicatedWritableCvar("ttt_use_weapon_spawn_scripts", "rep_ttt_use_weapon_spawn_scripts", GetConVar("ttt_use_weapon_spawn_scripts"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt_weapon_spawn_count", "rep_ttt_weapon_spawn_count", GetConVar("ttt_weapon_spawn_count"):GetInt(), true, false, "xgui_gmsettings")
 
 		-- prop possession
 		ULib.replicatedWritableCvar("ttt_spec_prop_control", "rep_ttt_spec_prop_control", GetConVar("ttt_spec_prop_control"):GetInt(), true, false, "xgui_gmsettings")
@@ -212,6 +194,8 @@ local function init()
 		ULib.replicatedWritableCvar("ttt_idle_limit", "rep_ttt_idle_limit", GetConVar("ttt_idle_limit"):GetInt(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_namechange_kick", "rep_ttt_namechange_kick", GetConVar("ttt_namechange_kick"):GetInt(), true, false, "xgui_gmsettings")
 		ULib.replicatedWritableCvar("ttt_namechange_bantime", "rep_ttt_namechange_bantime", GetConVar("ttt_namechange_bantime"):GetInt(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt_log_damage_for_console", "rep_ttt_log_damage_for_console", GetConVar("ttt_log_damage_for_console"):GetBool(), true, false, "xgui_gmsettings")
+		ULib.replicatedWritableCvar("ttt_damagelog_save", "rep_ttt_damagelog_save", GetConVar("ttt_damagelog_save"):GetBool(), true, false, "xgui_gmsettings")
 
 		-- misc
 		ULib.replicatedWritableCvar("ttt_detective_hats", "rep_ttt_detective_hats", GetConVar("ttt_detective_hats"):GetInt(), true, false, "xgui_gmsettings")
