@@ -119,6 +119,7 @@ local function init()
 	AutoReplicateConVar("ttt_preptime_seconds", "int")
 	AutoReplicateConVar("ttt_firstpreptime", "int")
 	AutoReplicateConVar("ttt_posttime_seconds", "int")
+	AutoReplicateConVar("ttt2_prep_respawn", "int")
 
 	-- Round length
 	AutoReplicateConVar("ttt_haste", "int")
@@ -149,6 +150,7 @@ local function init()
 	AutoReplicateConVar("ttt_weapon_carrying", "int")
 	AutoReplicateConVar("ttt_weapon_carrying_range", "int")
 	AutoReplicateConVar("ttt_teleport_telefrags", "int")
+	AutoReplicateConVar("ttt_idle", "bool")
 
 	-- dead player settings
 	AutoReplicateConVar("ttt_ragdoll_pinning", "int")
@@ -230,6 +232,7 @@ local function init()
 	AutoReplicateConVar("ttt2_max_unarmed_slots", "int")
 	AutoReplicateConVar("ttt2_max_special_slots", "int")
 	AutoReplicateConVar("ttt2_max_extra_slots", "int")
+	AutoReplicateConVar("ttt_weapon_autopickup", "bool")
 
 	-- armor
 	AutoReplicateConVar("ttt_armor_classic", "bool")

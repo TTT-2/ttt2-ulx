@@ -164,13 +164,13 @@ local rspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
 -- SUBMODULE: Preparation and post-round
 local rspapclp = vgui.Create("DCollapsibleCategory", rspnl)
-rspapclp:SetSize(390, 75)
+rspapclp:SetSize(390, 95)
 rspapclp:SetExpanded(1)
-rspapclp:SetLabel("Preparation And Post-Round")
+rspapclp:SetLabel("Preparation and Post-Round")
 
 local rspaplst = vgui.Create("DPanelList", rspapclp)
 rspaplst:SetPos(5, 25)
-rspaplst:SetSize(390, 75)
+rspaplst:SetSize(390, 95)
 rspaplst:SetSpacing(5)
 
 rspaplst:AddItem(xlib.makeslider{
@@ -197,46 +197,52 @@ rspaplst:AddItem(xlib.makeslider{
 	parent = rspaplst
 })
 
+rspaplst:AddItem(xlib.makecheckbox{
+	label = "ttt2_prep_respawn (def. 0)",
+	repconvar = "rep_ttt2_prep_respawn",
+	parent = rsrllst
+})
+
 -- SUBMODULE: Round length
 local rsrlclp = vgui.Create("DCollapsibleCategory", rspnl)
 rsrlclp:SetSize(390, 90)
 rsrlclp:SetExpanded(0)
 rsrlclp:SetLabel("Round Length")
 
-local rsrllst = vgui.Create("DPanelList", rsrlclp)
-rsrllst:SetPos(5, 25)
-rsrllst:SetSize(390, 90)
-rsrllst:SetSpacing(5)
+local rsrl = vgui.Create("DPanelList", rsrlclp)
+rsrl:SetPos(5, 25)
+rsrl:SetSize(390, 90)
+rsrl:SetSpacing(5)
 
-rsrllst:AddItem(xlib.makecheckbox{
+rsrl:AddItem(xlib.makecheckbox{
 	label = "ttt_haste",
 	repconvar = "rep_ttt_haste",
-	parent = rsrllst
+	parent = rsrl
 })
 
-rsrllst:AddItem(xlib.makeslider{
+rsrl:AddItem(xlib.makeslider{
 	label = "ttt_haste_starting_minutes (def. 5)",
 	min = 1,
 	max = 60,
 	repconvar = "rep_ttt_haste_starting_minutes",
-	parent = rsrllst
+	parent = rsrl
 })
 
-rsrllst:AddItem(xlib.makeslider{
+rsrl:AddItem(xlib.makeslider{
 	label = "ttt_haste_minutes_per_death (def. 0.5)",
 	min = 0.1,
 	max = 9,
 	decimal = 1,
 	repconvar = "rep_ttt_haste_minutes_per_death",
-	parent = rsrllst
+	parent = rsrl
 })
 
-rsrllst:AddItem(xlib.makeslider{
+rsrl:AddItem(xlib.makeslider{
 	label = "ttt_roundtime_minutes (def. 10)",
 	min = 1,
 	max = 60,
 	repconvar = "rep_ttt_roundtime_minutes",
-	parent = rsrllst
+	parent = rsrl
 })
 
 -- SUBMODULE: Map switching and voting
@@ -563,13 +569,13 @@ gpdpslst:AddItem(xlib.makecheckbox{
 
 -- SUBMODULE: Other Gameplay Settings
 local gpogsclp = vgui.Create("DCollapsibleCategory", gppnl)
-gpogsclp:SetSize(390, 270)
+gpogsclp:SetSize(390, 290)
 gpogsclp:SetExpanded(0)
 gpogsclp:SetLabel("Other Gameplay Settings")
 
 local gpogslst = vgui.Create("DPanelList", gpogsclp)
 gpogslst:SetPos(5, 25)
-gpogslst:SetSize(390, 270)
+gpogslst:SetSize(390, 290)
 gpogslst:SetSpacing(5)
 
 gpogslst:AddItem(xlib.makecheckbox{
@@ -655,6 +661,12 @@ gpogslst:AddItem(xlib.makeslider{
 gpogslst:AddItem(xlib.makecheckbox{
 	label = "ttt_teleport_telefrags (def. 0)",
 	repconvar = "rep_ttt_teleport_telefrags",
+	parent = gpogslst
+})
+
+gpogslst:AddItem(xlib.makecheckbox{
+	label = "ttt_idle (def. 1)",
+	repconvar = "rep_ttt_idle",
 	parent = gpogslst
 })
 
@@ -1151,17 +1163,18 @@ xgui.addSubModule("TTT2 Sprint", spnl, nil, "terrortown_settings")
 
 local ipnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
-local iclp = vgui.Create("DCollapsibleCategory", ipnl)
-iclp:SetSize(390, 240)
-iclp:SetExpanded(1)
-iclp:SetLabel("TTT2 Inventory")
+-- SUBMODULE: Inventory
+local iclp1 = vgui.Create("DCollapsibleCategory", ipnl)
+iclp1:SetSize(390, 240)
+iclp1:SetExpanded(1)
+iclp1:SetLabel("Inventory")
 
-local ilst = vgui.Create("DPanelList", iclp)
-ilst:SetPos(5, 25)
-ilst:SetSize(390, 240)
-ilst:SetSpacing(5)
+local ilst1 = vgui.Create("DPanelList", iclp1)
+ilst1:SetPos(5, 25)
+ilst1:SetSize(390, 240)
+ilst1:SetSpacing(5)
 
-ilst:AddItem(xlib.makelabel{
+ilst1:AddItem(xlib.makelabel{
 	x = 0,
 	y = 0,
 	w = 390,
@@ -1171,7 +1184,7 @@ ilst:AddItem(xlib.makelabel{
 	parent = ilst
 })
 
-ilst:AddItem(xlib.makeslider{
+ilst1:AddItem(xlib.makeslider{
 	label = "ttt2_max_melee_slots (def. 1)",
 	min = -1,
 	max = 10,
@@ -1180,7 +1193,7 @@ ilst:AddItem(xlib.makeslider{
 	parent = ilst
 })
 
-ilst:AddItem(xlib.makeslider{
+ilst1:AddItem(xlib.makeslider{
 	label = "ttt2_max_secondary_slots (def. 1)",
 	min = -1,
 	max = 10,
@@ -1189,7 +1202,7 @@ ilst:AddItem(xlib.makeslider{
 	parent = ilst
 })
 
-ilst:AddItem(xlib.makeslider{
+ilst1:AddItem(xlib.makeslider{
 	label = "ttt2_max_primary_slots (def. 1)",
 	min = -1,
 	max = 10,
@@ -1198,7 +1211,7 @@ ilst:AddItem(xlib.makeslider{
 	parent = ilst
 })
 
-ilst:AddItem(xlib.makeslider{
+ilst1:AddItem(xlib.makeslider{
 	label = "ttt2_max_nade_slots (def. 1)",
 	min = -1,
 	max = 10,
@@ -1207,7 +1220,7 @@ ilst:AddItem(xlib.makeslider{
 	parent = ilst
 })
 
-ilst:AddItem(xlib.makeslider{
+ilst1:AddItem(xlib.makeslider{
 	label = "ttt2_max_carry_slots (def. 1)",
 	min = -1,
 	max = 10,
@@ -1216,7 +1229,7 @@ ilst:AddItem(xlib.makeslider{
 	parent = ilst
 })
 
-ilst:AddItem(xlib.makeslider{
+ilst1:AddItem(xlib.makeslider{
 	label = "ttt2_max_unarmed_slots (def. 1)",
 	min = -1,
 	max = 10,
@@ -1225,7 +1238,7 @@ ilst:AddItem(xlib.makeslider{
 	parent = ilst
 })
 
-ilst:AddItem(xlib.makeslider{
+ilst1:AddItem(xlib.makeslider{
 	label = "ttt2_max_special_slots (def. 2)",
 	min = -1,
 	max = 10,
@@ -1234,13 +1247,30 @@ ilst:AddItem(xlib.makeslider{
 	parent = ilst
 })
 
-ilst:AddItem(xlib.makeslider{
+ilst1:AddItem(xlib.makeslider{
 	label = "ttt2_max_extra_slots (def. -1)",
 	min = -1,
 	max = 10,
 	decimal = 0,
 	repconvar = "rep_ttt2_max_extra_slots",
 	parent = ilst
+})
+
+-- SUBMODULE: Inventory
+local iclp2 = vgui.Create("DCollapsibleCategory", ipnl)
+iclp2:SetSize(390, 240)
+iclp2:SetExpanded(1)
+iclp2:SetLabel("Weapon Switch")
+
+local ilst2 = vgui.Create("DPanelList", iclp2)
+ilst2:SetPos(5, 25)
+ilst2:SetSize(390, 240)
+ilst2:SetSpacing(5)
+
+ilst2:AddItem(xlib.makecheckbox{
+	label = "ttt_weapon_autopickup (def. 1)",
+	repconvar = "rep_ttt_weapon_autopickup",
+	parent = slst
 })
 
 xgui.hookEvent("onProcessModules", nil, ipnl.processModules)
