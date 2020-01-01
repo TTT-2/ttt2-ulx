@@ -127,13 +127,13 @@ if TTTC then
 
 	-- SUBMODULE: Basic Settings
 	local clsclp = vgui.Create("DCollapsibleCategory", clspnl1)
-	clsclp:SetSize(390, 75)
+	clsclp:SetSize(390, 125)
 	clsclp:SetExpanded(1)
 	clsclp:SetLabel("Basic Settings")
 
 	local clslst1 = vgui.Create("DPanelList", clsclp)
 	clslst1:SetPos(5, 25)
-	clslst1:SetSize(390, 75)
+	clslst1:SetSize(390, 125)
 	clslst1:SetSpacing(5)
 
 	clslst1:AddItem(xlib.makecheckbox{
@@ -157,6 +157,12 @@ if TTTC then
 	clslst1:AddItem(xlib.makecheckbox{
 		label = "Passive Items on Class Slot? (ttt_classes_extraslot) (def. 1)",
 		repconvar = "rep_ttt_classes_extraslot",
+		parent = clslst
+	})
+
+	clslst1:AddItem(xlib.makecheckbox{
+		label = "Keep Class on Respawn? (ttt_classes_keep_on_respawn) (def. 1)",
+		repconvar = "rep_ttt_classes_keep_on_respawn",
 		parent = clslst
 	})
 

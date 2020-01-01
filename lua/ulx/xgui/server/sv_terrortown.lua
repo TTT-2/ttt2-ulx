@@ -70,6 +70,7 @@ local function updateCVarsForTTTCULXClasses()
 	AutoReplicateConVar("ttt_classes_limited", "int")
 	AutoReplicateConVar("ttt_classes_option", "int")
 	AutoReplicateConVar("ttt_classes_extraslot", "int")
+	AutoReplicateConVar("ttt_classes_keep_on_respawn", "int")
 
 	for _, v in pairs(CLASS.CLASSES or {}) do
 		AutoReplicateConVar("tttc_class_" .. v.name .. "_enabled", "int")
