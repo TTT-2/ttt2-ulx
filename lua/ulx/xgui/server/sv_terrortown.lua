@@ -66,6 +66,8 @@ local function updateCVarsForTTT2ULXRoles()
 end
 
 local function updateCVarsForTTTCULXClasses()
+	if not TTTC then return end
+
 	AutoReplicateConVar("ttt2_classes", "int")
 	AutoReplicateConVar("ttt_classes_limited", "int")
 	AutoReplicateConVar("ttt_classes_option", "int")
