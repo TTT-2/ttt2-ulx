@@ -544,7 +544,7 @@ gpdpslst:AddItem(xlib.makecheckbox{
 })
 
 gpdpslst:AddItem(xlib.makecheckbox{
-	label = "ttt_identify_body_woconfirm (def. 0)",
+	label = "ttt_identify_body_woconfirm (def. 1)",
 	repconvar = "rep_ttt_identify_body_woconfirm",
 	parent = gpdpslst
 })
