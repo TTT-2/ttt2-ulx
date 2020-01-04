@@ -127,13 +127,13 @@ if TTTC then
 
 	-- SUBMODULE: Basic Settings
 	local clsclp = vgui.Create("DCollapsibleCategory", clspnl1)
-	clsclp:SetSize(390, 125)
+	clsclp:SetSize(390, 145)
 	clsclp:SetExpanded(1)
 	clsclp:SetLabel("Basic Settings")
 
 	local clslst1 = vgui.Create("DPanelList", clsclp)
 	clslst1:SetPos(5, 25)
-	clslst1:SetSize(390, 125)
+	clslst1:SetSize(390, 145)
 	clslst1:SetSpacing(5)
 
 	clslst1:AddItem(xlib.makecheckbox{
@@ -163,6 +163,24 @@ if TTTC then
 	clslst1:AddItem(xlib.makecheckbox{
 		label = "Keep Class on Respawn? (ttt_classes_keep_on_respawn) (def. 1)",
 		repconvar = "rep_ttt_classes_keep_on_respawn",
+		parent = clslst
+	})
+
+	clslst1:AddItem(xlib.makelabel{
+		x = 0,
+		y = 0,
+		w = 415,
+		wordwrap = true,
+		label = "How many different random classes should be available? 0 for infinite.",
+		parent = clslst
+	})
+
+	clslst1:AddItem(xlib.makeslider{
+		label = "ttt_classes_different (def. 0)",
+		min = 0,
+		max = 100,
+		decimal = 0,
+		repconvar = "rep_ttt_classes_different",
 		parent = clslst
 	})
 

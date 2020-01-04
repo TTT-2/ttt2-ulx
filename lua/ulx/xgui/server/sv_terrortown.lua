@@ -71,6 +71,7 @@ local function updateCVarsForTTTCULXClasses()
 	AutoReplicateConVar("ttt2_classes", "int")
 	AutoReplicateConVar("ttt_classes_limited", "int")
 	AutoReplicateConVar("ttt_classes_option", "int")
+	AutoReplicateConVar("ttt_classes_different", "int")
 	AutoReplicateConVar("ttt_classes_extraslot", "int")
 	AutoReplicateConVar("ttt_classes_keep_on_respawn", "int")
 
