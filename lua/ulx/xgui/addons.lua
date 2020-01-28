@@ -127,23 +127,23 @@ if TTTC then
 
 	-- SUBMODULE: Basic Settings
 	local clsclp = vgui.Create("DCollapsibleCategory", clspnl1)
-	clsclp:SetSize(390, 145)
+	clsclp:SetSize(390, 165)
 	clsclp:SetExpanded(1)
 	clsclp:SetLabel("Basic Settings")
 
 	local clslst1 = vgui.Create("DPanelList", clsclp)
 	clslst1:SetPos(5, 25)
-	clslst1:SetSize(390, 145)
+	clslst1:SetSize(390, 165)
 	clslst1:SetSpacing(5)
 
 	clslst1:AddItem(xlib.makecheckbox{
-		label = "Enable Classes? (ttt2_classes) (def. 1)",
+		label = "Enable classes? (ttt2_classes) (def. 1)",
 		repconvar = "rep_ttt2_classes",
 		parent = clslst
 	})
 
 	clslst1:AddItem(xlib.makecheckbox{
-		label = "Limited Classes? (ttt_classes_limited) (def. 1)",
+		label = "Limited classes? (ttt_classes_limited) (def. 1)",
 		repconvar = "rep_ttt_classes_limited",
 		parent = clslst
 	})
@@ -155,14 +155,20 @@ if TTTC then
 	})
 
 	clslst1:AddItem(xlib.makecheckbox{
-		label = "Passive Items on Class Slot? (ttt_classes_extraslot) (def. 1)",
+		label = "Passive items on class slot? (ttt_classes_extraslot) (def. 1)",
 		repconvar = "rep_ttt_classes_extraslot",
 		parent = clslst
 	})
 
 	clslst1:AddItem(xlib.makecheckbox{
-		label = "Keep Class on Respawn? (ttt_classes_keep_on_respawn) (def. 1)",
+		label = "Keep class on respawn? (ttt_classes_keep_on_respawn) (def. 1)",
 		repconvar = "rep_ttt_classes_keep_on_respawn",
+		parent = clslst
+	})
+
+	clslst1:AddItem(xlib.makecheckbox{
+		label = "Show class info popup? (ttt_classes_show_popup) (def. 1)",
+		repconvar = "rep_ttt_classes_show_popup",
 		parent = clslst
 	})
 

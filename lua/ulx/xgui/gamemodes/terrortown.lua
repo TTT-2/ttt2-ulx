@@ -297,7 +297,7 @@ local b = true
 
 for _, v in pairs(GetSortedRoles()) do
 	if v == INNOCENT then
-		local size = 25
+		local size = 45
 
 		local gptdcclp = vgui.Create("DCollapsibleCategory", rolepnl)
 		gptdcclp:SetSize(390, size)
@@ -319,6 +319,12 @@ for _, v in pairs(GetSortedRoles()) do
 			repconvar = "rep_ttt_min_inno_pct",
 			parent = gptdlst
 		})
+
+		gptdlst:AddItem(xlib.makecheckbox{
+			label = "ttt_" .. v.name .. "_traitor_button",
+			repconvar = "rep_ttt_" .. v.name .. "_traitor_button",
+			parent = gptdlst
+		})
 	else
 		local tmp = 0
 
@@ -334,7 +340,7 @@ for _, v in pairs(GetSortedRoles()) do
 		end
 
 		if not v.notSelectable or tmp > 0 then
-			local size = not v.notSelectable and 50 or 0
+			local size = not v.notSelectable and 70 or 0
 
 			if not v.notSelectable and v ~= TRAITOR then
 				size = size + 50
@@ -411,6 +417,12 @@ for _, v in pairs(GetSortedRoles()) do
 						parent = gptdlst
 					})
 				end
+
+				gptdlst:AddItem(xlib.makecheckbox{
+					label = "ttt_" .. v.name .. "_traitor_button",
+					repconvar = "rep_ttt_" .. v.name .. "_traitor_button",
+					parent = gptdlst
+				})
 			end
 
 			if tmp > 0 then
@@ -1064,17 +1076,17 @@ arlst:AddItem(xlib.makeslider{
 	parent = arlst
 })
 
-arlst:AddItem(xlib.makecheckbox{
-	label = "ttt_namechange_kick (def. 1)",
-	repconvar = "rep_ttt_namechange_kick",
-	parent = arlst
-})
-
 arlst:AddItem(xlib.makeslider{
 	label = "ttt_namechange_bantime (def. 10)",
 	min = 0,
 	max = 60,
 	repconvar = "rep_ttt_namechange_bantime",
+	parent = arlst
+})
+
+arlst:AddItem(xlib.makecheckbox{
+	label = "ttt_namechange_kick (def. 1)",
+	repconvar = "rep_ttt_namechange_kick",
 	parent = arlst
 })
 
@@ -1093,6 +1105,12 @@ arlst:AddItem(xlib.makecheckbox{
 arlst:AddItem(xlib.makecheckbox{
 	label = "ttt_ragdoll_collide (def. 0)",
 	repconvar = "rep_ttt_ragdoll_collide",
+	parent = arlst
+})
+
+arlst:AddItem(xlib.makecheckbox{
+	label = "ttt2_tbutton_admin_show (def. 0)",
+	repconvar = "ttt2_tbutton_admin_show",
 	parent = arlst
 })
 
@@ -1431,13 +1449,13 @@ xgui.addSubModule("TTT2 Armor", apnl, nil, "terrortown_settings")
 local miscpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
 local miscclp = vgui.Create("DCollapsibleCategory", miscpnl)
-miscclp:SetSize(390, 130)
+miscclp:SetSize(390, 215)
 miscclp:SetExpanded(1)
 miscclp:SetLabel("Miscellaneous")
 
 local misclst = vgui.Create("DPanelList", miscclp)
 misclst:SetPos(5, 25)
-misclst:SetSize(390, 130)
+misclst:SetSize(390, 215)
 misclst:SetSpacing(5)
 
 misclst:AddItem(xlib.makeslider{
@@ -1490,6 +1508,12 @@ misclst:AddItem(xlib.makecheckbox{
 misclst:AddItem(xlib.makecheckbox{
 	label = "ttt_allow_discomb_jump (def. 0)",
 	repconvar = "rep_ttt_allow_discomb_jump",
+	parent = misclst
+})
+
+misclst:AddItem(xlib.makecheckbox{
+	label = "ttt_enforce_playermodel (def. 1)",
+	repconvar = "rep_ttt_enforce_playermodel",
 	parent = misclst
 })
 

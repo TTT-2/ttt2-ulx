@@ -37,6 +37,8 @@ local function updateCVarsForTTT2ULXRoles()
 	AutoReplicateConVar("ttt_max_baseroles_pct", "float")
 
 	for _, v in pairs(roles.GetList()) do
+		AutoReplicateConVar("ttt_" .. v.name .. "_traitor_button", "bool")
+
 		--adding special role credit convars
 		if v ~= INNOCENT and v ~= TRAITOR then
 			AutoReplicateConVar("ttt_" .. v.abbr .. "_credits_starting", "int")
@@ -68,12 +70,13 @@ end
 local function updateCVarsForTTTCULXClasses()
 	if not TTTC then return end
 
-	AutoReplicateConVar("ttt2_classes", "int")
-	AutoReplicateConVar("ttt_classes_limited", "int")
-	AutoReplicateConVar("ttt_classes_option", "int")
+	AutoReplicateConVar("ttt2_classes", "bool")
+	AutoReplicateConVar("ttt_classes_limited", "bool")
+	AutoReplicateConVar("ttt_classes_option", "bool")
+	AutoReplicateConVar("ttt_classes_extraslot", "bool")
+	AutoReplicateConVar("ttt_classes_keep_on_respawn", "bool")
+	AutoReplicateConVar("ttt_classes_show_popup", "bool")
 	AutoReplicateConVar("ttt_classes_different", "int")
-	AutoReplicateConVar("ttt_classes_extraslot", "int")
-	AutoReplicateConVar("ttt_classes_keep_on_respawn", "int")
 
 	for _, v in pairs(CLASS.CLASSES or {}) do
 		AutoReplicateConVar("tttc_class_" .. v.name .. "_enabled", "int")
@@ -201,6 +204,7 @@ local function init()
 	AutoReplicateConVar("ttt_namechange_bantime", "int")
 	AutoReplicateConVar("ttt_log_damage_for_console", "bool")
 	AutoReplicateConVar("ttt_damagelog_save", "bool")
+	AutoReplicateConVar("ttt2_tbutton_admin_show", "bool")
 
 	-- misc
 	AutoReplicateConVar("ttt_detective_hats", "int")
@@ -212,6 +216,7 @@ local function init()
 	AutoReplicateConVar("ttt_allow_discomb_jump", "int")
 	AutoReplicateConVar("ttt_spawn_wave_interval", "int")
 	AutoReplicateConVar("ttt2_crowbar_shove_delay", "float")
+	AutoReplicateConVar("ttt_enforce_playermodel", "bool")
 
 	-- scoreboard
 	AutoReplicateConVar("ttt_highlight_admins", "bool")
