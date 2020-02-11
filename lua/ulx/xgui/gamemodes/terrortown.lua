@@ -333,8 +333,21 @@ for _, v in pairs(GetSortedRoles()) do
 				if cvar.slider then
 					tmp = tmp + 25
 				end
+
 				if cvar.checkbox then
 					tmp = tmp + 20
+				end
+
+				if cvar.combobox then
+					tmp = tmp + 30
+
+					if cvar.desc then
+						tmp = tmp + 13
+					end
+				end
+
+				if cvar.label then
+					tmp = tmp + 13
 				end
 			end
 		end
@@ -440,6 +453,27 @@ for _, v in pairs(GetSortedRoles()) do
 							max = cvar.max or 1000,
 							decimal = cvar.decimal or 0,
 							repconvar = "rep_" .. cvar.cvar,
+							parent = gptdlst
+						})
+					elseif cvar.combobox then
+						if cvar.desc then
+							gptdlst:AddItem(xlib.makelabel{
+								label = v.name .. ": " .. (cvar.desc or cvar.cvar),
+								parent = gptdlst
+							})
+						end
+
+						gptdlst:AddItem(xlib.makecombobox{
+							enableinput = cvar.enableinput or false,
+							choices = cvar.choices,
+							isNumberConvar = true,
+							repconvar = "rep_" .. cvar.cvar,
+							numOffset = (-1) * (cvar.numStart or 0) + 1,
+							parent = gptdlst
+						})
+					elseif cvar.label then
+						gptdlst:AddItem(xlib.makelabel{
+							label = svar.desc,
 							parent = gptdlst
 						})
 					end
