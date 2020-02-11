@@ -386,7 +386,7 @@ end
 
 local force = ulx.command(CATEGORY_NAME, "ulx force", ulx.force, "!force")
 force:addParam{type = ULib.cmds.PlayersArg}
-force:addParam{type = ULib.cmds.StringArg, completes = ulx.target_role, hint = "Role"}
+force:addParam{type = ULib.cmds.StringArg, completes = ulx.target_role, hint = "- Select Role -", ULib.cmds.restrictToCompletes}
 force:addParam{type = ULib.cmds.BoolArg, invisible = true}
 force:defaultAccess(ULib.ACCESS_SUPERADMIN)
 force:setOpposite("ulx sforce", {nil, nil, nil, true}, "!sforce", true)
@@ -462,7 +462,7 @@ end
 
 local forceclass = ulx.command(CATEGORY_NAME, "ulx forceclass", ulx.forceclass, "!forceclass")
 forceclass:addParam{type = ULib.cmds.PlayersArg}
-forceclass:addParam{type = ULib.cmds.StringArg, completes = ulx.target_class, hint = "Class", ULib.cmds.restrictToCompletes}
+forceclass:addParam{type = ULib.cmds.StringArg, completes = ulx.target_class, hint = "- Select Class -", ULib.cmds.restrictToCompletes}
 forceclass:addParam{type = ULib.cmds.BoolArg, invisible = true}
 forceclass:defaultAccess(ULib.ACCESS_SUPERADMIN)
 forceclass:setOpposite("ulx sforceclass", {nil, nil, nil, true}, "!sforceclass", true)
@@ -929,7 +929,7 @@ end
 
 local nxtr = ulx.command(CATEGORY_NAME, "ulx forcenr", ulx.nextround, "!nr")
 nxtr:addParam{type = ULib.cmds.PlayersArg}
-nxtr:addParam{type = ULib.cmds.StringArg, completes = ulx.next_round, hint = "Next Round", error = "invalid role \"%s\" specified", ULib.cmds.restrictToCompletes}
+nxtr:addParam{type = ULib.cmds.StringArg, completes = ulx.next_round, hint = "- Select Role -", error = "invalid role \"%s\" specified", ULib.cmds.restrictToCompletes}
 nxtr:defaultAccess(ULib.ACCESS_SUPERADMIN)
 nxtr:help("Forces the target to be a special role in the following round. This just happen if the role is selectable (enabled and enough players).")
 
