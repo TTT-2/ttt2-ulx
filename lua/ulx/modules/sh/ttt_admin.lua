@@ -80,13 +80,13 @@ function corpse_remove(corpse)
 	CORPSE.SetFound(corpse, false)
 
 	if string.find(corpse:GetModel(), "zm_", 6, true) then
-		player.GetByUniqueID(corpse.uqid):SetNWBool("body_found", false)
+		player.GetByUniqueID(corpse.uqid):TTT2NETSetBool("body_found", false)
 
 		corpse:Remove()
 
 		SendFullStateUpdate()
 	elseif corpse.player_ragdoll then
-		player.GetByUniqueID(corpse.uqid):SetNWBool("body_found", false)
+		player.GetByUniqueID(corpse.uqid):TTT2NETSetBool("body_found", false)
 
 		corpse:Remove()
 
@@ -101,7 +101,7 @@ function corpse_identify(corpse)
 	if corpse then
 		local ply = player.GetByUniqueID(corpse.uqid)
 
-		ply:SetNWBool("body_found", true)
+		ply:TTT2NETSetBool("body_found", true)
 
 		CORPSE.SetFound(corpse, true)
 	end
@@ -207,7 +207,7 @@ hook.Add("TTTBeginRound", "SlayPlayersNextRound", function()
 
 				local corpse = corpse_find(v)
 				if corpse then
-					v:SetNWBool("body_found", true)
+					v:TTT2NETSetBool("body_found", true)
 
 					SendFullStateUpdate()
 
@@ -956,7 +956,7 @@ function ulx.identify(calling_ply, target_ply, unidentify)
 			CORPSE.SetFound(body, false)
 
 			target_ply:ResetConfirmPlayer()
-			target_ply:SetNWBool("body_found", false)
+			target_ply:TTT2NETSetBool("body_found", false)
 
 			SendFullStateUpdate()
 		end
