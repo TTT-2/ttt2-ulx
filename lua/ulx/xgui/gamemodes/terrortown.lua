@@ -1144,7 +1144,7 @@ arlst:AddItem(xlib.makecheckbox{
 
 arlst:AddItem(xlib.makecheckbox{
 	label = "ttt2_tbutton_admin_show (def. 0)",
-	repconvar = "ttt2_tbutton_admin_show",
+	repconvar = "rep_ttt2_tbutton_admin_show",
 	parent = arlst
 })
 
