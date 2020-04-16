@@ -1408,13 +1408,13 @@ alst1:AddItem(xlib.makecheckbox{
 
 -- SUBMODULE: Armor Item Settings
 local aclp2 = vgui.Create("DCollapsibleCategory", apnl)
-aclp2:SetSize(390, 25)
+aclp2:SetSize(390, 45)
 aclp2:SetExpanded(1)
 aclp2:SetLabel("Armor Item Settings")
 
 local alst2 = vgui.Create("DPanelList", aclp2)
 alst2:SetPos(5, 25)
-alst2:SetSize(390, 25)
+alst2:SetSize(390, 45)
 alst2:SetSpacing(5)
 
 alst2:AddItem(xlib.makeslider{
@@ -1423,6 +1423,12 @@ alst2:AddItem(xlib.makeslider{
 	min = 0,
 	max = 100,
 	decimal = 0,
+	parent = alst2
+})
+
+alst2:AddItem(xlib.makecheckbox{
+	label = "ttt_item_armor_block_headshots (def. 0)",
+	repconvar = "rep_ttt_item_armor_block_headshots",
 	parent = alst2
 })
 

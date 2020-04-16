@@ -251,6 +251,7 @@ local function init()
 	AutoReplicateConVar("ttt_armor_threshold_for_reinforced", "int")
 	AutoReplicateConVar("ttt_armor_damage_block_pct", "float")
 	AutoReplicateConVar("ttt_armor_damage_health_pct", "float")
+	AutoReplicateConVar("ttt_item_armor_block_headshots", "bool")
 
 	updateCVarsForTTTCULXClasses()
 
