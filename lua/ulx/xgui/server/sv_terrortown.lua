@@ -142,6 +142,9 @@ local function init()
 	-- dna
 	AutoReplicateConVar("ttt_killer_dna_range", "int")
 	AutoReplicateConVar("ttt_killer_dna_basetime", "int")
+	AutoReplicateConVar("ttt2_dna_radar", "bool")
+	AutoReplicateConVar("ttt2_dna_radar_cooldown", "float")
+	AutoReplicateConVar("ttt2_dna_scanner_slots", "int")
 
 	-- voicechat battery
 	AutoReplicateConVar("ttt_voice_drain", "int")

@@ -496,13 +496,13 @@ local gppnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
 -- SUBMODULE: DNA
 local gpdnaclp = vgui.Create("DCollapsibleCategory", gppnl)
-gpdnaclp:SetSize(390, 45)
+gpdnaclp:SetSize(390, 120)
 gpdnaclp:SetExpanded(1)
 gpdnaclp:SetLabel("DNA")
 
 local gpdnalst = vgui.Create("DPanelList", gpdnaclp)
 gpdnalst:SetPos(5, 25)
-gpdnalst:SetSize(390, 45)
+gpdnalst:SetSize(390, 120)
 gpdnalst:SetSpacing(5)
 
 gpdnalst:AddItem(xlib.makeslider{
@@ -521,15 +521,39 @@ gpdnalst:AddItem(xlib.makeslider{
 	parent = gpdnalst
 })
 
+gpdnalst:AddItem(xlib.makecheckbox{
+	label = "ttt2_dna_radar (def. 0)",
+	repconvar = "rep_ttt2_dna_radar",
+	parent = gpdnalst
+})
+
+gpdnalst:AddItem(xlib.makeslider{
+	label = "ttt2_dna_radar_cooldown (def. 5.0)",
+	min = 0,
+	max = 60,
+	decimal = 1,
+	repconvar = "rep_ttt2_dna_radar_cooldown",
+	parent = gpdnalst
+})
+
+gpdnalst:AddItem(xlib.makeslider{
+	label = "ttt2_dna_scanner_slots (def. 4)",
+	min = 1,
+	max = 10,
+	decimal = 0,
+	repconvar = "rep_ttt2_dna_scanner_slots",
+	parent = gpdnalst
+})
+
 -- SUBMODULE: Voicechat battery
 local gpvcbclp = vgui.Create("DCollapsibleCategory", gppnl)
-gpvcbclp:SetSize(390, 65)
+gpvcbclp:SetSize(390, 90)
 gpvcbclp:SetExpanded(0)
 gpvcbclp:SetLabel("Voicechat battery")
 
 local gpvcblst = vgui.Create("DPanelList", gpvcbclp)
 gpvcblst:SetPos(5, 25)
-gpvcblst:SetSize(390, 65)
+gpvcblst:SetSize(390, 90)
 gpvcblst:SetSpacing(5)
 
 gpvcblst:AddItem(xlib.makecheckbox{
