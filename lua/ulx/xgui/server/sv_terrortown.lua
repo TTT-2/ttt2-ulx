@@ -253,6 +253,13 @@ local function init()
 	AutoReplicateConVar("ttt_armor_damage_health_pct", "float")
 	AutoReplicateConVar("ttt_item_armor_block_headshots", "bool")
 
+	-- doors
+	AutoReplicateConVar("ttt2_doors_destructible", "bool")
+	AutoReplicateConVar("ttt2_doors_locked_indestructible", "bool")
+	AutoReplicateConVar("ttt2_doors_force_pairs", "bool")
+	AutoReplicateConVar("ttt2_doors_health", "int")
+	AutoReplicateConVar("ttt2_doors_prop_health", "int")
+
 	updateCVarsForTTTCULXClasses()
 
 	hook.Run("TTTUlxInitCustomCVar", "xgui_gmsettings")

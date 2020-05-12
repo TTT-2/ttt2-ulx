@@ -1209,6 +1209,72 @@ slst:AddItem(xlib.makecheckbox{
 xgui.hookEvent("onProcessModules", nil, spnl.processModules)
 xgui.addSubModule("TTT2 Sprint", spnl, nil, "terrortown_settings")
 
+--------------------------------------------------------
+-------------------- MODULE: Doors ---------------------
+--------------------------------------------------------
+
+local dpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
+
+local dclp = vgui.Create("DCollapsibleCategory", dpnl)
+dclp:SetSize(390, 20)
+dclp:SetExpanded(1)
+dclp:SetLabel("General Settings")
+
+local dlst = vgui.Create("DPanelList", dclp)
+dlst:SetPos(5, 25)
+dlst:SetSize(390, 20)
+dlst:SetSpacing(5)
+
+dlst:AddItem(xlib.makecheckbox{
+	label = "ttt2_doors_force_pairs (def. 1)",
+	repconvar = "rep_ttt2_doors_force_pairs",
+	parent = dlst
+})
+
+local dclp2 = vgui.Create("DCollapsibleCategory", dpnl)
+dclp2:SetSize(390, 90)
+dclp2:SetExpanded(1)
+dclp2:SetLabel("Destructible Doors")
+
+local dlst2 = vgui.Create("DPanelList", dclp2)
+dlst2:SetPos(5, 25)
+dlst2:SetSize(390, 90)
+dlst2:SetSpacing(5)
+
+dlst2:AddItem(xlib.makecheckbox{
+	label = "ttt2_doors_destructible (def. 0)",
+	repconvar = "rep_ttt2_doors_destructible",
+	parent = dlst2
+})
+
+dlst2:AddItem(xlib.makecheckbox{
+	label = "ttt2_doors_locked_indestructible (def. 1)",
+	repconvar = "rep_ttt2_doors_locked_indestructible",
+	parent = dlst2
+})
+
+dlst2:AddItem(xlib.makeslider{
+	label = "ttt2_doors_health (def. 100)",
+	min = 0,
+	max = 500,
+	decimal = 0,
+	repconvar = "rep_ttt2_doors_health",
+	parent = dlst2
+})
+
+dlst2:AddItem(xlib.makeslider{
+	label = "ttt2_doors_prop_health (def. 50)",
+	min = 0,
+	max = 500,
+	decimal = 0,
+	repconvar = "rep_ttt2_doors_prop_health",
+	parent = dlst2
+})
+
+
+xgui.hookEvent("onProcessModules", nil, spnl.processModules)
+xgui.addSubModule("TTT2 Doors", dpnl, nil, "terrortown_settings")
+
 -----------------------------------------------------------
 -------------------- MODULE: Inventory --------------------
 -----------------------------------------------------------
