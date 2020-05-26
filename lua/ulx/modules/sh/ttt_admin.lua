@@ -816,19 +816,19 @@ hook.Add("Initialize", "InitializeSetupForTTTMod", function()
 				for i = 1, #target_plys do
 					local v = target_plys[i]
 
-					if not PLYFINALROLES then return end
+					if not roleselection.finalRoles then return end
 
 					if next_round ~= "unmark" then
 						local rd = GetRoleByName(next_round)
 
 						if next_round == rd.name and not rd.notSelectable then
-							PLYFINALROLES[v] = rd.index
+							roleselection.finalRoles[v] = rd.index
 
 							table.insert(affected_plys, v)
 						end
 					else
-						if PLYFINALROLES[v] then
-							PLYFINALROLES[v] = nil
+						if roleselection.finalRoles[v] then
+							roleselection.finalRoles[v] = nil
 
 							table.insert(affected_plys, v)
 						end
@@ -899,19 +899,19 @@ function ulx.nextround(calling_ply, target_plys, next_round)
 					end
 				end
 			else
-				if not PLYFORCEDROLES then return end
+				if not roleselection.forcedRoles then return end
 
 				if next_round ~= "unmark" then
 					local rd = GetRoleByName(next_round)
 
 					if next_round == rd.name and not rd.notSelectable then
-						PLYFORCEDROLES[ID] = rd.index
+						roleselection.forcedRoles[ID] = rd.index
 
 						table.insert(affected_plys, v)
 					end
 				else
-					if PLYFORCEDROLES[ID] then
-						PLYFORCEDROLES[ID] = nil
+					if roleselection.forcedRoles[ID] then
+						roleselection.forcedRoles[ID] = nil
 
 						table.insert(affected_plys, v)
 					end
