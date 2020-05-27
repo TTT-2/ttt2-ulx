@@ -29,7 +29,7 @@ function updateRoles()
 
 	for _, v in pairs(ulx.rolesTbl) do
 		if TTT2 then
-			local rd = GetRoleByName(v)
+			local rd = roles.GetByName(v)
 
 			if not rd.notSelectable then
 				table.insert(ulx.target_role, v)
@@ -819,7 +819,7 @@ hook.Add("Initialize", "InitializeSetupForTTTMod", function()
 					if not roleselection.finalRoles then return end
 
 					if next_round ~= "unmark" then
-						local rd = GetRoleByName(next_round)
+						local rd = roles.GetByName(next_round)
 
 						if next_round == rd.name and not rd.notSelectable then
 							roleselection.finalRoles[v] = rd.index
@@ -859,9 +859,10 @@ function ulx.nextround(calling_ply, target_plys, next_round)
 
 		for i = 1, #target_plys do
 			local v = target_plys[i]
-			local ID = v:UniqueID()
 
 			if not TTT2 then
+				local ID = v:UniqueID()
+
 				PlysMarkedForRole[ROLE_TRAITOR] = PlysMarkedForRole[ROLE_TRAITOR] or {}
 				PlysMarkedForRole[ROLE_DETECTIVE] = PlysMarkedForRole[ROLE_DETECTIVE] or {}
 
@@ -901,17 +902,19 @@ function ulx.nextround(calling_ply, target_plys, next_round)
 			else
 				if not roleselection.forcedRoles then return end
 
+				local sid64 = tostring(v:SteamID64())
+
 				if next_round ~= "unmark" then
-					local rd = GetRoleByName(next_round)
+					local rd = roles.GetByName(next_round)
 
 					if next_round == rd.name and not rd.notSelectable then
-						roleselection.forcedRoles[ID] = rd.index
+						roleselection.forcedRoles[sid64] = rd.index
 
 						table.insert(affected_plys, v)
 					end
 				else
-					if roleselection.forcedRoles[ID] then
-						roleselection.forcedRoles[ID] = nil
+					if roleselection.forcedRoles[sid64] then
+						roleselection.forcedRoles[sid64] = nil
 
 						table.insert(affected_plys, v)
 					end
