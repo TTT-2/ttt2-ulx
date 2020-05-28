@@ -263,6 +263,10 @@ local function init()
 	AutoReplicateConVar("ttt2_doors_health", "int")
 	AutoReplicateConVar("ttt2_doors_prop_health", "int")
 
+	-- detective
+	AutoReplicateConVar("ttt2_confirm_detective_only", "bool")
+	AutoReplicateConVar("ttt2_inspect_detective_only", "bool")
+
 	updateCVarsForTTTCULXClasses()
 
 	hook.Run("TTTUlxInitCustomCVar", "xgui_gmsettings")

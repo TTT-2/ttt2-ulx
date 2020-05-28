@@ -592,13 +592,13 @@ gpvcblst:AddItem(xlib.makeslider{
 
 -- SUBMODULE: Dead Player Settings
 local gpdpsclp = vgui.Create("DCollapsibleCategory", gppnl)
-gpdpsclp:SetSize(390, 120)
+gpdpsclp:SetSize(390, 160)
 gpdpsclp:SetExpanded(0)
 gpdpsclp:SetLabel("Dead Player Settings")
 
 local gpdpslst = vgui.Create("DPanelList", gpdpsclp)
 gpdpslst:SetPos(5, 25)
-gpdpslst:SetSize(390, 120)
+gpdpslst:SetSize(390, 160)
 gpdpslst:SetSpacing(5)
 
 gpdpslst:AddItem(xlib.makecheckbox{
@@ -634,6 +634,18 @@ gpdpslst:AddItem(xlib.makecheckbox{
 gpdpslst:AddItem(xlib.makecheckbox{
 	label = "ttt_lastwords_chatprint (def. 0)",
 	repconvar = "rep_ttt_lastwords_chatprint",
+	parent = gpdpslst
+})
+
+gpdpslst:AddItem(xlib.makecheckbox{
+	label = "ttt2_confirm_detective_only (def. 0)",
+	repconvar = "rep_ttt2_confirm_detective_only",
+	parent = gpdpslst
+})
+
+gpdpslst:AddItem(xlib.makecheckbox{
+	label = "ttt2_inspect_detective_only (def. 0)",
+	repconvar = "rep_ttt2_inspect_detective_only",
 	parent = gpdpslst
 })
 
