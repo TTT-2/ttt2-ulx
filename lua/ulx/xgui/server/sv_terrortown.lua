@@ -255,6 +255,7 @@ local function init()
 	AutoReplicateConVar("ttt_armor_damage_block_pct", "float")
 	AutoReplicateConVar("ttt_armor_damage_health_pct", "float")
 	AutoReplicateConVar("ttt_item_armor_block_headshots", "bool")
+	AutoReplicateConVar("ttt_item_armor_block_blastdmg", "bool")
 
 	-- doors
 	AutoReplicateConVar("ttt2_doors_destructible", "bool")
