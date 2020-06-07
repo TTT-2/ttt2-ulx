@@ -545,6 +545,26 @@ gpdnalst:AddItem(xlib.makeslider{
 	parent = gpdnalst
 })
 
+-- SUBMODULE: Radar
+local gpradarclp = vgui.Create("DCollapsibleCategory", gppnl)
+gpradarclp:SetSize(390, 25)
+gpradarclp:SetExpanded(0)
+gpradarclp:SetLabel("Radar")
+
+local gpradarlst = vgui.Create("DPanelList", gpradarclp)
+gpradarlst:SetPos(5, 25)
+gpradarlst:SetSize(390, 25)
+gpradarlst:SetSpacing(5)
+
+gpradarlst:AddItem(xlib.makeslider{
+	label = "ttt2_radar_charge_time (def. 30)",
+	min = 1,
+	max = 60,
+	decimal = 0,
+	repconvar = "rep_ttt2_radar_charge_time",
+	parent = gpradarlst
+})
+
 -- SUBMODULE: Voicechat battery
 local gpvcbclp = vgui.Create("DCollapsibleCategory", gppnl)
 gpvcbclp:SetSize(390, 90)

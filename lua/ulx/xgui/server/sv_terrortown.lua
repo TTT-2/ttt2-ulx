@@ -162,6 +162,9 @@ local function init()
 	AutoReplicateConVar("ttt_teleport_telefrags", "int")
 	AutoReplicateConVar("ttt_idle", "bool")
 
+	-- radar
+	AutoReplicateConVar("ttt2_radar_charge_time ", "int")
+
 	-- dead player settings
 	AutoReplicateConVar("ttt_ragdoll_pinning", "int")
 	AutoReplicateConVar("ttt_ragdoll_pinning_innocents", "int")
