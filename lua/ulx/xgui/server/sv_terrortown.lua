@@ -163,7 +163,7 @@ local function init()
 	AutoReplicateConVar("ttt_idle", "bool")
 
 	-- radar
-	AutoReplicateConVar("ttt2_radar_charge_time ", "int")
+	AutoReplicateConVar("ttt2_radar_charge_time", "int")
 
 	-- dead player settings
 	AutoReplicateConVar("ttt_ragdoll_pinning", "int")
