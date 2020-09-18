@@ -473,7 +473,7 @@ for _, v in pairs(GetSortedRoles()) do
 						})
 					elseif cvar.label then
 						gptdlst:AddItem(xlib.makelabel{
-							label = svar.desc,
+							label = cvar.desc,
 							parent = gptdlst
 						})
 					end
