@@ -358,7 +358,7 @@ for _, v in pairs(GetSortedRoles()) do
 			if not v.notSelectable and v ~= TRAITOR then
 				size = size + 50
 
-				if ConVarExists("ttt_" .. v.name .. "_random") then
+				if v ~= TRAITOR then
 					size = size + 25
 				end
 			end
@@ -396,15 +396,13 @@ for _, v in pairs(GetSortedRoles()) do
 				})
 
 				if v ~= TRAITOR then
-					if ConVarExists("ttt_" .. v.name .. "_random") then
-						gptdlst:AddItem(xlib.makeslider{
-							label = "ttt_" .. v.name .. "_random",
-							min = 1,
-							max = 100,
-							repconvar = "rep_ttt_" .. v.name .. "_random",
-							parent = gptdlst
-						})
-					end
+					gptdlst:AddItem(xlib.makeslider{
+						label = "ttt_" .. v.name .. "_random",
+						min = 1,
+						max = 100,
+						repconvar = "rep_ttt_" .. v.name .. "_random",
+						parent = gptdlst
+					})
 
 					gptdlst:AddItem(xlib.makeslider{
 						label = "ttt_" .. v.name .. "_min_players",
