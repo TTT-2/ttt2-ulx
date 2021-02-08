@@ -231,11 +231,16 @@ hook.Add("TTTBeginRound", "SlayPlayersNextRound", function()
 				if not TTT2 and v:IsRole(ROLE_TRAITOR) or TTT2 and v:HasTeam(TEAM_TRAITOR) then
 					if TTT2 then
 						SendConfirmedTeam(TEAM_TRAITOR)
+
+						local corpse = corpse_find(v)
+						
+						if corpse then
+							events.Trigger(EVENT_BODYFOUND, v, corpse)
+						end
 					else
 						SendConfirmedTraitors()
+						SCORE:HandleBodyFound(v, v)
 					end
-
-					SCORE:HandleBodyFound(v, v)
 				end
 			end)
 		end
