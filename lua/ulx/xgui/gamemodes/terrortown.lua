@@ -1046,22 +1046,9 @@ for _, v in pairs(GetSortedRoles()) do
 				repconvar = "rep_ttt_credits_detectivekill",
 				parent = ectclst
 			})
-		elseif ConVarExists("ttt_" .. v.abbr .. "_credits_starting") then
-			local i = 1
-
-			local bTk = ConVarExists("ttt_" .. v.abbr .. "_credits_traitorkill")
-			local bTd = ConVarExists("ttt_" .. v.abbr .. "_credits_traitordead")
-
-			if bTk then
-				i = i + 1
-			end
-
-			if bTd then
-				i = i + 1
-			end
-
+		else
 			local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
-			ectcclp:SetSize(390, 25 * i)
+			ectcclp:SetSize(390, 75)
 			ectcclp:SetExpanded(b2 and 1 or 0)
 			ectcclp:SetLabel(v.name .. " credits")
 
@@ -1069,7 +1056,7 @@ for _, v in pairs(GetSortedRoles()) do
 
 			local ectclst = vgui.Create("DPanelList", ectcclp)
 			ectclst:SetPos(5, 25)
-			ectclst:SetSize(390, 25 * i)
+			ectclst:SetSize(390, 75)
 			ectclst:SetSpacing(5)
 
 			ectclst:AddItem(xlib.makeslider{
@@ -1080,25 +1067,21 @@ for _, v in pairs(GetSortedRoles()) do
 				parent = ectclst
 			})
 
-			if bTk then
-				ectclst:AddItem(xlib.makeslider{
-					label = "ttt_" .. v.abbr .. "_credits_traitorkill",
-					min = 0,
-					max = 10,
-					repconvar = "rep_ttt_" .. v.abbr .. "_credits_traitorkill",
-					parent = ectclst
-				})
-			end
+			ectclst:AddItem(xlib.makeslider{
+				label = "ttt_" .. v.abbr .. "_credits_traitorkill",
+				min = 0,
+				max = 10,
+				repconvar = "rep_ttt_" .. v.abbr .. "_credits_traitorkill",
+				parent = ectclst
+			})
 
-			if bTd then
-				ectclst:AddItem(xlib.makeslider{
-					label = "ttt_" .. v.abbr .. "_credits_traitordead",
-					min = 0,
-					max = 10,
-					repconvar = "rep_ttt_" .. v.abbr .. "_credits_traitordead",
-					parent = ectclst
-				})
-			end
+			ectclst:AddItem(xlib.makeslider{
+				label = "ttt_" .. v.abbr .. "_credits_traitordead",
+				min = 0,
+				max = 10,
+				repconvar = "rep_ttt_" .. v.abbr .. "_credits_traitordead",
+				parent = ectclst
+			})
 		end
 	end
 end
