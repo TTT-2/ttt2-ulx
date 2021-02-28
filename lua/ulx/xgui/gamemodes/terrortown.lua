@@ -1048,7 +1048,7 @@ for _, v in pairs(GetSortedRoles()) do
 			})
 		else
 			local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
-			ectcclp:SetSize(390, 50) --25 * i
+			ectcclp:SetSize(390, 75)
 			ectcclp:SetExpanded(b2 and 1 or 0)
 			ectcclp:SetLabel(v.name .. " credits")
 
@@ -1056,7 +1056,7 @@ for _, v in pairs(GetSortedRoles()) do
 
 			local ectclst = vgui.Create("DPanelList", ectcclp)
 			ectclst:SetPos(5, 25)
-			ectclst:SetSize(390, 50) --25 * i
+			ectclst:SetSize(390, 75)
 			ectclst:SetSpacing(5)
 
 			ectclst:AddItem(xlib.makeslider{
