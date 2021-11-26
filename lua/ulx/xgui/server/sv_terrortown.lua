@@ -7,21 +7,10 @@ local function AutoReplicateConVar(name, type)
 
 	if not cv then return end
 
-	local cv_value
-	if type == "int" then
-		cv_value = cv:GetInt()
-	elseif type == "float" then
-		cv_value = cv:GetFloat()
-	elseif type == "bool" then
-		cv_value = cv:GetBool()
-	elseif type == "string" then
-		cv_value = cv:GetString()
-	end
-
 	ULib.replicatedWritableCvar(
 		name,
 		"rep_" .. name,
-		cv_value,
+		cv:GetString(),
 		true,
 		true,
 		"xgui_gmsettings"
