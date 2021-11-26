@@ -1,7 +1,7 @@
 CLGAMEMODESUBMENU.base = "base_gamemodesubmenu"
 
 CLGAMEMODESUBMENU.priority = 0
-CLGAMEMODESUBMENU.title = "TTT2-ULX"
+CLGAMEMODESUBMENU.title = "title_addons_ttt2_ulx"
 
 function CLGAMEMODESUBMENU:Populate(parent)
 	local form = vgui.CreateTTT2Form(parent, "header_addons_ttt2_ulx")
