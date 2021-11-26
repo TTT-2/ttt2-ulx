@@ -34,12 +34,12 @@ function ulx.shopeditor(calling_ply)
 	if GetConVar("gamemode"):GetString() ~= "terrortown" then
 		ULib.tsayError(calling_ply, gamemode_error, true)
 	else
-		calling_ply:ConCommand("shopeditor")
+		calling_ply:ConCommand("ttt_helpscreen")
 	end
 end
 
 local shopeditor = ulx.command(CATEGORY_NAME, "ulx shopeditor", ulx.shopeditor, "!shopeditor")
 shopeditor:defaultAccess(ULib.ACCESS_SUPERADMIN)
-shopeditor:setOpposite("ulx silent shopeditor", {nil, nil, nil, true}, "!sshopeditor", true)
-shopeditor:help("Opens the shopeditor.")
+shopeditor:help("Opens F1 Menu, because shopeditor is now available via \"Edit Equipment\" and \"Edit Shops\".")
+
 --[End]----------------------------------------------------------------------------------------
