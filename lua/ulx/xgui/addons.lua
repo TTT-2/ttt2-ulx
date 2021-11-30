@@ -116,7 +116,8 @@ ttt2_addon_settings.processModules()
 xgui.hookEvent("onProcessModules", nil, ttt2_addon_settings.processModules)
 xgui.addModule("Addons", ttt2_addon_settings, "icon16/addons.png", "xgui_gmsettings")
 
-hook.Run("TTTUlxModifyAddonSettings", "ttt2_addon_settings")
+-- Modify ULX to gather information for F1 Menu
+HookRunTTTUlxModifyAddonSettings("TTTUlxModifyAddonSettings", "ttt2_addon_settings")
 
 if TTTC then
 	---------------------------------------------------------
