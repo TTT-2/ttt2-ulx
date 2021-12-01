@@ -94,9 +94,6 @@ function HookRunTTTUlxModifyAddonSettings(hookName, moduleType)
 	-- Normally run the hook to get all addons and their ulx information
 	hook.Run(hookName, moduleType)
 
-	print("\nPrinting all gathered elements:")
-	PrintTable(F1MenuUlxData)
-
 	-- Revert all functions back to the default
 	xgui.addSubModule = oldxguiAddSubModule
 	returnElementsToOldStatesFunc()
