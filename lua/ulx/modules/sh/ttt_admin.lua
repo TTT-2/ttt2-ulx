@@ -1082,7 +1082,7 @@ function ulx.roundrestart(calling_ply)
 	end
 end
 
-local restartround = ulx.command(CATEGORY_NAME, "ulx roundrestart", ulx.roundrestart)
+local restartround = ulx.command(CATEGORY_NAME, "ulx roundrestart", ulx.roundrestart, "!roundrestart")
 restartround:defaultAccess(ULib.ACCESS_SUPERADMIN)
 restartround:help("Restarts the round.")
 ---[End]----------------------------------------------------------------------------------------
