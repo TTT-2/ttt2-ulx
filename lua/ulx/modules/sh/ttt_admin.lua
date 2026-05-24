@@ -228,7 +228,7 @@ hook.Add("TTTBeginRound", "SlayPlayersNextRound", function()
 			end)
 
 			timer.Create("traitorcheck" .. v:SteamID64(), 1, 0, function() -- have to wait for gamemode before doing this
-				if not TTT2 and v:IsRole(ROLE_TRAITOR) or TTT2 and v:HasTeam(TEAM_TRAITOR) then
+				if not TTT2 and v:IsRole(ROLE_TRAITOR) or TTT2 and v:GetTeam() == TEAM_TRAITOR then
 					if TTT2 then
 						SendConfirmedTeam(TEAM_TRAITOR)
 
